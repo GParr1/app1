@@ -1,6 +1,7 @@
-import React from "react";
+import React,{useState} from "react";
 import {getUser} from "../state/auth/selectors";
 import {useSelector} from "react-redux";
+import UploadProfilePicture from "../components/UploadProfilePicture";
 
 // Mock dati di esempio
 const mockStats = {
@@ -20,6 +21,7 @@ export const MyAccountView = () => {
     const displayName = user.displayName || "Giocatore Sconosciuto";
     const photoURL = user.photoURL || "https://via.placeholder.com/200x250?text=Panini+Card";
 
+
     return (
         <div className="container mt-5">
             <h1 className="text-center mb-5">Il Mio Account</h1>
@@ -35,6 +37,10 @@ export const MyAccountView = () => {
                         />
                         <h4 className="mt-3">{displayName}</h4>
                     </div>
+                    <UploadProfilePicture
+                        userId={user.uid}
+                        //onUploadSuccess={handleUploadSuccess}
+                    />
                 </div>
 
                 {/* Statistiche e Coppe */}
