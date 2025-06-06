@@ -1,5 +1,6 @@
 import React from "react";
 import {getUser} from "../state/auth/selectors";
+import {useSelector} from "react-redux";
 
 // Mock dati di esempio
 const mockStats = {
@@ -13,7 +14,7 @@ const mockCoppe = [
 ];
 
 export const MyAccountView = () => {
-    const user = getUser();
+    const user = useSelector(getUser);
     if (!user) return <p>Caricamento profilo...</p>;
 
     const displayName = user.displayName || "Giocatore Sconosciuto";
