@@ -7,7 +7,6 @@ import Register from "./components/Register";
 
 function App() {
     const [user, setUser] = useState(null);
-    //const auth = getAuth();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -15,7 +14,7 @@ function App() {
         });
 
         return () => unsubscribe(); // pulizia listener
-    }, [auth]);
+    }, []);
     const handleLogout = () => {
         console.log(user);
         signOut(auth)
@@ -47,12 +46,3 @@ function App() {
 }
 
 export default App;
-/*
-git init
-git add .
-git commit -m "Inizializzazione progetto React con Login"
-git branch -M main
-git remote add origin https://github.com/TUO-USERNAME/login-app.git
-git push -u origin main
-
- */
