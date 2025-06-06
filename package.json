@@ -1,6 +1,6 @@
 {
   "name": "calcetto",
-  "homepage": "https://GParr1.github.io/app1/calcetto",
+  "homepage": "https://GParr1.github.io/app1",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run predeploy && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
