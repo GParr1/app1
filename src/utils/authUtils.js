@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile} from "firebase/auth";
 import {auth} from "../firebaseConfig"
 import {login, logout} from "../state/auth/reducer";
-import {dispatch} from "../state/store";
+import {store} from "../state/store";
 
 export const authUpdateProfile = async (currentUser) => {
     try {
@@ -9,7 +9,7 @@ export const authUpdateProfile = async (currentUser) => {
             displayName: `${currentUser.firstName} ${currentUser.lastName}`,
             ...currentUser
         });
-        dispatch(login(auth.currentUser));
+        store.dispatch(login(auth.currentUser));
         return true;
     } catch (err) {
         return false
@@ -18,7 +18,7 @@ export const authUpdateProfile = async (currentUser) => {
 export const doSignOut = async (currentUser) => {
     try {
         await signOut(auth).catch((error) => console.error("Logout error", error));
-        dispatch(logout());
+        store.dispatch(logout());
         return true;
     } catch (err) {
         return false
@@ -27,8 +27,7 @@ export const doSignOut = async (currentUser) => {
 export const doSignInWithEmailAndPassword = async ({email, password}) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        dispatch(login(auth.currentUser));
-        //dispatch(logout());
+        store.dispatch(login(auth.currentUser));
         return true;
     } catch (err) {
         return false
@@ -42,8 +41,7 @@ export const doCreateUserWithEmailAndPassword = async ({account}) => {
             firstName:`${account.firstName}`,
             lastName:`${account.lastName}`
         });
-        dispatch(login(auth.currentUser));
-        //dispatch(logout());
+        store.dispatch(login(auth.currentUser));
         return true;
     } catch (err) {
         return false
