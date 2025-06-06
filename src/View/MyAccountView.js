@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import {getUser} from "../state/auth/selectors";
 import {useSelector} from "react-redux";
 import UploadProfilePicture from "../components/UploadProfilePicture";
