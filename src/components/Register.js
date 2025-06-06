@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import {auth} from "../firebaseConfig";
-import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {doCreateUserWithEmailAndPassword} from "../utils/authUtils";
 
 const RegisterTwoSteps = () => {
