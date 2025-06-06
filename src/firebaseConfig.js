@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    piKey: "AIzaSyCacfJ8NeCgqwH_7kI6tMsPLEGRWBaGtkQ",
+    apiKey: "AIzaSyCacfJ8NeCgqwH_7kI6tMsPLEGRWBaGtkQ",
     authDomain: "calcetto-fc4b9.firebaseapp.com",
     projectId: "calcetto-fc4b9",
     storageBucket: "calcetto-fc4b9.firebasestorage.app",
