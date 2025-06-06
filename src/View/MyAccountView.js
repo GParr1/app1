@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
+import React from "react";
+import {getUser} from "../state/auth/selectors";
 
 // Mock dati di esempio
 const mockStats = {
@@ -14,15 +13,7 @@ const mockCoppe = [
 ];
 
 export const MyAccountView = () => {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
-    }, []);
-
+    const user = getUser();
     if (!user) return <p>Caricamento profilo...</p>;
 
     const displayName = user.displayName || "Giocatore Sconosciuto";

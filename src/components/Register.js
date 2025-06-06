@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import React, {useState} from "react";
+import {auth} from "../firebaseConfig";
+import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import {doCreateUserWithEmailAndPassword} from "../utils/authUtils";
 
 const RegisterTwoSteps = () => {
     const [step, setStep] = useState(1);
@@ -28,21 +29,17 @@ const RegisterTwoSteps = () => {
             return;
         }
         setError("");
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(userCredential.user, {
-                displayName: `${firstName} ${lastName}`,
-                firstName:`${firstName}`,
-                lastName:`${lastName}`
-            });
+        const account = {email, password, firstName, lastName}
+        const isSuccess = await doCreateUserWithEmailAndPassword(account)
+        if (isSuccess) {
             setSuccess("Registrazione completata con successo!");
             setStep(1);
             setEmail("");
             setPassword("");
             setFirstName("");
             setLastName("");
-        } catch (err) {
-            setError("Errore durante la registrazione: " + err.message);
+        } else {
+            setError("Errore durante la registrazione");
         }
     };
 
@@ -72,7 +69,7 @@ const RegisterTwoSteps = () => {
         </div>
     );
 };
-const FirstStepOfRegister = ({handleFirstStep,setEmail,email,setPassword,password}) =>(
+const FirstStepOfRegister = ({handleFirstStep, setEmail, email, setPassword, password}) => (
     <form onSubmit={handleFirstStep}>
         <div className="mb-3">
             <input
@@ -95,7 +92,7 @@ const FirstStepOfRegister = ({handleFirstStep,setEmail,email,setPassword,passwor
         <button type="submit" className="btn btn-primary w-100">Continua</button>
     </form>
 )
-const SecondStepOfRegister = ({handleRegister,firstName,setFirstName,lastName,setLastName}) =>(
+const SecondStepOfRegister = ({handleRegister, firstName, setFirstName, lastName, setLastName}) => (
     <form onSubmit={handleRegister}>
         <div className="mb-3">
             <input

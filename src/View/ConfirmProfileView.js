@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import {updateProfile} from "firebase/auth";
-import {auth} from "../firebaseConfig";
 import {authUpdateProfile} from "../utils/authUtils";
 
 export const ConfirmProfileView = () => {

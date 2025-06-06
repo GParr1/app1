@@ -1,26 +1,16 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {doSignInWithEmailAndPassword} from "../utils/authUtils";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-
-
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
         setSuccess("");
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            setSuccess("Accesso avvenuto con successo!");
-            setEmail("");
-            setPassword("");
-        } catch (err) {
-            setError("Errore di Accesso" + err.message);
-        }
+        await doSignInWithEmailAndPassword({email, password})
     };
 
     return (

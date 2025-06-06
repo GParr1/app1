@@ -4,7 +4,6 @@ import React, {useState} from "react";
 
 export const AuthView = () => {
     const [activeTab, setActiveTab] = useState("login");
-
     return (
         <>
             <h1 className="text-center mb-4">Benvenuto</h1>
