@@ -72,7 +72,7 @@ const RegisterTwoSteps = () => {
         </div>
     );
 };
-const FirstStepOfRegister = ({handleFirstStep,setEmail,setPassword}) =>(
+const FirstStepOfRegister = ({handleFirstStep,setEmail,email,setPassword,password}) =>(
     <form onSubmit={handleFirstStep}>
         <div className="mb-3">
             <input
@@ -95,7 +95,7 @@ const FirstStepOfRegister = ({handleFirstStep,setEmail,setPassword}) =>(
         <button type="submit" className="btn btn-primary w-100">Continua</button>
     </form>
 )
-const SecondStepOfRegister = ({handleRegister,setFirstName,setLastName}) =>(
+const SecondStepOfRegister = ({handleRegister,firstName,setFirstName,lastName,setLastName}) =>(
     <form onSubmit={handleRegister}>
         <div className="mb-3">
             <input
