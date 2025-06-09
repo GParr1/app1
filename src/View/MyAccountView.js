@@ -18,7 +18,7 @@ const mockCoppe = [
 
 export const MyAccountView = () => {
     const user = useSelector(getUser);
-    const [selectedTeam, setSelectedTeam] = useState("");
+    const [selectedTeam, setSelectedTeam] = useState("Juventus");
     const [showModal, setShowModal] = useState(false);
 
     if (!user) return <p>Caricamento profilo...</p>;
