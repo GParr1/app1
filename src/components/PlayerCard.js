@@ -1,24 +1,33 @@
 import React from "react";
 import './css/PayerCard.css';
-import UploadProfilePicture from "./UploadProfilePicture"; // Piccolo CSS per layout e immagine
 
 const PlayerCard = ({playerImage, playerName, playerNumber,
-                        playerColor = "#f7d500", // Giallo Panini di default
+                        playerColor,
                         teamSymbol,countryCode,birthDate,height,}) => {
+
     return (
-        <div className="card border-4" style={{borderColor: playerColor, width: "18rem", position: "relative"}}>
+        <div className="card border-4" style={{
+            borderColor: "#f7d500", width: "18rem", position: "relative",
+            background: `repeating-linear-gradient(
+              45deg,
+              ${playerColor.primaryColor},
+              ${playerColor.primaryColor} 20px,
+              ${playerColor.secondaryColor} 20px,
+              ${playerColor.secondaryColor} 50px
+            )`
+        }}>
             {/* HEADER */}
-            <div className="card-header d-flex justify-content-between align-items-center text-white"
-                 style={{backgroundColor: playerColor}}>
+            <div className="card-header d-flex justify-content-between align-items-center text-white">
                 <span className="fw-bold fs-4">
-                     <img src={`/logos/${teamSymbol}_logo.svg`} alt={`${teamSymbol} logo`} width="60" />
+                    {teamSymbol}
                 </span>
                 <span className="badge bg-dark fs-6">{countryCode}</span>
                 <span className="fw-bold fs-4">{playerNumber}</span>
             </div>
             {/* IMMAGINE */}
-            {playerImage && <img src={playerImage} className="card-img-top player-image" alt="Player"/>}
-            {playerImage && <UploadProfilePicture/>}
+            {playerImage &&
+                <img src={playerImage} className="card-img-top player-image p-2" alt="Player"/>}
+
             {/* INFORMAZIONI */}
             <div className="card-body text-center">
                 <h5 className="card-title">{playerName}</h5>

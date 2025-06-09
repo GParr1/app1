@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import PlayerCard from "../components/PlayerCard";
 import {teamInfo} from "../utils/infoTeam";
 import {authUpdateProfile} from "../utils/authUtils";
+import UploadProfilePicture from "../components/UploadProfilePicture";
 
 // Mock dati di esempio
 const mockStats = {
@@ -34,7 +35,7 @@ export const MyAccountView = () => {
         e.preventDefault();
         const target = e.target;
         const dialogContent = target.closest('.modal-content');
-        const form = dialogContent.getElementById("updateProfile");
+        const form = dialogContent.querySelector("#updateProfile");
         const formData = new FormData(form);
         await authUpdateProfile(formData);
         setShowModal(false)
@@ -52,7 +53,7 @@ export const MyAccountView = () => {
                         playerNumber="11"
                         teamSymbol={teamSymbol}
                         playerColor={playerColor}  // Napoli blu
-                        countryCode="BEL"
+                        countryCode="ITA"
                         birthDate="13-5-1993"
                         height="1,91 M"
                     />
@@ -63,7 +64,13 @@ export const MyAccountView = () => {
                     </select>
 
                 </div>
-
+                <div className="col-md-8">
+                    {/* Bottone per aprire il modale */}
+                    <button className="btn btn-primary mb-3" onClick={openModal}>
+                        Completa il tuo profilo
+                    </button>
+                    {photoURL && <UploadProfilePicture/>}
+                </div>
                 {/* Statistiche e Coppe */}
                 <div className="col-md-8">
                     <div className="card mb-4 shadow-sm">
@@ -100,10 +107,6 @@ export const MyAccountView = () => {
                         </div>
                     </div>
 
-                    {/* Bottone per aprire il modale */}
-                    <button className="btn btn-primary mb-3" onClick={openModal}>
-                        Completa il tuo profilo
-                    </button>
                     {/* Modale personalizzato */}
                     {showModal && (
                         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
