@@ -18,11 +18,12 @@ const mockCoppe = [
 
 export const MyAccountView = () => {
     const user = useSelector(getUser);
-    if (!user) return <p>Caricamento profilo...</p>;
+    const [selectedTeam, setSelectedTeam] = useState("");
     const [showModal, setShowModal] = useState(false);
+
+    if (!user) return <p>Caricamento profilo...</p>;
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false)
-    const [selectedTeam, setSelectedTeam] = useState("");
 
     const playerColor = teamInfo[selectedTeam].color;
     const teamSymbol = teamInfo[selectedTeam].logo;
