@@ -18,8 +18,8 @@ const PlayerCard = ({playerImage, playerName, playerNumber,
         }}>
             {/* HEADER */}
             <div className="card-header d-flex justify-content-between align-items-center text-white">
-                <span className="fw-bold fs-4">
-                    {teamSymbol}
+                <span className="fw-bold fs-4"
+                      dangerouslySetInnerHTML={{ __html: teamSymbol }}>
                 </span>
                 <span className="badge bg-dark fs-6">{countryCode}</span>
                 <span className="fw-bold fs-4">{playerNumber}</span>
