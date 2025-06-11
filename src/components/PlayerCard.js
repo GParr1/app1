@@ -10,7 +10,14 @@ const PlayerCard = ({
     return (
         <div className="card border-4" style={{
             borderColor: "#f7d500", width: "18rem", position: "relative",
-            background: `radial-gradient(circle at top left, ${playerColor.primaryColor} 40%, ${playerColor.secondaryColor} 40%)`,
+            background:`conic-gradient(
+                from 270deg at 30% 50%, /* centro spostato verso sinistra */
+            ${playerColor.primaryColor}  0deg 90deg,     /* arco rosso da 0 a 90° */
+            transparent 90deg 270deg,
+            ${playerColor.primaryColor}  270deg 360deg   /* arco rosso da 270° a 360° */
+            ),
+            radial-gradient(circle at center, ${playerColor.secondaryColor} 80%,  ${playerColor.primaryColor}  100%)`,
+            backgroundRepeat: 'no-repeat',
         }}>
             {/* HEADER */}
             <div className="card-header d-flex justify-content-between align-items-center text-white">
