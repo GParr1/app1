@@ -21,7 +21,7 @@ const PlayerCard = ({
                 <span className="fw-bold fs-4">{playerNumber}</span>
             </div>
             {/* IMMAGINE */}
-            <div className='position-absolute'>
+            <div className='position-relative'>
                 {playerImage && <img src={playerImage} className="card-img-top player-image p-2" alt="Player"/>}
                 <div className="position-absolute bottom-0 end-0 text-white px-2 py-1 m-2 rounded shadow d-flex align-items-center"
                      style={{backgroundColor: playerColor.primaryColor}}>
@@ -37,7 +37,7 @@ const PlayerCard = ({
             </div>
             {/* LOGO PANINI */}
             <div className="position-absolute bottom-0 start-0 m-2">
-
+l
             </div>
         </div>
     );
