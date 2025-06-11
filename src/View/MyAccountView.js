@@ -77,26 +77,34 @@ export const MyAccountView = () => {
                         <h1 className="text-center mb-5">{user.displayName || user.email}</h1>
                         {/* Bottone per aprire il modale */}
                         <div className="d-flex justify-content-end">
-                            <button className="btn" onClick={()=>openModal('updateProfile')}>
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                            <button className="btn" onClick={() => openModal('updateProfile')}>
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
                                     <title>Completa il tuo profilo</title>
                                     <circle cx="12" cy="8" r="4" fill="#4F46E5"></circle>
                                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6v1H4v-1z" fill="#4F46E5"></path>
                                 </svg>
                             </button>
-                            <button className="btn" onClick={()=>openModal('updateImage')}>
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                            <button className="btn" onClick={() => openModal('updateImage')}>
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
                                     <title>Cambia immagine del profilo</title>
-                                    <path d="M5 20h14a2 2 0 0 0 2-2v-7l-3-3h-4l-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                                    <path d="M5 20h14a2 2 0 0 0 2-2v-7l-3-3h-4l-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"
+                                          stroke="#2563EB" strokeWidth="2" strokeLinecap="round"
+                                          strokeLinejoin="round"></path>
                                     <circle cx="12" cy="13" r="3" stroke="#2563EB" strokeWidth="2"></circle>
                                 </svg>
                             </button>
                             <button className="btn" onClick={doSignOut}>
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
                                     <title>Esci dal profilo</title>
-                                    <path d="M16 17L21 12L16 7" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                                    <path d="M21 12H9" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                                    <path d="M12 19C7.58172 19 4 15.4183 4 11C4 6.58172 7.58172 3 12 3" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                                    <path d="M16 17L21 12L16 7" stroke="#DC2626" strokeWidth="2" strokeLinecap="round"
+                                          strokeLinejoin="round"></path>
+                                    <path d="M21 12H9" stroke="#DC2626" strokeWidth="2" strokeLinecap="round"
+                                          strokeLinejoin="round"></path>
+                                    <path d="M12 19C7.58172 19 4 15.4183 4 11C4 6.58172 7.58172 3 12 3" stroke="#DC2626"
+                                          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                                 </svg>
                             </button>
                         </div>
@@ -119,7 +127,23 @@ export const MyAccountView = () => {
                             ))}
                         </div>
                     </div>
+                    <h1
+                        role="button"
+                        tabIndex="0"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#profiloCollapse"
+                        aria-expanded="false"
+                        aria-controls="profiloCollapse"
+                        className="h5 text-primary"
+                    >
+                        Completa il tuo profilo
+                    </h1>
 
+                    <div className="collapse mt-2" id="profiloCollapse">
+                        <div className="card card-body">
+                            Inserisci le informazioni mancanti.
+                        </div>
+                    </div>
                     {/* Coppe */}
                     <div className="card shadow-sm">
                         <h5 className="card-title m-4 text-center">Coppe Vinte</h5>
@@ -146,7 +170,8 @@ export const MyAccountView = () => {
 
                     {/* Modale personalizzato */}
                     {showModal && (
-                        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                        <div className="modal fade show d-block" tabIndex="-1"
+                             style={{backgroundColor: "rgba(0,0,0,0.5)"}}>
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -193,7 +218,8 @@ export const MyAccountView = () => {
                     )}
                     {/* Modale personalizzato */}
                     {showModalUpdateImage && (
-                        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                        <div className="modal fade show d-block" tabIndex="-1"
+                             style={{backgroundColor: "rgba(0,0,0,0.5)"}}>
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
