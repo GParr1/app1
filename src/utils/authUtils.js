@@ -7,6 +7,7 @@ import {
 import { auth } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
+import error from 'eslint-plugin-react/lib/util/error';
 
 export const authUpdateProfile = async (currentUser) => {
   try {
@@ -33,9 +34,15 @@ export const doSignInWithEmailAndPassword = async ({ email, password }) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     store.dispatch(login(auth.currentUser));
-    return true;
+    return {
+      currentUser: auth.currentUser,
+      result: true,
+    };
   } catch (err) {
-    return false;
+    return {
+      error: err,
+      result: false,
+    };
   }
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
@@ -50,8 +57,14 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       ...account,
     });
     store.dispatch(login(auth.currentUser));
-    return true;
+    return {
+      currentUser: auth.currentUser,
+      result: true,
+    };
   } catch (err) {
-    return false;
+    return {
+      error: err,
+      result: false,
+    };
   }
 };

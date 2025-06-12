@@ -28,8 +28,8 @@ const RegisterTwoSteps = () => {
     }
     setError('');
     const account = { email, password, firstName, lastName };
-    const isSuccess = await doCreateUserWithEmailAndPassword(account);
-    if (isSuccess) {
+    const response = await doCreateUserWithEmailAndPassword(account);
+    if (response.result) {
       setSuccess('Registrazione completata con successo!');
       setStep(1);
       setEmail('');
@@ -37,7 +37,7 @@ const RegisterTwoSteps = () => {
       setFirstName('');
       setLastName('');
     } else {
-      setError('Errore durante la registrazione');
+      setError(response.error.message);
     }
   };
 
