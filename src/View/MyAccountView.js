@@ -177,21 +177,6 @@ export const MyAccountView = () => {
               ))}
             </div>
           </div>
-          <h1
-            role="button"
-            tabIndex="0"
-            data-bs-toggle="collapse"
-            data-bs-target="#profiloCollapse"
-            aria-expanded="false"
-            aria-controls="profiloCollapse"
-            className="h5 text-primary"
-          >
-            Completa il tuo profilo
-          </h1>
-
-          <div className="collapse mt-2" id="profiloCollapse">
-            <div className="card card-body">Inserisci le informazioni mancanti.</div>
-          </div>
           {/* Coppe */}
           <div className="card shadow-sm">
             <h5 className="card-title m-4 text-center">Coppe Vinte</h5>
@@ -232,16 +217,27 @@ export const MyAccountView = () => {
                   <div className="modal-body">
                     <form id={'updateProfile'}>
                       <div className="mb-3">
-                        <label className="form-label">Data di nascita</label>
-                        <input type="date" className="form-control" />
+                        <label htmlFor="date" className="form-label">
+                          Data di nascita
+                        </label>
+                        <input type="date" name={'date'} className="form-control" />
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Numero preferito</label>
-                        <input type="number" className="form-control" />
+                        <label htmlFor="preferred-numeber" className="form-label">
+                          Numero preferito
+                        </label>
+                        <input name={'preferred-numeber'} type="number" className="form-control" />
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Altezza</label>
-                        <input type="text" className="form-control" placeholder="Es: 1,85 M" />
+                        <label htmlFor="altezza" className="form-label">
+                          Altezza
+                        </label>
+                        <input
+                          name={'altezza'}
+                          type="text"
+                          className="form-control"
+                          placeholder="Es: 1,85 M"
+                        />
                       </div>
                     </form>
                   </div>
