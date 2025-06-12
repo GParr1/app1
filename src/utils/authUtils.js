@@ -29,9 +29,9 @@ export const doSignOut = async () => {
     return false;
   }
 };
-export const doSignInWithEmailAndPassword = async ({ email, password }) => {
+export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
     store.dispatch(login(auth.currentUser));
     return {
       currentUser: auth.currentUser,
