@@ -4,7 +4,7 @@ import Register from 'components/Register';
 import { labels } from 'properties/authView';
 
 export const AuthView = () => {
-  const [activeTab, setActiveTab] = (useState < 'login') | ('register' > 'login');
+  const [activeTab, setActiveTab] = useState('login');
   return (
     <div className="container mt-5 col-md-8">
       <h1 className="text-center mb-4" id="welcome-heading">
