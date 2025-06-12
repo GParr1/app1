@@ -10,7 +10,7 @@ function App() {
   const user = useSelector(getUser);
 
   return (
-    <Router>
+    <Router basename="/app1">
       <div className="container mt-5">
         <Routes>
           {/* Welcome page */}
