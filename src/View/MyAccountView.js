@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { getUser } from '../state/auth/selectors';
+import { getUser } from 'state/auth/selectors';
 import { useSelector } from 'react-redux';
-import PlayerCard from '../components/PlayerCard';
-import { teamInfo } from '../utils/infoTeam';
-import { authUpdateProfile, doSignOut } from '../utils/authUtils';
-import UploadProfilePicture from '../components/UploadProfilePicture';
+import PlayerCard from 'components/PlayerCard';
+import { teamInfo } from 'utils/infoTeam';
+import { authUpdateProfile, doSignOut } from 'utils/authUtils';
+import UploadProfilePicture from 'components/UploadProfilePicture';
 
 // Mock dati di esempio
 const mockStats = {

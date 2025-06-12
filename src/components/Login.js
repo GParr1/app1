@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doSignInWithEmailAndPassword } from '../utils/authUtils';
+import { doSignInWithEmailAndPassword } from 'utils/authUtils';
 
 const Login = () => {
   const [email, setEmail] = useState('');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authUpdateProfile } from '../utils/authUtils';
+import { authUpdateProfile } from 'utils/authUtils';
 
 export const ConfirmProfileView = () => {
   const [firstName, setFirstName] = useState('');

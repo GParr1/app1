@@ -5,8 +5,8 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
-import { login, logout } from '../state/auth/reducer';
-import { store } from '../state/store';
+import { login, logout } from 'state/auth/reducer';
+import { store } from 'state/store';
 
 export const authUpdateProfile = async (currentUser) => {
   try {

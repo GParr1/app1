@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Login from '../components/Login';
-import Register from '../components/Register';
-import { labels } from '../../properties/authView';
+import Login from 'components/Login';
+import Register from 'components/Register';
+import { labels } from 'properties/authView';
 
 export const AuthView = () => {
   const [activeTab, setActiveTab] = (useState < 'login') | ('register' > 'login');
