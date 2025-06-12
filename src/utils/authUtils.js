@@ -7,7 +7,6 @@ import {
 import { auth } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
-import error from 'eslint-plugin-react/lib/util/error';
 
 export const authUpdateProfile = async (currentUser) => {
   try {

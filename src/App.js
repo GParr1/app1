@@ -9,14 +9,13 @@ import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 
 function App() {
   const user = useSelector(getUser);
-
   return (
     <Router basename="/app1">
       <div className="container mt-5">
         <Routes>
-          <Route path="/welcome" element={<AuthView />} />
+          <Route path="/welcome" element={<AuthView user={user} />} />
           <Route path="/profile" element={<MyAccountView user={user} />} />
-          <Route path="/confirm-profile" element={<ConfirmProfileView />} />
+          <Route path="/confirm-profile" element={<ConfirmProfileView user={user} />} />
           <Route path="/" element={<RedirectOnLogin />} />
         </Routes>
       </div>

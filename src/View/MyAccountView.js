@@ -18,8 +18,7 @@ const mockCoppe = [
   { anno: 2023, nome: 'Coppa Invernale' },
 ];
 
-export const MyAccountView = () => {
-  const user = useSelector(getUser);
+export const MyAccountView = ({ user }) => {
   const [selectedTeam, setSelectedTeam] = useState('Juventus');
   const [showModal, setShowModal] = useState(false);
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);

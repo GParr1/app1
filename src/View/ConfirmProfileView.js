@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { authUpdateProfile } from 'utils/authUtils';
+import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 
-export const ConfirmProfileView = () => {
+export const ConfirmProfileView = ({ user }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  if (!user) return <RedirectOnLogin />;
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     const data = { firstName, lastName };
