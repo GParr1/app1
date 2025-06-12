@@ -14,13 +14,13 @@ function App() {
       <div className="container mt-5">
         <Routes>
           {/* Welcome page */}
-          <Route path="/welcome.html" element={<AuthView />} />
+          <Route path="/welcome" element={<AuthView />} />
 
           {/* Profilo completo */}
-          <Route path="/profile.html" element={<MyAccountView user={user} />} />
+          <Route path="/profile" element={<MyAccountView user={user} />} />
 
           {/* Profilo incompleto */}
-          <Route path="/confirm-profile.html" element={<ConfirmProfileView />} />
+          <Route path="/confirm-profile" element={<ConfirmProfileView />} />
 
           {/* Redirect logico in base all'utente */}
           <Route
@@ -28,12 +28,12 @@ function App() {
             element={
               user ? (
                 user.displayName ? (
-                  <Navigate to="/profile.html" replace />
+                  <Navigate to="/profile" replace />
                 ) : (
-                  <Navigate to="/confirm-profile.html" replace />
+                  <Navigate to="/confirm-profile" replace />
                 )
               ) : (
-                <Navigate to="/welcome.html" replace />
+                <Navigate to="/welcome" replace />
               )
             }
           />

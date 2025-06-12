@@ -12,8 +12,8 @@ export const AuthView = () => {
       </h1>
       {/* Tab Navigation */}
       <ul
-        className="nav nav-tabs justify-content-center mb-4"
         role="tablist"
+        className="nav nav-tabs justify-content-center mb-4"
         aria-label="Selezione autenticazione"
       >
         <li className="nav-item" role="presentation">
