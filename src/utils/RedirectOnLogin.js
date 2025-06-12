@@ -8,7 +8,6 @@ export const RedirectOnLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user === undefined) return; // evita redirect prematuro se undefined
     if (user) {
       if (user.displayName) {
         navigate('/profile', { replace: true });

@@ -5,6 +5,7 @@ import PlayerCard from 'components/PlayerCard';
 import { teamInfo } from 'utils/infoTeam';
 import { authUpdateProfile, doSignOut } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
+import {RedirectOnLogin} from "utils/RedirectOnLogin";
 
 // Mock dati di esempio
 const mockStats = {
@@ -23,7 +24,7 @@ export const MyAccountView = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
 
-  if (!user) return <p>Caricamento profilo...</p>;
+  if (!user) return <RedirectOnLogin/>;
   const openModal = (type) => {
     if (type === 'updateProfile') setShowModal(true);
     if (type === 'updateImage') setShowModalUpdateImage(true);
