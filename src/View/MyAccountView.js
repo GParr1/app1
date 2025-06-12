@@ -24,7 +24,7 @@ export const MyAccountView = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
 
-  if (!user) return <RedirectOnLogin/>;
+  if (!user) return (<RedirectOnLogin />);
   const openModal = (type) => {
     if (type === 'updateProfile') setShowModal(true);
     if (type === 'updateImage') setShowModalUpdateImage(true);
