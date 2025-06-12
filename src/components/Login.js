@@ -16,7 +16,7 @@ const Login = () => {
   return (
     <div className="row">
       {/* Login */}
-      <div className="col-md-6 mb-4">
+      <div className="mb-4">
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>

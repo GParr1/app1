@@ -36,6 +36,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+      - name: Copy index.html to 404.html for React Router support
+        run: cp build/index.html build/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
