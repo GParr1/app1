@@ -82,23 +82,6 @@ const UploadProfilePicture = () => {
     }, 'image/png');
   };
 
-  const getCloudinaryImageFromUrl = (url) => {
-    const parts = url.split('/');
-    const versionIndex = parts.findIndex((p) => p.startsWith('v'));
-    const version = parts[versionIndex].replace('v', '');
-    const publicId = parts
-      .slice(versionIndex + 1)
-      .join('/')
-      .split('.')[0];
-
-    const img = new CloudinaryImage(publicId, {
-      cloudName: CLOUD_NAME,
-    });
-
-    img.setVersion(version); // ✅ Imposta la versione per evitare cache
-    return img;
-  };
-
   const handleUpload = async () => {
     if (!file) return;
     setLoading(true);
