@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { Cloudinary } from '@cloudinary/url-gen';
+import {Cloudinary, CloudinaryImage} from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
@@ -38,7 +38,6 @@ const UploadProfilePicture = () => {
       const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
       const response = await axios.post(UPLOAD_URL, formData);
       const uploadedUrl = response.data.secure_url;
-
       // Aggiorna profilo Firebase
       if (user) {
         await updateProfile(user, {
@@ -55,13 +54,28 @@ const UploadProfilePicture = () => {
     }
   };
 
+  const getCloudinaryImageFromUrl = (url) => {
+    const parts = url.split('/');
+    const versionIndex = parts.findIndex((p) => p.startsWith('v'));
+    const version = parts[versionIndex].replace('v', '');
+    const publicId = parts
+      .slice(versionIndex + 1)
+      .join('/')
+      .split('.')[0];
+
+    const img = new CloudinaryImage(publicId, {
+      cloudName: CLOUD_NAME,
+    });
+
+    img.setVersion(version); // ✅ Imposta la versione per evitare cache
+    return img;
+  };
   // Visualizzazione immagine con SDK Cloudinary
-  const cld = new Cloudinary({ cloud: { cloudName: CLOUD_NAME } });
+  //const cld = new Cloudinary({ cloud: { cloudName: CLOUD_NAME } });
   const cldImg = imageUrl
-    ? cld
-        .image(imageUrl.split('/').slice(-1)[0].split('.')[0])
+    ? getCloudinaryImageFromUrl(imageUrl)
         .effect('background_removal')
-        .format('auto')
+        .format('png')
         .quality('auto')
         .resize(auto().gravity(autoGravity()).width(500).height(500))
     : null;

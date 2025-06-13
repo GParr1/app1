@@ -2,7 +2,7 @@ import React from 'react';
 import './css/PayerCard.css';
 
 const PlayerCard = ({
-  playerImage = '',
+  playerImage = 'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png',
   playerName,
   playerNumber,
   playerColor,
@@ -29,7 +29,7 @@ const PlayerCard = ({
       }}
     >
       {/* HEADER */}
-      <div className="card-header d-flex justify-content-between align-items-center text-white">
+      <div className="card-header d-flex justify-content-between align-items-center text-white bg-panini">
         <span className="fw-bold fs-4" dangerouslySetInnerHTML={{ __html: teamSymbol }}></span>
         <span className="badge bg-dark fs-6">{countryCode}</span>
         <span className="fw-bold fs-4">{playerNumber}</span>
@@ -43,10 +43,7 @@ const PlayerCard = ({
             alt="Player"
           />
         )}
-        <div
-          className="position-absolute bottom-0 end-0 text-white px-2 py-1 m-2 rounded shadow d-flex align-items-center"
-          style={{ backgroundColor: playerColor.primaryColor }}
-        >
+        <div className="position-absolute bottom-0 end-0 text-white px-2 py-1 m-2 rounded shadow d-flex align-items-center bg-panini">
           <h5 className="card-title mb-2 mt-2 small text-centred">{playerName}</h5>
         </div>
       </div>
