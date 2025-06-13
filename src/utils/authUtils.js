@@ -52,7 +52,7 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       account.password
     );
     await updateProfile(userCredential.user, {
-      displayName: `${account.firstName} ${account.lastName}`,
+      displayName: `${account.firstName?.trim()} ${account.lastName?.trim()}`,
       ...account,
     });
     store.dispatch(login(auth.currentUser));

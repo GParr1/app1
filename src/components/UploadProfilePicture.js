@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import PlayerCard from 'components/PlayerCard';
+import { v4 as uuidv4 } from 'uuid';
 import { teamInfo } from 'utils/infoTeam';
 
 const UploadProfilePicture = () => {
@@ -46,7 +47,7 @@ const UploadProfilePicture = () => {
     formData.append('file', file);
     formData.append('upload_preset', 'app-calcetto'); // <-- nome esatto del preset
     formData.append('folder', 'profilePictures'); // opzionale: salva in una cartella
-    formData.append('public_id', user.uid); // opzionale: sovrascrive sempre la stessa immagine
+    formData.append('public_id', `${user.displayName?.replace(/\s+/g, '_')}-${uuidv4()}`); // opzionale: sovrascrive sempre la stessa immagine
     try {
       const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
       const response = await axios.post(UPLOAD_URL, formData);
