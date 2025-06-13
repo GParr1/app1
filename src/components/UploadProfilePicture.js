@@ -115,13 +115,8 @@ const UploadProfilePicture = () => {
       const response = await axios.post(UPLOAD_URL, formData);
       const uploadedUrl = response.data.secure_url;
       if (user) {
-        const img = getCloudinaryImageFromUrl(uploadedUrl)
-          .effect('background_removal')
-          .format('png');
-        const finalUrl = img.toURL();
-
         await updateProfile(user, {
-          photoURL: finalUrl,
+          photoURL: uploadedUrl,
         });
         setMessage('Profilo aggiornato con successo!');
       }
