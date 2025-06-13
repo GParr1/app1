@@ -25,13 +25,14 @@ const UploadProfilePicture = () => {
 
   useEffect(() => {
     if (cameraActive) {
-      // Chiedi accesso alla webcam
+      let videoElement = videoRef.current; // salva il ref in variabile locale
+
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            videoRef.current.play();
+          if (videoElement) {
+            videoElement.srcObject = stream;
+            videoElement.play();
           }
         })
         .catch((err) => {
@@ -39,21 +40,16 @@ const UploadProfilePicture = () => {
           setMessage('Non è stato possibile accedere alla webcam.');
           setCameraActive(false);
         });
-    } else {
-      // Ferma lo stream video quando non serve più
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach((track) => track.stop());
-        videoRef.current.srcObject = null;
-      }
+
+      return () => {
+        // cleanup usa la variabile locale videoElement
+        if (videoElement && videoElement.srcObject) {
+          const tracks = videoElement.srcObject.getTracks();
+          tracks.forEach((track) => track.stop());
+          videoElement.srcObject = null;
+        }
+      };
     }
-    // Cleanup on dismount
-    return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach((track) => track.stop());
-      }
-    };
   }, [cameraActive]);
 
   const handleFileChange = (e) => {
