@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { getAuth, updateProfile } from 'firebase/auth';
-import {Cloudinary, CloudinaryImage} from '@cloudinary/url-gen';
+import {CloudinaryImage} from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
