@@ -9,7 +9,6 @@ const PlayerCard = ({
   countryCode,
   birthDate,
   height,
-  ComponentVideo,
 }) => {
   return (
     <div
@@ -36,10 +35,7 @@ const PlayerCard = ({
       </div>
       {/* IMMAGINE */}
       <div className="position-relative">
-        {!ComponentVideo && (
-          <img src={`${playerImage}`} className="card-img-top player-image p-2" alt="Player" />
-        )}
-        {ComponentVideo && <ComponentVideo />}
+        <img src={`${playerImage}`} className="card-img-top player-image p-2" alt="Player" />
       </div>
 
       <div className="bg-panini justify-content-center">
@@ -53,32 +49,12 @@ const PlayerCard = ({
           <div className=" row m-1 mb-0">
             <h5 className="card-title mb-2 small text-center border-bottom">{playerName}</h5>
             <div className="d-flex justify-content-between ">
-              <p className=" small fw-bold ">13-5-1993</p>
-              <p className="small fw-bold">1,80 cm</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* INFORMAZIONI */}
-      <div className="bg-panini justify-content-center">
-        <div className="card-body d-flex text-center  mb-0 p-0 mt-1">
-          {/* LOGO PANINI */}
-          <img
-            src="https://res.cloudinary.com/dehfdnxul/image/upload/v1749833864/profilePictures/O2EIQVW0ICg6c89nUCSdjJt8k6r1.png?v=1749833872753<"
-            alt="Panini"
-            width="60"
-          />
-          <div className=" row m-1 mb-0">
-            <h5 className="card-title mb-2 small text-center border-bottom">Giovanni Parrone</h5>
-            <div className="d-flex justify-content-between ">
               <p className=" small fw-bold ">{birthDate}</p>
-              <p className="small fw-bold">{height}</p>
+              <p className="small fw-bold">{height} cm</p>
             </div>
           </div>
         </div>
       </div>
-      {/* LOGO PANINI */}
     </div>
   );
 };

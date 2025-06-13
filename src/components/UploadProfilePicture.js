@@ -112,19 +112,12 @@ const UploadProfilePicture = () => {
 
   const playerColor = teamInfo['Roma'].color;
   const teamSymbol = teamInfo['Roma'].logo;
-  const CamComponent = cameraActive ? (
-    <>
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
-    </>
-  ) : null;
+
   return (
-    <>
-      <div className="d-flex justify-content-center col-12">
+    <div className="d-flex justify-content-center col-12">
+      {!cameraActive && (
         <PlayerCard
           playerImage={previewImg}
-          ComponentVideo={CamComponent}
           playerName={'Giocatore'}
           playerNumber="11"
           teamSymbol={teamSymbol}
@@ -133,26 +126,34 @@ const UploadProfilePicture = () => {
           birthDate="13-5-1993"
           height="1,91 M"
         />
-        <div className="col-4 m-2">
-          <input className="p-2" type="file" accept="image/*" onChange={handleFileChange} />
-          <button
-            type="button"
-            onClick={() => setCameraActive((active) => !active)}
-            className="btn mt-2"
-          >
-            {cameraActive ? 'Chiudi fotocamera' : 'Scatta foto'}
+      )}
+      {cameraActive && (
+        <div style={{ marginTop: 10 }}>
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
+          <button type="button" onClick={capturePhoto} className="btn btn-primary mt-2">
+            Cattura foto
           </button>
-          <br />
-          <button onClick={handleUpload} disabled={!file || loading} className="btn btn-success">
-            {loading ? 'Caricamento...' : 'Carica'}
-          </button>
+          <canvas ref={canvasRef} style={{ display: 'none' }} />
         </div>
-        <button type="button" onClick={capturePhoto} className="btn btn-primary mt-2">
-          Cattura foto
+      )}
+      <div className="col-4 m-2">
+        <input className="p-2" type="file" accept="image/*" onChange={handleFileChange} />
+        <button
+          type="button"
+          onClick={() => setCameraActive((active) => !active)}
+          className="btn mt-2"
+        >
+          {cameraActive ? 'Chiudi fotocamera' : 'Scatta foto'}
         </button>
-        {message && <p className="mt-2 text-success">{message}</p>}
+        <br />
+        <button onClick={handleUpload} disabled={!file || loading} className="btn btn-success">
+          {loading ? 'Caricamento...' : 'Carica'}
+        </button>
       </div>
-    </>
+
+      {message && <p className="mt-2 text-success">{message}</p>}
+    </div>
   );
 };
 
