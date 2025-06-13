@@ -134,17 +134,24 @@ const UploadProfilePicture = () => {
           <button type="button" onClick={capturePhoto} className="btn btn-primary mt-2">
             Cattura foto
           </button>
+          <button
+            type="button"
+            onClick={() => setCameraActive((active) => !active)}
+            className="btn mt-2"
+          >
+            {'Chiudi fotocamera'}
+          </button>
           <canvas ref={canvasRef} style={{ display: 'none' }} />
         </div>
       )}
-      <div className="col-4 m-2">
+      <div className={`col-4 m-2 ${cameraActive ? 'd-none' : ''}`}>
         <input className="p-2" type="file" accept="image/*" onChange={handleFileChange} />
         <button
           type="button"
           onClick={() => setCameraActive((active) => !active)}
           className="btn mt-2"
         >
-          {cameraActive ? 'Chiudi fotocamera' : 'Scatta foto'}
+          {'Scatta foto'}
         </button>
         <br />
         <button onClick={handleUpload} disabled={!file || loading} className="btn btn-success">
