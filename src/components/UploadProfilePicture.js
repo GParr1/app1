@@ -114,6 +114,7 @@ const UploadProfilePicture = () => {
   const teamSymbol = teamInfo['Roma'].logo;
   const CamComponent = cameraActive ? (
     <>
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
     </>
