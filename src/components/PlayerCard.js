@@ -2,7 +2,7 @@ import React from 'react';
 import './css/PayerCard.css';
 
 const PlayerCard = ({
-  playerImage,
+  playerImage = '',
   playerName,
   playerNumber,
   playerColor,
@@ -37,7 +37,11 @@ const PlayerCard = ({
       {/* IMMAGINE */}
       <div className="position-relative">
         {playerImage && (
-          <img src={playerImage} className="card-img-top player-image p-2" alt="Player" />
+          <img
+            src={`${playerImage}?v=${Date.now()}`}
+            className="card-img-top player-image p-2"
+            alt="Player"
+          />
         )}
         <div
           className="position-absolute bottom-0 end-0 text-white px-2 py-1 m-2 rounded shadow d-flex align-items-center"

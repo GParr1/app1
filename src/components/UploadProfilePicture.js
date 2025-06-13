@@ -60,6 +60,7 @@ const UploadProfilePicture = () => {
   const cldImg = imageUrl
     ? cld
         .image(imageUrl.split('/').slice(-1)[0].split('.')[0])
+        .effect('background_removal')
         .format('auto')
         .quality('auto')
         .resize(auto().gravity(autoGravity()).width(500).height(500))

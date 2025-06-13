@@ -269,11 +269,6 @@ export const MyAccountView = ({ user }) => {
                   <div className="modal-body">
                     <UploadProfilePicture />
                   </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                      Chiudi
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>

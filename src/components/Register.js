@@ -46,7 +46,8 @@ const RegisterTwoSteps = () => {
       <div className="card shadow-sm">
         <div className="card-body">
           <h2 className="card-title text-center">Registrazione</h2>
-          {step === 2 && <p>completa il profilo</p>}
+          {step === 1 && <p className="card-title text-center">step 1</p>}
+          {step === 2 && <p className="card-title text-center">step 2</p>}
           {step === 1 && (
             <FirstStepOfRegister
               handleFirstStep={handleFirstStep}
