@@ -113,10 +113,10 @@ const UploadProfilePicture = () => {
   const playerColor = teamInfo['Roma'].color;
   const teamSymbol = teamInfo['Roma'].logo;
   const CamComponent = cameraActive ? (
-    <div>
+    <>
       <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
-    </div>
+    </>
   ) : null;
   return (
     <>
