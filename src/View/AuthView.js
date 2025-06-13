@@ -6,7 +6,7 @@ import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 
 export const AuthView = ({ user }) => {
   const [activeTab, setActiveTab] = useState('login');
-  if (!user) return <RedirectOnLogin />;
+  if (user) return <RedirectOnLogin />;
   return (
     <div className="container mt-5 col-md-8">
       <h1 className="text-center mb-4" id="welcome-heading">
