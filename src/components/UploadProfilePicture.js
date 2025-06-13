@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { CloudinaryImage } from '@cloudinary/url-gen';
 import PlayerCard from 'components/PlayerCard';
 import { v4 as uuidv4 } from 'uuid';
 import { teamInfo } from 'utils/infoTeam';
