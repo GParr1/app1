@@ -28,7 +28,7 @@ const RegisterTwoSteps = () => {
     }
     setError('');
     const account = { email, password, firstName, lastName };
-    const response = await doCreateUserWithEmailAndPassword(account);
+    const response = await doCreateUserWithEmailAndPassword({ account });
     if (response.result) {
       setSuccess('Registrazione completata con successo!');
       setStep(1);
@@ -46,13 +46,15 @@ const RegisterTwoSteps = () => {
       <div className="card shadow-sm">
         <div className="card-body">
           <h2 className="card-title text-center">Registrazione</h2>
-          {step === 1 ? (
+          {step === 2 && <p>completa il profilo</p>}
+          {step === 1 && (
             <FirstStepOfRegister
               handleFirstStep={handleFirstStep}
               setEmail={setEmail}
               setPassword={setPassword}
             />
-          ) : (
+          )}
+          {step === 2 && (
             <SecondStepOfRegister
               handleRegister={handleRegister}
               setFirstName={setFirstName}
