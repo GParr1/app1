@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { CloudinaryImage } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import PlayerCard from 'components/PlayerCard';
+import { teamInfo } from 'utils/infoTeam';
 
 const UploadProfilePicture = () => {
-  const [imageUrl, setImageUrl] = useState('');
   const [previewImg, setPreviewImg] = useState(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -22,7 +20,22 @@ const UploadProfilePicture = () => {
       setPreviewImg(URL.createObjectURL(selectedFile));
     }
   };
+  const getCloudinaryImageFromUrl = (url) => {
+    const parts = url.split('/');
+    const versionIndex = parts.findIndex((p) => p.startsWith('v'));
+    const version = parts[versionIndex].replace('v', '');
+    const publicId = parts
+      .slice(versionIndex + 1)
+      .join('/')
+      .split('.')[0];
 
+    const img = new CloudinaryImage(publicId, {
+      cloudName: CLOUD_NAME,
+    });
+
+    img.setVersion(version); // ✅ Imposta la versione per evitare cache
+    return img;
+  };
   const CLOUD_NAME = 'dehfdnxul';
   const handleUpload = async () => {
     if (!file) return;
@@ -40,10 +53,14 @@ const UploadProfilePicture = () => {
       const uploadedUrl = response.data.secure_url;
       // Aggiorna profilo Firebase
       if (user) {
+        const img = getCloudinaryImageFromUrl(uploadedUrl)
+          .effect('background_removal')
+          .format('png');
+        const finalUrl = img.toURL();
+
         await updateProfile(user, {
-          photoURL: uploadedUrl,
+          photoURL: finalUrl,
         });
-        setImageUrl(uploadedUrl);
         setMessage('Profilo aggiornato con successo!');
       }
     } catch (error) {
@@ -53,47 +70,29 @@ const UploadProfilePicture = () => {
       setLoading(false);
     }
   };
-
-  const getCloudinaryImageFromUrl = (url) => {
-    const parts = url.split('/');
-    const versionIndex = parts.findIndex((p) => p.startsWith('v'));
-    const version = parts[versionIndex].replace('v', '');
-    const publicId = parts
-      .slice(versionIndex + 1)
-      .join('/')
-      .split('.')[0];
-
-    const img = new CloudinaryImage(publicId, {
-      cloudName: CLOUD_NAME,
-    });
-
-    img.setVersion(version); // ✅ Imposta la versione per evitare cache
-    return img;
-  };
-  // Visualizzazione immagine con SDK Cloudinary
-  //const cld = new Cloudinary({ cloud: { cloudName: CLOUD_NAME } });
-  const cldImg = imageUrl
-    ? getCloudinaryImageFromUrl(imageUrl)
-        .effect('background_removal')
-        .format('png')
-        .quality('auto')
-        .resize(auto().gravity(autoGravity()).width(500).height(500))
-    : null;
-
+  const playerColor = teamInfo['Roma'].color;
+  const teamSymbol = teamInfo['Roma'].logo;
   return (
     <div>
       <h3>Carica immagine profilo</h3>
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {previewImg && (
-        <img className="card-img-top player-image" src={previewImg} alt="Anteprima Player" />
+        <PlayerCard
+          playerImage={previewImg}
+          playerName={'Giocatore'}
+          playerNumber="11"
+          teamSymbol={teamSymbol}
+          playerColor={playerColor}
+          countryCode="ITA"
+          birthDate="13-5-1993"
+          height="1,91 M"
+        />
       )}
       <br />
       <button onClick={handleUpload} disabled={!file || loading}>
         {loading ? 'Caricamento...' : 'Carica'}
       </button>
-      {message && <p>{message}</p>}
-
-      {cldImg && <AdvancedImage cldImg={cldImg} />}
+      {message && <p className="mt-2 text-success">{message}</p>}
     </div>
   );
 };

@@ -36,7 +36,9 @@ export const MyAccountView = ({ user }) => {
   const playerColor = teamInfo[selectedTeam].color;
   const teamSymbol = teamInfo[selectedTeam].logo;
   const displayName = user.displayName || 'Giocatore Sconosciuto';
-  const photoURL = user.photoURL || 'https://via.placeholder.com/200x250?text=Panini+Card';
+  const photoURL =
+    user.photoURL ||
+    'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png';
 
   const handleSave = async (e) => {
     e.preventDefault();

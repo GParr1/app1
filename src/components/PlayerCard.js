@@ -1,8 +1,7 @@
 import React from 'react';
-import './css/PayerCard.css';
 
 const PlayerCard = ({
-  playerImage = 'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png',
+  playerImage,
   playerName,
   playerNumber,
   playerColor,
@@ -50,7 +49,11 @@ const PlayerCard = ({
 
       {/* INFORMAZIONI */}
       <div className="card-body d-flex text-white text-center justify-content-between">
-        <img src="/panini-logo.png" alt="Panini" width="60" />
+        <img
+          src="https://res.cloudinary.com/dehfdnxul/image/upload/v1749833864/profilePictures/O2EIQVW0ICg6c89nUCSdjJt8k6r1.png?v=1749833872753<"
+          alt="Panini"
+          width="60"
+        />
         <p className="card-text small ">{birthDate}</p>
         <p className="card-text small ">{height}</p>
       </div>

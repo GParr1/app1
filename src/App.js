@@ -6,6 +6,7 @@ import { ConfirmProfileView } from './View/ConfirmProfileView';
 import { MyAccountView } from './View/MyAccountView';
 import { getUser } from 'state/auth/selectors';
 import { RedirectOnLogin } from 'utils/RedirectOnLogin';
+import './App.css';
 
 function App() {
   const user = useSelector(getUser);

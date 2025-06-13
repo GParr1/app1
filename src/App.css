@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+#Panini_Theme
+.bg-panini {
+  background: #f7d500!important;
+}
+#FC_Theme_
+.bg-fc{
+  background: #a6a2a2 !important;
+}
