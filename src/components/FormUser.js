@@ -15,7 +15,7 @@ const FormUser = ({ id, onSubmit }) => {
           className="form-control"
           placeholder="Nome"
           name={'firstName'}
-          value={user.firstName || ''}
+          defaultValue={user.firstName || ''}
         />
       </div>
       <div className="mb-3">
