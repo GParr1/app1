@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getUser } from 'gh-pages/lib/util';
+import { getUser } from 'state/auth/selectors';
 
 const FormUser = ({ id, onSubmit }) => {
   const user = useSelector(getUser) || {};
