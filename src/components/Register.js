@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authUpdateProfile, doCreateUserWithEmailAndPassword } from 'utils/authUtils';
+import { doCreateUserWithEmailAndPassword } from 'utils/authUtils';
 import FormUser from 'components/FormUser';
 
 const RegisterTwoSteps = () => {
