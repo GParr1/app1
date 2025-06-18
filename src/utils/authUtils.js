@@ -29,13 +29,19 @@ export const doSignOut = async () => {
     return false;
   }
 };
-export const doSignInWithEmailAndPassword = async ({ email, password }) => {
+export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
     store.dispatch(login(auth.currentUser));
-    return true;
+    return {
+      currentUser: auth.currentUser,
+      result: true,
+    };
   } catch (err) {
-    return false;
+    return {
+      error: err,
+      result: false,
+    };
   }
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
@@ -46,12 +52,18 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       account.password
     );
     await updateProfile(userCredential.user, {
-      displayName: `${account.firstName} ${account.lastName}`,
+      displayName: `${account.firstName?.trim()} ${account.lastName?.trim()}`,
       ...account,
     });
     store.dispatch(login(auth.currentUser));
-    return true;
+    return {
+      currentUser: auth.currentUser,
+      result: true,
+    };
   } catch (err) {
-    return false;
+    return {
+      error: err,
+      result: false,
+    };
   }
 };

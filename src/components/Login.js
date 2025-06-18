@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword } from 'utils/authUtils';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -10,7 +12,17 @@ const Login = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    await doSignInWithEmailAndPassword({ email, password });
+    const credentials = { email, password };
+    const response = await doSignInWithEmailAndPassword({ credentials });
+    if (response.result) {
+      if (response.currentUser.displayName) {
+        navigate('/profile', { replace: true });
+      } else {
+        navigate('/confirm-profile', { replace: true });
+      }
+    } else {
+      setError(response.error.message);
+    }
   };
 
   return (

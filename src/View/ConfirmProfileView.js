@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { authUpdateProfile } from 'utils/authUtils';
+import { RedirectOnLogin } from 'utils/RedirectOnLogin';
+import FormUser from 'components/FormUser';
 
-export const ConfirmProfileView = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+export const ConfirmProfileView = ({ user }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  if (!user) return <RedirectOnLogin />;
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
-    const data = { firstName, lastName };
-    const isUpdate = await authUpdateProfile(data);
+    const form = e.target;
+    //const form = document.querySelector('#confirmProfile');
+    const formData = new FormData(form);
+    // Converti in oggetto semplice
+    const formObject = Object.fromEntries(formData.entries());
+    const isUpdate = await authUpdateProfile(formObject);
     isUpdate && setSuccess('Profilo aggiornato!');
     !isUpdate && setError('Errore aggiornando il profilo');
   };
@@ -17,29 +22,7 @@ export const ConfirmProfileView = () => {
     <div className="card">
       <div className="card-body">
         <h4 className="card-title">Completa il tuo profilo</h4>
-        <form onSubmit={handleProfileUpdate}>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nome"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Cognome"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-          <button className="btn btn-primary w-100" type="submit">
-            Salva Profilo
-          </button>
-        </form>
+        <FormUser id={'confirmProfile'} onSubmit={handleProfileUpdate} />
         {error && <p className="text-danger mt-2">{error}</p>}
         {success && <p className="text-success mt-2">{success}</p>}
       </div>

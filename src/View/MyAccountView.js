@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { getUser } from 'state/auth/selectors';
-import { useSelector } from 'react-redux';
 import PlayerCard from 'components/PlayerCard';
 import { teamInfo } from 'utils/infoTeam';
 import { authUpdateProfile, doSignOut } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
-import {RedirectOnLogin} from "utils/RedirectOnLogin";
+import { RedirectOnLogin } from 'utils/RedirectOnLogin';
+import FormUser from 'components/FormUser';
 
 // Mock dati di esempio
 const mockStats = {
@@ -18,13 +17,14 @@ const mockCoppe = [
   { anno: 2023, nome: 'Coppa Invernale' },
 ];
 
-export const MyAccountView = () => {
-  const user = useSelector(getUser);
+export const MyAccountView = ({ user }) => {
   const [selectedTeam, setSelectedTeam] = useState('Juventus');
   const [showModal, setShowModal] = useState(false);
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
 
-  if (!user) return <RedirectOnLogin/>;
+  if (!user) {
+    return <RedirectOnLogin />;
+  }
   const openModal = (type) => {
     if (type === 'updateProfile') setShowModal(true);
     if (type === 'updateImage') setShowModalUpdateImage(true);
@@ -37,15 +37,19 @@ export const MyAccountView = () => {
   const playerColor = teamInfo[selectedTeam].color;
   const teamSymbol = teamInfo[selectedTeam].logo;
   const displayName = user.displayName || 'Giocatore Sconosciuto';
-  const photoURL = user.photoURL || 'https://via.placeholder.com/200x250?text=Panini+Card';
+
+  const photoURL =
+    user.photoURL ||
+    'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png';
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const target = e.target;
-    const dialogContent = target.closest('.modal-content');
-    const form = dialogContent.querySelector('#updateProfile');
+    const form = e.target;
     const formData = new FormData(form);
-    await authUpdateProfile(formData);
+    // Converti in oggetto semplice
+    const formObject = Object.fromEntries(formData.entries());
+    console.log(formObject);
+    await authUpdateProfile(formObject);
     setShowModal(false);
   };
   return (
@@ -56,12 +60,12 @@ export const MyAccountView = () => {
           <PlayerCard
             playerImage={photoURL}
             playerName={displayName}
-            playerNumber="11"
+            playerNumber={user.jerseyNumber}
             teamSymbol={teamSymbol}
-            playerColor={playerColor} // Napoli blu
+            playerColor={playerColor}
             countryCode="ITA"
-            birthDate="13-5-1993"
-            height="1,91 M"
+            birthDate={user.birthDate}
+            height={user.height}
           />
           <select
             className="mb-3 col-12"
@@ -216,31 +220,7 @@ export const MyAccountView = () => {
                     <button type="button" className="btn-close" onClick={closeModal}></button>
                   </div>
                   <div className="modal-body">
-                    <form id={'updateProfile'}>
-                      <div className="mb-3">
-                        <label htmlFor="date" className="form-label">
-                          Data di nascita
-                        </label>
-                        <input type="date" name={'date'} className="form-control" />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="preferred-numeber" className="form-label">
-                          Numero preferito
-                        </label>
-                        <input name={'preferred-numeber'} type="number" className="form-control" />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="altezza" className="form-label">
-                          Altezza
-                        </label>
-                        <input
-                          name={'altezza'}
-                          type="text"
-                          className="form-control"
-                          placeholder="Es: 1,85 M"
-                        />
-                      </div>
-                    </form>
+                    <FormUser id={'updateProfile'} onSubmit={handleSave} />
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={closeModal}>
@@ -269,11 +249,6 @@ export const MyAccountView = () => {
                   </div>
                   <div className="modal-body">
                     <UploadProfilePicture />
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                      Chiudi
-                    </button>
                   </div>
                 </div>
               </div>
