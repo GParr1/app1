@@ -55,6 +55,7 @@ export const authUpdateProfile = async (currentUser) => {
     ); // merge evita di sovrascrivere completamente il documento
     return true;
   } catch (err) {
+    console.error('authUpdateProfile:', err);
     return false;
   }
 };
@@ -64,6 +65,8 @@ export const doSignOut = async () => {
     store.dispatch(logout());
     return true;
   } catch (err) {
+    console.error('doSignOut:', err);
+
     return false;
   }
 };
@@ -76,6 +79,8 @@ export const doSignInWithEmailAndPassword = async ({ credentials }) => {
       result: true,
     };
   } catch (err) {
+    console.error('doSignInWithEmailAndPassword:', err);
+
     return {
       error: err,
       result: false,
@@ -95,6 +100,8 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       result: true,
     };
   } catch (err) {
+    console.error('doCreateUserWithEmailAndPassword:', err);
+
     return {
       error: err,
       result: false,
