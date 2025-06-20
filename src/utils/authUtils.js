@@ -4,18 +4,55 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { DEFAULT_PHOT_URL } from 'utils/Constant';
 
+export const fetchUserProfile = async () => {
+  const user = auth.currentUser;
+
+  if (!user) return null;
+
+  try {
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const displayName = user.displayName;
+      const photoURL = user.photoURL || DEFAULT_PHOT_URL;
+      const data = userDocSnap.data();
+      const currentUser = { ...data, displayName, photoURL };
+      store.dispatch(login(currentUser)); //Save on Redux
+      return currentUser; // ✅ Dati utente Firestore
+    } else {
+      console.warn('Profilo utente non trovato in Firestore.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Errore nel recupero del profilo:', error);
+    return null;
+  }
+};
 export const authUpdateProfile = async (currentUser) => {
   try {
+    const user = auth.currentUser;
     console.warn(...currentUser);
-    await updateProfile(auth.currentUser, {
+    await updateProfile(user, {
       displayName: `${currentUser.firstName} ${currentUser.lastName}`,
-      ...currentUser,
     });
-    store.dispatch(login(auth.currentUser));
+    await setDoc(
+      doc(db, 'users', user.uid),
+      {
+        ...currentUser,
+        displayName: `${currentUser.firstName} ${currentUser.lastName}`,
+        photoURL:
+          currentUser.photoURL ||
+          'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png',
+      },
+      { merge: true }
+    ); // merge evita di sovrascrivere completamente il documento
     return true;
   } catch (err) {
     return false;
@@ -33,9 +70,9 @@ export const doSignOut = async () => {
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   try {
     await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-    store.dispatch(login(auth.currentUser));
+    const currentUser = await fetchUserProfile();
     return {
-      currentUser: auth.currentUser,
+      currentUser: currentUser,
       result: true,
     };
   } catch (err) {
@@ -47,18 +84,14 @@ export const doSignInWithEmailAndPassword = async ({ credentials }) => {
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      account.email,
-      account.password
-    );
-    await updateProfile(userCredential.user, {
-      displayName: `${account.firstName?.trim()} ${account.lastName?.trim()}`,
-      ...account,
-    });
-    store.dispatch(login(auth.currentUser));
+    await createUserWithEmailAndPassword(auth, account.email, account.password);
+    const dataAccount = account;
+    delete dataAccount.email;
+    delete dataAccount.password;
+    await authUpdateProfile(account);
+    const currentUser = await fetchUserProfile();
     return {
-      currentUser: auth.currentUser,
+      currentUser,
       result: true,
     };
   } catch (err) {
