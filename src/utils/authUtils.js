@@ -10,12 +10,11 @@ import { store } from 'state/store';
 
 export const authUpdateProfile = async (currentUser) => {
   try {
-    console.warn(currentUser);
-    const res = await updateProfile(auth.currentUser, {
+    console.warn(...currentUser);
+    await updateProfile(auth.currentUser, {
       displayName: `${currentUser.firstName} ${currentUser.lastName}`,
       ...currentUser,
     });
-    console.log(res);
     store.dispatch(login(auth.currentUser));
     return true;
   } catch (err) {
