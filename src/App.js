@@ -7,9 +7,11 @@ import { MyAccountView } from './View/MyAccountView';
 import { getUser } from 'state/auth/selectors';
 import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 import './App.css';
+import { getApps } from "firebase/app";
 
 function App() {
   const user = useSelector(getUser);
+  console.log("Firebase apps:", getApps());
   return (
     <Router basename="/app1">
       <div className="container mt-5">
