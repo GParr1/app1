@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
-import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const navigate = useNavigate();

@@ -25,7 +25,7 @@ export const RedirectOnLogin = () => {
     } else {
       navigate('/welcome', { replace: true });
     }
-  }, [session, user, navigate]);
+  }, [user, navigate]);
 
   return <div>Redirecting...</div>; // oppure puoi mostrare uno spinner
 };
