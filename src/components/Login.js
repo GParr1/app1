@@ -34,10 +34,16 @@ const Login = () => {
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
             <button
-              onClick={() => {
-                signIn('google', {
-                  callbackUrl: '/profile',
-                });
+              onClick={async () => {
+                await signIn(
+                  'google',
+                  {
+                    callbackUrl: '/profile', // dove torni dopo login
+                  },
+                  {
+                    baseUrl: 'http://localhost:3000', // dove sta il tuo server auth
+                  }
+                );
               }}
             >
               google Login

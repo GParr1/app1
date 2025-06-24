@@ -8,6 +8,7 @@ import { getUser } from 'state/auth/selectors';
 import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 import './App.css';
 import { getApps } from 'firebase/app';
+import Dashboard from "./View/Dashboard";
 
 function App() {
   const user = useSelector(getUser);
@@ -16,6 +17,7 @@ function App() {
     <Router basename="/app1">
       <div className="container mt-5">
         <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/welcome" element={<AuthView user={user} />} />
           <Route path="/profile" element={<MyAccountView user={user} />} />
           <Route path="/confirm-profile" element={<ConfirmProfileView user={user} />} />
