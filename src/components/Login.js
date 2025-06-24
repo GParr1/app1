@@ -35,15 +35,8 @@ const Login = () => {
             <h2 className="card-title text-center">Login</h2>
             <button
               onClick={async () => {
-                await signIn(
-                  'google',
-                  {
-                    callbackUrl: '/profile', // dove torni dopo login
-                  },
-                  {
-                    baseUrl: 'http://localhost:3000', // dove sta il tuo server auth
-                  }
-                );
+                window.location.href =
+                  'http://localhost:3000/api/auth/signin/google?callbackUrl=https://gparr1.github.io/dashboard';
               }}
             >
               google Login

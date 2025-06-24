@@ -2,15 +2,19 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
-import { useSession } from 'next-auth/react';
 
 export const RedirectOnLogin = () => {
   const user = useSelector(getUser);
   const navigate = useNavigate();
-  const { data: session } = useSession();
-
+  const getSession = async () => {
+    const session = await fetch('http://localhost:3000/api/auth/session', {
+      credentials: 'include',
+    });
+    return await session.json();
+  };
   useEffect(() => {
-    if (session) {
+    const data = getSession().then();
+    if (data) {
       navigate('/dashboard', { replace: true });
     } else if (user) {
       if (user.displayName) {
