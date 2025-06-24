@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
+import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,6 +33,15 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
+            <button
+              onClick={() => {
+                signIn('google', {
+                  callbackUrl: '/profile',
+                });
+              }}
+            >
+              google Login
+            </button>
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <input
