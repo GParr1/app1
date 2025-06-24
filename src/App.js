@@ -8,7 +8,7 @@ import { getUser } from 'state/auth/selectors';
 import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 import './App.css';
 import { getApps } from 'firebase/app';
-import Dashboard from "./View/Dashboard";
+import Dashboard from './View/Dashboard';
 
 function App() {
   const user = useSelector(getUser);
