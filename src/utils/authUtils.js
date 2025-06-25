@@ -10,6 +10,15 @@ import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { DEFAULT_PHOT_URL } from 'utils/Constant';
 
+export const getIDFormCookie = () => {
+  const cookies = document.cookie.split('; ').find((row) => row.startsWith('user='));
+
+  if (!cookies) throw new Error('Cookie utente non trovato');
+
+  const user = JSON.parse(decodeURIComponent(cookies.split('=')[1]));
+  return user.id;
+};
+
 export const fetchUserProfile = async () => {
   const user = auth.currentUser;
 

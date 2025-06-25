@@ -1,16 +1,15 @@
-import { useSession } from 'next-auth/react';
+import { getAccountInformation } from 'state/auth/selectors';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
-  const { data: session, status } = useSession();
-
-  if (status === 'loading') return <p>Caricamento...</p>;
-  if (!session) return <p>Non sei loggato</p>;
+  const user = useSelector(getAccountInformation);
 
   return (
     <div>
-      <h1>Benvenuto {session.user.name}</h1>
-      <p>Email: {session.user.email}</p>
-      <p>ID utente (dal DB): {session.user.id}</p>
+      <h1>Benvenuto {user.name}</h1>
+      <h1>Benvenuto {user.firstName}</h1>
+      <p>Email: {user.email}</p>
+      <p>ID utente (dal DB): {user.id}</p>
     </div>
   );
 };
