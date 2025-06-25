@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { SessionProvider } from 'next-auth/react';
 import { persistor, store } from './state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <SessionProvider>
+        <App />
+      </SessionProvider>
     </PersistGate>
   </Provider>
 );
