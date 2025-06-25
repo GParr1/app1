@@ -24,6 +24,14 @@ const Login = () => {
       setError(response.error.message);
     }
   };
+  const handleGoogleLogin = () => {
+    const backendURL = 'http://localhost:3000'; // dove gira il tuo server auth
+    const callbackURL = 'http://localhost:5173/profile'; // dove vuoi tornare dopo login
+
+    const loginURL = `${backendURL}/api/auth/signin?provider=google?callbackUrl=${encodeURIComponent(callbackURL)}`;
+
+    return loginURL;
+  };
 
   return (
     <div className="row">
@@ -32,14 +40,9 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
-            <button
-              onClick={async () => {
-                window.location.href =
-                  'http://localhost:3000/api/auth/signin/google?callbackUrl=https://gparr1.github.io/dashboard';
-              }}
-            >
-              google Login
-            </button>
+            <div>
+              <iframe title={'login'} src={handleGoogleLogin()} />
+            </div>
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <input
