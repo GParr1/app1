@@ -25,24 +25,7 @@ const Login = () => {
     }
   };
   const handleGooglePopup = () => {
-    const width = 500;
-    const height = 600;
-    const left = window.innerWidth / 2 - width / 2;
-    const top = window.innerHeight / 2 - height / 2;
-
-    const popup = window.open(
-      'http://localhost:3000/auth/google',
-      'Login con Google',
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-
-    const timer = setInterval(() => {
-      if (popup?.closed) {
-        clearInterval(timer);
-        // Dopo login, puoi fare GET /me o leggere un cookie
-        window.location.reload(); // o fetch dell'utente
-      }
-    }, 500);
+    window.location.href = 'http://localhost:3000/auth/google';
   };
 
   return (
