@@ -24,13 +24,25 @@ const Login = () => {
       setError(response.error.message);
     }
   };
-  const handleGoogleLogin = () => {
-    const backendURL = 'http://localhost:3000'; // dove gira il tuo server auth
-    const callbackURL = 'http://localhost:5173/profile'; // dove vuoi tornare dopo login
+  const handleGooglePopup = () => {
+    const width = 500;
+    const height = 600;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
 
-    const loginURL = `${backendURL}/api/auth/signin?provider=google?callbackUrl=${encodeURIComponent(callbackURL)}`;
+    const popup = window.open(
+      'http://localhost:3000/auth/google',
+      'Login con Google',
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
 
-    return loginURL;
+    const timer = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(timer);
+        // Dopo login, puoi fare GET /me o leggere un cookie
+        window.location.reload(); // o fetch dell'utente
+      }
+    }, 500);
   };
 
   return (
@@ -40,9 +52,9 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
-            <div>
-              <iframe title={'login'} src={handleGoogleLogin()} />
-            </div>
+            <button onClick={handleGooglePopup} className="btn btn-outline-danger">
+              <i className="bi bi-google me-2"></i> Accedi con Google
+            </button>
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <input
