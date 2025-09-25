@@ -1,9 +1,6 @@
-import { getAccountInformation } from 'state/auth/selectors';
-import { useSelector } from 'react-redux';
+import React from 'react';
 
-const Dashboard = () => {
-  const user = useSelector(getAccountInformation);
-
+const Dashboard = ({ user }) => {
   return (
     <div>
       <h1>Benvenuto {user.name}</h1>

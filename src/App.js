@@ -17,7 +17,7 @@ function App() {
     <Router basename="/app1">
       <div className="container mt-5">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard user={user} />} />
           <Route path="/welcome" element={<AuthView user={user} />} />
           <Route path="/profile" element={<MyAccountView user={user} />} />
           <Route path="/confirm-profile" element={<ConfirmProfileView user={user} />} />
