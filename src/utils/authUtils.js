@@ -1,10 +1,11 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { auth, db } from '../firebaseConfig';
+import { auth, db, provider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -78,6 +79,16 @@ export const doSignOut = async () => {
 
     return false;
   }
+};
+export const doGoogleLogin = () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log('User signed in:', user);
+    })
+    .catch((error) => {
+      console.error('Google sign-in error:', error);
+    });
 };
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   try {

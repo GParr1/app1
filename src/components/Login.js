@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doSignInWithEmailAndPassword } from 'utils/authUtils';
+import {doGoogleLogin, doSignInWithEmailAndPassword} from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -24,9 +24,6 @@ const Login = () => {
       setError(response.error.message);
     }
   };
-  const handleGooglePopup = () => {
-    window.location.href = 'http://localhost:3000/auth/google';
-  };
 
   return (
     <div className="row">
@@ -35,7 +32,7 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
-            <button onClick={handleGooglePopup} className="btn btn-outline-danger">
+            <button onClick={doGoogleLogin} className="btn btn-outline-danger">
               <i className="bi bi-google me-2"></i> Accedi con Google
             </button>
             <form onSubmit={handleLogin}>
