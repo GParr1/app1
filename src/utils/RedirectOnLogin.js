@@ -12,7 +12,7 @@ export const RedirectOnLogin = () => {
     const isLogin = !!user;
     if (isLogin) {
       navigate('/dashboard', { replace: true });
-    } else if (user.displayName) {
+    } else if (user?.displayName) {
       if (user.displayName) {
         navigate('/profile', { replace: true });
       }
