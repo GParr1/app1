@@ -13,8 +13,8 @@ export const RedirectOnLogin = () => {
   useEffect(() => {
     const idUser = getIDFormCookie();
     fetchUserProfile(idUser).then();
-
-    if (idUser) {
+    const isLogin = !!idUser;
+    if (isLogin) {
       navigate('/dashboard', { replace: true });
     } else if (user) {
       if (user.displayName) {
@@ -27,5 +27,5 @@ export const RedirectOnLogin = () => {
     }
   }, [user, navigate]);
 
-  return <div>Redirecting...</div>; // oppure puoi mostrare uno spinner
+  return <div>Redirecting...</div>;
 };

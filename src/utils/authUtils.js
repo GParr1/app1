@@ -13,7 +13,7 @@ import { DEFAULT_PHOT_URL } from 'utils/Constant';
 export const getIDFormCookie = () => {
   const cookies = document.cookie.split('; ').find((row) => row.startsWith('user='));
 
-  if (!cookies) throw new Error('Cookie utente non trovato');
+  if (!cookies) return false;
 
   const user = JSON.parse(decodeURIComponent(cookies.split('=')[1]));
   return user.id;
