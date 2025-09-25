@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {doGoogleLogin, doSignInWithEmailAndPassword} from 'utils/authUtils';
+import { doGoogleLogin, doSignInWithEmailAndPassword } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
