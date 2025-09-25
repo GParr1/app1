@@ -11,7 +11,7 @@ import { getApps } from 'firebase/app';
 import Dashboard from './View/Dashboard';
 
 function App() {
-  const user = useSelector(getUser);
+  const user = useSelector(getUser) || null;
   console.log('Firebase apps:', getApps());
   return (
     <Router basename="/app1">

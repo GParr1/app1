@@ -16,11 +16,9 @@ export const RedirectOnLogin = () => {
     const isLogin = !!idUser;
     if (isLogin) {
       navigate('/dashboard', { replace: true });
-    } else if (user) {
+    } else if (user.displayName) {
       if (user.displayName) {
         navigate('/profile', { replace: true });
-      } else {
-        navigate('/confirm-profile', { replace: true });
       }
     } else {
       navigate('/welcome', { replace: true });

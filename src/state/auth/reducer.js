@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: null,
+  accountInformation: null,
 };
 
 const authSlice = createSlice({
@@ -14,10 +15,7 @@ const authSlice = createSlice({
     accountInformation: (state, action) => {
       state.accountInformation = action.payload;
     },
-    logout: (state) => {
-      state.user = {};
-      state.accountInformation = {};
-    },
+    logout: () => initialState,
   },
 });
 
