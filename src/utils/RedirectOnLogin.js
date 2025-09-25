@@ -12,8 +12,8 @@ export const RedirectOnLogin = () => {
 
   useEffect(() => {
     const idUser = getIDFormCookie();
-    fetchUserProfile(idUser).then();
-    const isLogin = !!idUser;
+    //fetchUserProfile(idUser).then();
+    const isLogin = !!user;
     if (isLogin) {
       navigate('/dashboard', { replace: true });
     } else if (user.displayName) {
