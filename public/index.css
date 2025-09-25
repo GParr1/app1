@@ -1,0 +1,202 @@
+/* ------------------------
+   FONT E STILE GENERALE
+--------------------------- */
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container spacing */
+.container {
+  padding-top: 2rem;
+}
+
+/* ------------------------
+   NAVIGATION TABS
+--------------------------- */
+#welcome-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link {
+  background: #e5e7eb;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  margin: 0 4px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  color: #4b5563;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-tabs .nav-link.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------
+   CARD GENERICA (Login & Profilo)
+--------------------------- */
+.card {
+  border: none;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Header della card Panini */
+.bg-panini {
+  background-color: #f7d500;
+  color: #000;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* ------------------------
+   FORM INPUTS (login)
+--------------------------- */
+.form-control {
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* ------------------------
+   BUTTONS
+--------------------------- */
+.btn {
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger {
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Bottoni con icone SVG */
+.btn svg {
+  transition: transform 0.2s ease;
+}
+
+.btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* ------------------------
+   PLAYER PROFILE CARD
+--------------------------- */
+.player-image {
+  max-height: 100px;
+  margin-top: 0.5rem;
+  border-radius: 50%;
+  border: 3px solid #f7d500;
+  background-color: white;
+}
+
+.badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.6rem;
+}
+
+/* Select club */
+select {
+  border-radius: 8px;
+  padding: 0.6rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Liste statistiche */
+.card-body ul li,
+.card-body .list-group-item {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+}
+
+/* ------------------------
+   RESPONSIVE DESIGN
+--------------------------- */
+@media (max-width: 768px) {
+  .col-md-6 {
+    width: 100% !important;
+  }
+
+  #welcome-heading {
+    font-size: 2rem;
+  }
+
+  .player-image {
+    max-height: 80px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .btn svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .card-body ul li {
+    font-size: 0.9rem;
+  }
+}
