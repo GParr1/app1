@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
-import { fetchUserProfile } from 'state/auth/operations';
-import { getIDFormCookie } from 'utils/authUtils';
 
 export const RedirectOnLogin = () => {
   const user = useSelector(getUser);
@@ -11,8 +9,6 @@ export const RedirectOnLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const idUser = getIDFormCookie();
-    //fetchUserProfile(idUser).then();
     const isLogin = !!user;
     if (isLogin) {
       navigate('/dashboard', { replace: true });
@@ -25,5 +21,14 @@ export const RedirectOnLogin = () => {
     }
   }, [user, navigate]);
 
-  return <div>Redirecting...</div>;
+  return (
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: '200px' }}
+    >
+      <div className="spinner-border text-primary" role="status" aria-label="Caricamento in corso">
+        <span className="visually-hidden">Caricamento...</span>
+      </div>
+    </div>
+  );
 };
