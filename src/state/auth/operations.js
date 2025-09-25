@@ -1,8 +1,6 @@
 import { envConfig } from '../../envConfig';
 import { accountInformation } from 'state/auth/reducer';
 import { store } from 'state/store';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, provider } from './firebase';
 
 export const fetchUserProfile = async (userId) => {
   try {
