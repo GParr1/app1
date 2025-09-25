@@ -80,32 +80,39 @@ export const doSignOut = async () => {
     return false;
   }
 };
-export const doGoogleLogin = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      console.log('User signed in:', user);
-    })
-    .catch((error) => {
-      console.error('Google sign-in error:', error);
-    });
+export const doGoogleLogin = async () => {
+  try {
+    const result = signInWithPopup(auth, provider);
+    const currentUser = result.user;
+    store.dispatch(login(currentUser));
+    console.log('User signed in:', currentUser);
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+  }
 };
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   try {
-    await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password
+    );
+    const currentUser = userCredential.user;
+    store.dispatch(login(currentUser));
+    console.log('Login effettuato:', currentUser.email);
+    return { currentUser };
+  } catch (error) {
+    console.error('Errore nel login:', error.code, error.message);
+  }
+  return false;
+  /*
     const currentUser = await fetchUserProfile();
     return {
       currentUser: currentUser,
       result: true,
     };
-  } catch (err) {
-    console.error('doSignInWithEmailAndPassword:', err);
 
-    return {
-      error: err,
-      result: false,
-    };
-  }
+ */
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
   try {

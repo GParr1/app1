@@ -8,14 +8,26 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (provider) => {
+    //e.preventDefault();
     setError('');
     setSuccess('');
     const credentials = { email, password };
-    const response = await doSignInWithEmailAndPassword({ credentials });
-    if (response.result) {
-      if (response.currentUser.displayName) {
+    let response;
+    switch (provider) {
+      case 'google': {
+        response = await doGoogleLogin();
+        break;
+      }
+      case 'credential': {
+        response = await doSignInWithEmailAndPassword({ credentials });
+        break;
+      }
+      default:
+    }
+
+    if (response) {
+      if (response.currentUser?.displayName) {
         navigate('/profile', { replace: true });
       } else {
         navigate('/confirm-profile', { replace: true });
@@ -32,10 +44,10 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
-            <button onClick={doGoogleLogin} className="btn btn-outline-danger">
+            <button onClick={() => handleLogin('google')} className="btn btn-outline-danger">
               <i className="bi bi-google me-2"></i> Accedi con Google
             </button>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={() => handleLogin('credential')}>
               <div className="mb-3">
                 <input
                   type="email"
