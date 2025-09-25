@@ -82,7 +82,7 @@ export const doSignOut = async () => {
 };
 export const doGoogleLogin = async () => {
   try {
-    const result = signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
     const currentUser = result.user;
     store.dispatch(login(currentUser));
     console.log('User signed in:', currentUser);
