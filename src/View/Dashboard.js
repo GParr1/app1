@@ -3,10 +3,13 @@ import React from 'react';
 const Dashboard = ({ user }) => {
   return (
     <div>
-      <h1>Benvenuto {user.name}</h1>
-      <h1>Benvenuto {user.firstName}</h1>
-      <p>Email: {user.email}</p>
-      <p>ID utente (dal DB): {user.id}</p>
+      <h1>Benvenuto {user.displayName}</h1>
+
+      {Object.keys(user).map((key) => (
+        <p key={key}>
+          {key}: {user[key]}
+        </p>
+      ))}
     </div>
   );
 };
