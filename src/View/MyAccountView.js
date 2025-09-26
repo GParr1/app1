@@ -47,8 +47,8 @@ export const MyAccountView = ({ user }) => {
     const form = e.target;
     // Converti in oggetto semplice
     const formObject = {
-      altezza: form.querySelector('[name="height"]').value
-    }
+      altezza: form.querySelector('[name="height"]').value,
+    };
     console.log(formObject);
     await authUpdateProfile(formObject);
     setShowModal(false);
