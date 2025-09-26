@@ -7,7 +7,7 @@ const Dashboard = ({ user }) => {
 
       {Object.keys(user).map((key) => (
         <p key={key}>
-          {key}: {user[key]}
+          {key}: {typeof user[key] === 'object' ? JSON.stringify(user[key]) : user[key]}
         </p>
       ))}
     </div>
