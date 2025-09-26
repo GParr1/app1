@@ -48,7 +48,7 @@ export const fetchUserProfile = async () => {
 export const authUpdateProfile = async (currentUser) => {
   try {
     const user = auth.currentUser;
-    console.warn(...currentUser);
+    //console.warn(...currentUser);
     await updateProfile(user, {
       displayName: `${currentUser.firstName} ${currentUser.lastName}`,
     });
