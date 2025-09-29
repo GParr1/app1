@@ -200,3 +200,180 @@ select:focus {
     font-size: 0.9rem;
   }
 }
+
+/**FIFA CARD CSS**/
+.cardFootball {
+   width: 260px;
+   height: 360px;
+   position: relative;
+   font-family: 'Arial', sans-serif;
+   border-radius: 15px;
+   overflow: hidden;
+   box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+   cursor: pointer;
+   color: #3e281c; /* testo bronzo scuro */
+   background-size: cover;
+   background-position: center;
+ }
+
+.cardFootball > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.div-face_image.empty {
+  width: 100%;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.div-nation_image {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 45px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: 1.5px solid #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.div-club_image.empty {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+}
+
+.div-name {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+}
+
+.input-media {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  user-select: none;
+}
+
+.input-position {
+  position: absolute;
+  top: 190px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  user-select: none;
+}
+
+.input-caracteristica {
+  font-weight: 700;
+  font-size: 16px;
+  user-select: none;
+  color: #3e281c;
+}
+
+.input-caracteristica-1 {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+}
+
+.input-caracteristica-2 {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+}
+
+.input-caracteristica-3 {
+  position: absolute;
+  bottom: 55px;
+  left: 20px;
+}
+
+.input-caracteristica-4 {
+  position: absolute;
+  bottom: 55px;
+  right: 20px;
+}
+
+.input-caracteristica-5 {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+}
+
+.input-caracteristica-6 {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+}
+
+.input-titulo-caracteristica-1,
+.input-titulo-caracteristica-2,
+.input-titulo-caracteristica-3,
+.input-titulo-caracteristica-4,
+.input-titulo-caracteristica-5,
+.input-titulo-caracteristica-6 {
+  font-weight: 700;
+  font-size: 12px;
+  position: absolute;
+  color: #3e281c;
+  user-select: none;
+}
+
+.input-titulo-caracteristica-1 {
+  bottom: 100px;
+  left: 20px;
+}
+
+.input-titulo-caracteristica-2 {
+  bottom: 100px;
+  right: 20px;
+}
+
+.input-titulo-caracteristica-3 {
+  bottom: 75px;
+  left: 20px;
+}
+
+.input-titulo-caracteristica-4 {
+  bottom: 75px;
+  right: 20px;
+}
+
+.input-titulo-caracteristica-5 {
+  bottom: 50px;
+  left: 20px;
+}
+
+.input-titulo-caracteristica-6 {
+  bottom: 50px;
+  right: 20px;
+}
