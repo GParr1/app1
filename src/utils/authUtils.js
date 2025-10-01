@@ -47,7 +47,8 @@ export const authUpdateProfile = async userObj => {
       },
       { merge: true },
     ); // merge evita di sovrascrivere completamente il documento
-    await fetchUserData({ currentUser: userLogin });
+    const fetchUser = await fetchUserData({ currentUser: userLogin });
+    await store.dispatch(login(fetchUser));
     return true;
   } catch (err) {
     console.error('authUpdateProfile:', err);
@@ -74,22 +75,36 @@ export const doSignOut = async () => {
 export const handleSaveFormUser = async (evt, user) => {
   evt.preventDefault();
   const formData = new FormData(evt.target); // raccoglie tutti i valori del form
-  const isNewUser = formData.get('isNewUser') === 'true';
-  const position = formData.get('position') || '';
+  const formObject = {};
+
+  // Usa entries() per iterare sui dati di FormData
+  for (let [key, value] of formData.entries()) {
+    // Verifica se il campo è già presente nell'oggetto, se sì, crea un array per i valori multipli
+    if (formObject[key]) {
+      // Se è già un array, aggiungi il nuovo valore
+      if (Array.isArray(formObject[key])) {
+        formObject[key].push(value);
+      } else {
+        // Altrimenti crea un array e aggiungi i valori
+        formObject[key] = [formObject[key], value];
+      }
+    } else {
+      formObject[key] = value;
+    }
+  }
+  const isNewUser = formData.isNewUser === 'true';
+  const position = formObject.position || '';
   const starterAttribute = position.toLowerCase().includes('POR')
     ? starterCard.find(c => c.role === 'portiere').attributes
     : starterCard.find(c => c.role === 'player').attributes;
 
+  // Stampa l'oggetto JSON
+  console.log(JSON.stringify(formObject, null, 2));
   const userObj = {
     userLogin: { ...user.userLogin },
     customerInfo: {
       ...user.customerInfo,
-      firstName: formData.get('firstName') || '',
-      lastName: formData.get('lastName') || '',
-      birthDate: formData.get('birthDate') || '',
-      height: formData.get('height') || '',
-      favoriteTeam: formData.get('favoriteTeam') || '',
-      position,
+      ...formObject,
       ...(isNewUser && { attributes: { ...starterAttribute } }),
     },
   };
