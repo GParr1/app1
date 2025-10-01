@@ -9,7 +9,6 @@ import { auth, db, provider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { DEFAULT_PHOT_URL } from 'utils/Constant';
 import { starterCard } from 'utils/infoTeam';
 
 export const fetchUserProfile = async () => {
@@ -19,12 +18,9 @@ export const fetchUserProfile = async () => {
     const userDocRef = doc(db, 'users', user.uid);
     const userDocSnap = await getDoc(userDocRef);
     if (userDocSnap.exists()) {
-      const displayName = user.displayName;
-      const photoURL = user.photoURL || DEFAULT_PHOT_URL;
-      const data = userDocSnap.data();
-      const currentUser = { ...data, displayName, photoURL };
-      store.dispatch(login(currentUser)); //Save on Redux
-      return currentUser; // ✅ Dati utente Firestore
+      const userObj = { userLogin: user, customerInfo: userDocSnap.data() };
+      await store.dispatch(login(userObj)); //Save on Redux
+      return userObj; // ✅ Dati utente Firestore
     } else {
       console.warn('Profilo utente non trovato in Firestore.');
       return null;
@@ -39,7 +35,8 @@ export const authUpdateProfile = async userObj => {
   try {
     const userLogin = userObj.userLogin;
     const customerInfo = userObj.customerInfo;
-    await updateProfile(userLogin, {
+    const user = auth.currentUser;
+    await updateProfile(user, {
       displayName: `${customerInfo.firstName} ${customerInfo.lastName}`,
     });
     await setDoc(
@@ -115,10 +112,9 @@ const fetchUserData = async ({ currentUser }) => {
 export const doGoogleLogin = async () => {
   window.calcetto.toggleSpinner(true);
   try {
-    const result = await signInWithPopup(auth, provider);
-    const currentUser = result.user;
-    const userData = await fetchUserData({ currentUser });
-    store.dispatch(login(userData));
+    await signInWithPopup(auth, provider);
+    const userData = await fetchUserProfile();
+    await store.dispatch(login(userData));
     return userData;
   } catch (error) {
     console.error('Google sign-in error:', error);
@@ -129,15 +125,10 @@ export const doGoogleLogin = async () => {
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
   window.calcetto.toggleSpinner(true);
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password,
-    );
-    const currentUser = userCredential.user;
-    const userData = await fetchUserData({ currentUser });
+    await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+    const userData = await fetchUserProfile();
     store.dispatch(login(userData));
-    console.log('Login effettuato:', currentUser.email);
+    console.log('Login effettuato:', userData.userLogin.email);
     return userData;
   } catch (error) {
     console.error('Errore nel login.css:', error.code, error.message);
