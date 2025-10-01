@@ -45,7 +45,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
                   onChange={e => handleChange(e, section, name)}
                 >
                   {options.map(option => (
-                    <option key={option.value} value={option.value}>
+                    <option key={option.code} value={option.code}>
                       {option.label}
                     </option>
                   ))}

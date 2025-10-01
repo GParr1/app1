@@ -47,7 +47,7 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
             }}
           ></span>
           <div className="div-name">
-            <span className="input-name">{userLogin.displayName || customerInfo.displayName}</span>
+            <span className="input-name">{`${customerInfo.firstName}  ${customerInfo.lastName}`}</span>
           </div>
           <span className="input-media">{customerInfo.overall || 60}</span>
           <span className="input-position">{customerInfo.position || 'ATT'}</span>
