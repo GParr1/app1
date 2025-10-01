@@ -9,7 +9,7 @@ import { auth, db, provider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { starterCard } from 'utils/infoTeam';
+import { starterCard } from '../structure/starterCard';
 
 export const fetchUserProfile = async () => {
   const user = auth.currentUser;

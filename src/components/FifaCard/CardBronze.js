@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
 import { calculatePlayerOverall } from 'utils/utils';
-import { starterCard } from 'utils/infoTeam';
+
 import React from 'react';
+import { starterCard } from '../../structure/starterCard';
 
 const CardBronze = ({ dynamicValue, previewImg }) => {
   const stateUser = useSelector(getUser) || {};

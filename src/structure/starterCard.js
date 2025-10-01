@@ -1,0 +1,36 @@
+export const starterCard = [
+  {
+    role: 'player',
+    attributes: {
+      VEL: 60,
+      TIR: 55,
+      PAS: 50,
+      DRI: 55,
+      DIF: 45,
+      FIS: 58,
+      RES: 60,
+      TEC: 52,
+      POS: 53,
+      VIZ: 50,
+      RIF: 48,
+      PAR: 20,
+    },
+  },
+  {
+    role: 'portiere',
+    attributes: {
+      VEL: 40,
+      TIR: 20,
+      PAS: 35,
+      DRI: 25,
+      DIF: 25,
+      FIS: 55,
+      RES: 60,
+      TEC: 30,
+      POS: 58,
+      VIZ: 50,
+      RIF: 62,
+      PAR: 65,
+    },
+  },
+];

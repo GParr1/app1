@@ -10,7 +10,7 @@ const Dashboard = () => {
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
   const user = useSelector(getUser) || null;
   const [dynamicValue, setDynamicValue] = useState(user);
-  const handleChange = evt => {
+  const handleChange = (evt, section, key) => {
     const value = evt.target.value;
     console.log(evt.target.value);
     setDynamicValue(prevValue => ({
