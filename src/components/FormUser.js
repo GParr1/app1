@@ -53,7 +53,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
               </div>
             );
           case 'hidden':
-            return <input type="hidden" name={name} value={!!isNewUser} key={name} />;
+            return <input type="hidden" name={name} value={!!!isNewUser} key={name} />;
           default:
             return null;
         }
