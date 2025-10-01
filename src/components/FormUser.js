@@ -41,7 +41,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
                 <select
                   className="form-control"
                   name={name}
-                  value={user[section][name] || ''}
+                  defaultValue={user[section][name] || ''}
                   onChange={e => handleChange(e, section, name)}
                 >
                   {options.map(option => (
