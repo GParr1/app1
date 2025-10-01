@@ -17,7 +17,9 @@ function App() {
     <Router basename="/app1">
       <div className="container mt-5">
         <Routes>
-          <Route path={['/', '/welcome', '*']} element={<AuthView />} />
+          <Route path="/" element={<AuthView />} />
+          <Route path="/welcome" element={<AuthView />} />
+          <Route path="*" element={<AuthView />} />
           <Route
             path="/dashboard"
             element={
