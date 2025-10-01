@@ -64,7 +64,11 @@ const FormUser = ({ id, onSubmit, handleChange }) => {
         <label htmlFor="favoriteTeam" className="form-label">
           Team Preferito:
         </label>
-        <select className="mb-3 col-12" {...(handleChange && { onChange: e => handleChange(e) })}>
+        <select
+          className="mb-3 col-12"
+          name="favoriteTeam"
+          {...(handleChange && { onChange: e => handleChange(e) })}
+        >
           {teamLogo.map(team => (
             <option key={team.label} value={team.logo}>
               {team.label}

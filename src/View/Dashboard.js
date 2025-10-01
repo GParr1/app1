@@ -9,8 +9,17 @@ import UploadProfilePicture from 'components/UploadProfilePicture';
 const Dashboard = () => {
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
   const user = useSelector(getUser) || null;
+  const [dynamicValue, setDynamicValue] = useState(user);
   const handleChange = evt => {
+    const value = evt.target.value;
     console.log(evt.target.value);
+    setDynamicValue(prevValue => ({
+      ...prevValue, // Copia l'intero oggetto user
+      [section]: {
+        ...prevValue[section], // Copia la sezione specifica (customerInfo o userLogin)
+        [key]: value, // Aggiorna solo il campo specificato
+      },
+    }));
   };
   return (
     <>
@@ -82,7 +91,7 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <div className="col-md-6 d-flex flex-column align-items-center ">
-            <CardBronze />
+            <CardBronze dynamicValue={dynamicValue} />
           </div>
           <div className="col-md-6">
             <FormUser

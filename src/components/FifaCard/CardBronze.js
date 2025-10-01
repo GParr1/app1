@@ -4,8 +4,9 @@ import { calculatePlayerOverall } from 'utils/utils';
 import { starterCard } from 'utils/infoTeam';
 import React from 'react';
 
-const CardBronze = ({ previewImg }) => {
-  const user = useSelector(getUser) || {};
+const CardBronze = ({ dynamicValue, previewImg }) => {
+  const stateUser = useSelector(getUser) || {};
+  const user = dynamicValue || stateUser;
   let customerInfo = user.customerInfo || {};
   const userLogin = user.userLogin || {};
   if (!customerInfo.overall) {
