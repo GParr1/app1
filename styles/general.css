@@ -1,0 +1,56 @@
+/* ------------------------
+   FONT E STILE GENERALE
+--------------------------- */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container spacing */
+.container {
+    padding-top: 2rem;
+}
+
+/* ------------------------
+   BUTTONS
+--------------------------- */
+.btn {
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger {
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+/* Bottoni con icone SVG */
+.btn svg {
+    transition: transform 0.2s ease;
+}
+
+.btn:hover svg {
+    transform: scale(1.1);
+}
