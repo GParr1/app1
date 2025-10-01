@@ -63,7 +63,7 @@ export const authUpdateProfile = async userObj => {
       },
       { merge: true },
     ); // merge evita di sovrascrivere completamente il documento
-    await fetchUserData(userObj);
+    await fetchUserData({currentUser:userObj});
     return true;
   } catch (err) {
     console.error('authUpdateProfile:', err);
