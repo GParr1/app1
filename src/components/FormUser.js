@@ -6,7 +6,7 @@ import { FORMUSER } from '../structure/formUser';
 const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
   const user = useSelector(getUser) || {};
   const { customerInfo } = user;
-  const isNewUser = customerInfo.overall;
+  const isNewUser = !!customerInfo.overall;
   return (
     <form id={formData.id} onSubmit={onSubmit || null}>
       {formData.fields.map(field => {
@@ -53,7 +53,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
               </div>
             );
           case 'hidden':
-            return <input type="hidden" name={name} value={!!!isNewUser} key={name} />;
+            return <input type="hidden" name={name} value={!isNewUser} key={name} />;
           default:
             return null;
         }
