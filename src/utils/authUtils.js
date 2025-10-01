@@ -48,7 +48,7 @@ export const fetchUserProfile = async () => {
   }
 };
 export const authUpdateProfile = async userObj => {
-  store.dispatch(setLoading(true));
+  window.calcetto.toggleSpinner(true);
   try {
     const userLogin = userObj.userLogin;
     const customerInfo = userObj.customerInfo;
@@ -63,17 +63,17 @@ export const authUpdateProfile = async userObj => {
       },
       { merge: true },
     ); // merge evita di sovrascrivere completamente il documento
-    await fetchUserData({currentUser:userObj});
+    await fetchUserData({ currentUser: userObj });
     return true;
   } catch (err) {
     console.error('authUpdateProfile:', err);
     return false;
   } finally {
-    store.dispatch(setLoading(false));
+    window.calcetto.toggleSpinner(false);
   }
 };
 export const doSignOut = async () => {
-  store.dispatch(setLoading(true));
+  window.calcetto.toggleSpinner(true);
 
   try {
     await signOut(auth).catch(error => console.error('Logout error', error));
@@ -84,7 +84,7 @@ export const doSignOut = async () => {
 
     return false;
   } finally {
-    store.dispatch(setLoading(false));
+    window.calcetto.toggleSpinner(false);
   }
 };
 export const handleSaveFormUser = async (evt, user) => {
@@ -126,7 +126,7 @@ const fetchUserData = async ({ currentUser }) => {
   }
 };
 export const doGoogleLogin = async () => {
-  store.dispatch(setLoading(true));
+  window.calcetto.toggleSpinner(true);
   try {
     const result = await signInWithPopup(auth, provider);
     const currentUser = result.user;
@@ -136,11 +136,11 @@ export const doGoogleLogin = async () => {
   } catch (error) {
     console.error('Google sign-in error:', error);
   } finally {
-    store.dispatch(setLoading(false));
+    window.calcetto.toggleSpinner(false);
   }
 };
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
-  store.dispatch(setLoading(true));
+  window.calcetto.toggleSpinner(true);
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -153,14 +153,13 @@ export const doSignInWithEmailAndPassword = async ({ credentials }) => {
     console.log('Login effettuato:', currentUser.email);
     return userData;
   } catch (error) {
-    console.error('Errore nel login:', error.code, error.message);
+    console.error('Errore nel login.css:', error.code, error.message);
   } finally {
-    store.dispatch(setLoading(false));
+    window.calcetto.toggleSpinner(false);
   }
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
-  store.dispatch(setLoading(true));
-
+  window.calcetto.toggleSpinner(true);
   try {
     await createUserWithEmailAndPassword(auth, account.email, account.password);
     const dataAccount = account;
@@ -180,6 +179,6 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       result: false,
     };
   } finally {
-    store.dispatch(setLoading(false));
+    window.calcetto.toggleSpinner(false);
   }
 };

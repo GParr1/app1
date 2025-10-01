@@ -6,13 +6,10 @@ import { ConfirmProfileView } from './View/ConfirmProfileView';
 import { MyAccountView } from './View/MyAccountView';
 import { getUser } from 'state/auth/selectors';
 import Dashboard from './View/Dashboard';
-import LoadingOverlay from 'components/LoadingOverlay';
-import { isLoading } from 'state/support/selectors';
 import PrivateRoute from 'components/PrivateRoute';
 
 function App() {
   const user = useSelector(getUser) || null;
-  const loading = useSelector(isLoading) || false;
   return (
     <Router basename="/app1">
       <div className="container mt-5">
@@ -46,7 +43,6 @@ function App() {
           />
         </Routes>
       </div>
-      {loading && <LoadingOverlay />}
     </Router>
   );
 }

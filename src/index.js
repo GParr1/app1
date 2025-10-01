@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { persistor, store } from 'state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { logout } from 'state/auth/reducer';
@@ -16,7 +15,15 @@ root.render(
     </PersistGate>
   </Provider>,
 );
-window.calcetto = { logout: () => store.dispatch(logout()), store: store };
+window.calcetto = {
+  logout: () => store.dispatch(logout()),
+  store: store,
+  toggleSpinner: show => {
+    const spinner = document.getElementById('global-spinner');
+    if (!spinner) return;
+    spinner.style.display = show ? 'flex' : 'none';
+  },
+};
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
