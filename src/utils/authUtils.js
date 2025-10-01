@@ -10,27 +10,14 @@ import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { DEFAULT_PHOT_URL } from 'utils/Constant';
-import { setLoading } from 'state/support/reducer';
 import { starterCard } from 'utils/infoTeam';
-
-export const getIDFormCookie = () => {
-  const cookies = document.cookie.split('; ').find(row => row.startsWith('user='));
-
-  if (!cookies) return false;
-
-  const user = JSON.parse(decodeURIComponent(cookies.split('=')[1]));
-  return user.id;
-};
 
 export const fetchUserProfile = async () => {
   const user = auth.currentUser;
-
   if (!user) return null;
-
   try {
     const userDocRef = doc(db, 'users', user.uid);
     const userDocSnap = await getDoc(userDocRef);
-
     if (userDocSnap.exists()) {
       const displayName = user.displayName;
       const photoURL = user.photoURL || DEFAULT_PHOT_URL;
@@ -63,7 +50,7 @@ export const authUpdateProfile = async userObj => {
       },
       { merge: true },
     ); // merge evita di sovrascrivere completamente il documento
-    await fetchUserData({ currentUser: userObj });
+    await fetchUserData({ currentUser: userLogin });
     return true;
   } catch (err) {
     console.error('authUpdateProfile:', err);
