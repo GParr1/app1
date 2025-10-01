@@ -12,7 +12,7 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
   const userLogin = user.userLogin || {};
   if (!customerInfo.overall) {
     const overall = calculatePlayerOverall(starterCard[0].attributes);
-    customerInfo = { attributes: { ...starterCard[0].attributes }, overall };
+    customerInfo = { ...customerInfo, attributes: { ...starterCard[0].attributes }, overall };
   }
   return (
     <figure className="woocommerce-product-gallery__wrapper">
