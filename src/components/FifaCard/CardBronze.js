@@ -1,19 +1,34 @@
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
 import { calculatePlayerOverall } from 'utils/utils';
-
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import { starterCard } from '../../structure/starterCard';
+import { ATTRIBUTES, DEFAULT_CARD_BG, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
 
 const CardBronze = ({ dynamicValue, previewImg }) => {
   const stateUser = useSelector(getUser) || {};
   const user = dynamicValue || stateUser;
   let customerInfo = user.customerInfo || {};
   const userLogin = user.userLogin || {};
+  // Calcolo fallback dati se mancano
   if (!customerInfo.overall) {
     const overall = calculatePlayerOverall(starterCard[0].attributes);
     customerInfo = { ...customerInfo, attributes: { ...starterCard[0].attributes }, overall };
   }
+  // Prepara immagine profilo
+  const playerImage = previewImg || userLogin.photoURL || customerInfo.photoURL || DEFAULT_PHOTO;
+  // Mappa gli attributi
+  const stats = useMemo(
+    () =>
+      ATTRIBUTES.map((attr, idx) => ({
+        ...attr,
+        value: customerInfo?.attributes?.[attr.key] || 11,
+        col: idx % 2 === 0 ? 1 : 2,
+        row: Math.floor(idx / 2) + 1,
+      })),
+    [customerInfo],
+  );
   return (
     <figure className="woocommerce-product-gallery__wrapper">
       <div
@@ -24,92 +39,86 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
       >
         <div
           style={{
-            backgroundImage: "url('/app1/assets/RARE-BRONZE-FC24.png')",
+            backgroundImage: `url('${DEFAULT_CARD_BG}')`,
             color: 'rgb(62, 40, 28)',
           }}
         >
+          {/* Foto giocatore */}
           <span
-            className={`div-face_image ${!(userLogin.photoURL || customerInfo.photoURL) ? 'empty' : ''}`}
-            style={{
-              backgroundImage: `url(${previewImg || userLogin.photoURL || customerInfo.photoURL || '/app1/assets/anonimous.png'})`,
-            }}
+            className={`div-face_image ${!playerImage ? 'empty' : ''}`}
+            style={{ backgroundImage: `url(${playerImage})` }}
           ></span>
+          {/* Nazione */}
           <span
             className="div-nation_image"
             style={{
               backgroundImage: "url('https://futcardsfifa.com/app/uploads/2020/10/ITALIA-1.png')",
             }}
           ></span>
+          {/* Club */}
           <span
             className={`div-club_image ${!customerInfo.favoriteTeam ? 'empty' : ''}`}
             style={{
-              backgroundImage: `url(${customerInfo.favoriteTeam})`,
+              backgroundImage: `url(${customerInfo.favoriteTeam || ''})`,
             }}
           ></span>
+          {/* Nome */}
           <div className="div-name">
-            <span className="input-name">{`${customerInfo.firstName}  ${customerInfo.lastName}`}</span>
+            <span className="input-name">
+              {`${customerInfo.firstName || ''} ${customerInfo.lastName || ''}`}
+            </span>
           </div>
+
+          {/* Overall + Posizione */}
           <span className="input-media">{customerInfo.overall || 60}</span>
           <span className="input-position">{customerInfo.position || 'ATT'}</span>
           <span className="input-torneo-mic d-none"></span>
-          <span className="input-caracteristica input-caracteristica-1 attr-columna-1 attr-fila-1">
-            {customerInfo?.attributes?.VEL || 11}
-          </span>
-          <span className="input-caracteristica input-caracteristica-3 attr-columna-1 attr-fila-2">
-            {customerInfo?.attributes?.DRI || 11}
-          </span>
-          <span className="input-caracteristica input-caracteristica-5 attr-columna-1 attr-fila-3">
-            {customerInfo?.attributes?.TIR || 11}
-          </span>
-          <span className="input-caracteristica input-caracteristica-2 attr-columna-2 attr-fila-1">
-            {customerInfo?.attributes?.DIF || 11}
-          </span>
-          <span className="input-caracteristica input-caracteristica-4 attr-columna-2 attr-fila-2">
-            {customerInfo?.attributes?.PAS || 11}
-          </span>
-          <span className="input-caracteristica input-caracteristica-6 attr-columna-2 attr-fila-3">
-            {customerInfo?.attributes?.FIS || 11}
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-1 attr-columna-titulo-1 attr-fila-1"
-            style={{ color: '#3e281c' }}
-          >
-            VEL
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-3 attr-columna-titulo-1 attr-fila-2"
-            style={{ color: '#3e281c' }}
-          >
-            TIR
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-5 attr-columna-titulo-1 attr-fila-3"
-            style={{ color: '#3e281c' }}
-          >
-            PAS
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-2 attr-columna-titulo-2 attr-fila-1"
-            style={{ color: '#3e281c' }}
-          >
-            DRI
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-4 attr-columna-titulo-2 attr-fila-2"
-            style={{ color: '#3e281c' }}
-          >
-            DIF
-          </span>
-          <span
-            className="input-caracteristica input-titulo-caracteristica-6 attr-columna-titulo-2 attr-fila-3"
-            style={{ color: '#3e281c' }}
-          >
-            FIS
-          </span>
+          {/* Attributi */}
+          {stats.map((stat, idx) => (
+            <React.Fragment key={stat.key}>
+              <span
+                className={`input-caracteristica input-caracteristica-${idx + 1} attr-columna-${stat.col} attr-fila-${stat.row}`}
+              >
+                {stat.value}
+              </span>
+              <span
+                className={`input-caracteristica input-titulo-caracteristica-${idx + 1} attr-columna-titulo-${stat.col} attr-fila-${stat.row}`}
+                style={{ color: DEFAULT_COLOR }}
+              >
+                {stat.label}
+              </span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </figure>
   );
+};
+CardBronze.propTypes = {
+  dynamicValue: PropTypes.oneOfType([
+    PropTypes.shape({
+      customerInfo: PropTypes.shape({
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        favoriteTeam: PropTypes.string,
+        overall: PropTypes.number,
+        position: PropTypes.string,
+        attributes: PropTypes.shape({
+          VEL: PropTypes.number,
+          DRI: PropTypes.number,
+          TIR: PropTypes.number,
+          DIF: PropTypes.number,
+          PAS: PropTypes.number,
+          FIS: PropTypes.number,
+        }),
+      }),
+      userLogin: PropTypes.shape({
+        photoURL: PropTypes.string,
+      }),
+    }),
+    PropTypes.oneOf([null]), // permette anche null
+  ]),
+  previewImg: PropTypes.string,
 };
 
 export default CardBronze;

@@ -13,6 +13,7 @@ function App() {
   return (
     <Router basename="/app1">
       <div className="container mt-5">
+        <Header user={user} /> {/* 👈 header sempre visibile */}
         <Routes>
           <Route path="/" element={<AuthView />} />
           <Route path="/welcome" element={<AuthView />} />
