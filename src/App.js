@@ -7,6 +7,7 @@ import { MyAccountView } from './View/MyAccountView';
 import { getUser } from 'state/auth/selectors';
 import Dashboard from './View/Dashboard';
 import PrivateRoute from 'components/PrivateRoute';
+import Header from 'components/Header';
 
 function App() {
   const user = useSelector(getUser) || null;
