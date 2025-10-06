@@ -9,13 +9,16 @@ import { ATTRIBUTES, DEFAULT_CARD_BG, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils
 const CardBronze = ({ dynamicValue, previewImg }) => {
   const stateUser = useSelector(getUser) || {};
   const user = dynamicValue || stateUser;
-  let customerInfo = user.customerInfo || {};
   const userLogin = user.userLogin || {};
-  // Calcolo fallback dati se mancano
-  if (!customerInfo.overall) {
-    const overall = calculatePlayerOverall(starterCard[0].attributes);
-    customerInfo = { ...customerInfo, attributes: { ...starterCard[0].attributes }, overall };
-  }
+  const customerInfo = useMemo(() => {
+    const info = user.customerInfo || {};
+    // Calcolo fallback dati se mancano
+    if (!info.overall) {
+      const overall = calculatePlayerOverall(starterCard[0].attributes);
+      return { ...info, attributes: { ...starterCard[0].attributes }, overall };
+    }
+    return info;
+  }, [user.customerInfo]); // ✅ dipendenza stabile
   // Prepara immagine profilo
   const playerImage = previewImg || userLogin.photoURL || customerInfo.photoURL || DEFAULT_PHOTO;
   // Mappa gli attributi
