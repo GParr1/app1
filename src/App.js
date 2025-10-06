@@ -11,10 +11,13 @@ import Header from 'components/Header';
 
 function App() {
   const user = useSelector(getUser) || null;
+  const showHeader = !!user;
+
   return (
     <Router basename="/app1">
       <div className="container mt-5">
-        <Header user={user} /> {/* 👈 header sempre visibile */}
+        {showHeader && <Header user={user} />}
+        {/* 👈 header sempre visibile */}
         <Routes>
           <Route path="/" element={<AuthView />} />
           <Route path="/welcome" element={<AuthView />} />

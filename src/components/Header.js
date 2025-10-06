@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { doSignOut } from 'utils/authUtils';
-import UpdateImageModal from './UpdateImageModal'; // componente modal che implementi altrove
+import UploadProfilePicture from 'components/UploadProfilePicture';
 
 const Header = ({ user = {} }) => {
   const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
@@ -10,10 +10,6 @@ const Header = ({ user = {} }) => {
 
   const handleToggleModal = useCallback(() => {
     setShowModalUpdateImage(prev => !prev);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setShowModalUpdateImage(false);
   }, []);
 
   const handleSignOut = useCallback(async () => {
@@ -48,8 +44,32 @@ const Header = ({ user = {} }) => {
       </div>
 
       {/* Condizionale: solo se showModalUpdateImage è true */}
+      {/* Bootstrap Modal */}
       {showModalUpdateImage && (
-        <UpdateImageModal open={showModalUpdateImage} onClose={handleCloseModal} />
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          role="dialog"
+          aria-modal="true"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Carica la tua immagine</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Chiudi"
+                  onClick={handleToggleModal}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <UploadProfilePicture />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </header>
   );
