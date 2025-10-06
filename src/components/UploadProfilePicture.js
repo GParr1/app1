@@ -92,8 +92,15 @@ const UploadProfilePicture = () => {
     setMessage('');
     const uploadedUrl = await uploadImage({ user, file });
     if (user.userLogin.uid) {
-      user.userLogin.photoURL = uploadedUrl;
-      await authUpdateProfile(user);
+      const userObj = {
+        ...user,
+        userLogin: {
+          ...user.userLogin,
+          photoURL: uploadedUrl,
+        },
+      };
+
+      await authUpdateProfile(userObj);
       setMessage('Profilo aggiornato con successo!');
     }
     await doSetLoading(false);
