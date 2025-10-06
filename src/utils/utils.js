@@ -47,7 +47,7 @@ export const uploadImage = async ({ user, file }) => {
   formData.append('folder', 'profilePictures');
   formData.append('public_id', `${user.userLogin.uid}-${uuidv4()}`);
   try {
-    const UPLOAD_URL = `https://api.cloudinary.com/v1_1/clacetto/image/upload`;
+    const UPLOAD_URL = `https://api.cloudinary.com/v1_1/dehfdnxul/image/upload`;
     const response = await fetch(UPLOAD_URL, {
       method: 'POST',
       body: formData,
