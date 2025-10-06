@@ -3,7 +3,7 @@ import CardBronze from 'components/FifaCard/CardBronze';
 import FormUser from 'components/FormUser';
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
-import { doSignOut, handleSaveFormUser } from 'utils/authUtils';
+import { handleSaveFormUser } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
 
 const Dashboard = () => {
