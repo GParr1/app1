@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
-import { authUpdateProfile } from 'utils/authUtils';
-import { RedirectOnLogin } from 'utils/RedirectOnLogin';
+import { handleSaveFormUser } from 'utils/authUtils';
 import FormUser from 'components/FormUser';
+import CardBronze from 'components/FifaCard/CardBronze';
 
 export const ConfirmProfileView = ({ user }) => {
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  if (!user) return <RedirectOnLogin />;
-  const handleProfileUpdate = async e => {
-    e.preventDefault();
-    const form = e.target;
-    //const form = document.querySelector('#confirmProfile');
-    const formData = new FormData(form);
-    // Converti in oggetto semplice
-    const formObject = Object.fromEntries(formData.entries());
-    const isUpdate = await authUpdateProfile(formObject);
-    isUpdate && setSuccess('Profilo aggiornato!');
-    !isUpdate && setError('Errore aggiornando il profilo');
+  const [dynamicValue, setDynamicValue] = useState(user);
+  const handleChange = (evt, section, key) => {
+    const value = evt.target.value;
+    console.log(evt.target.value);
+    setDynamicValue(prevValue => ({
+      ...prevValue, // Copia l'intero oggetto user
+      [section]: {
+        ...prevValue[section], // Copia la sezione specifica (customerInfo o userLogin)
+        [key]: value, // Aggiorna solo il campo specificato
+      },
+    }));
   };
   return (
-    <div className="card">
-      <div className="card-body">
-        <h4 className="card-title">Completa il tuo profilo</h4>
-        <FormUser id={'confirmProfile'} onSubmit={handleProfileUpdate} />
-        {error && <p className="text-danger mt-2">{error}</p>}
-        {success && <p className="text-success mt-2">{success}</p>}
+    <div className="row">
+      <div className="col-md-6 d-flex flex-column align-items-center ">
+        <CardBronze dynamicValue={dynamicValue} />
+      </div>
+      <div className="col-md-6">
+        <div className="card">
+          <div className="card-body">
+            <h4 className="card-title">Completa il tuo profilo</h4>
+            <FormUser
+              id={'confirmProfile'}
+              handleChange={handleChange}
+              onSubmit={evt => handleSaveFormUser(evt, user)}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -15,6 +15,31 @@ export const getCardTier = overall => {
   if (overall < 80) return SILVER_CARD_BG;
   return GOLD_CARD_BG;
 };
+// utils/teamBalancer.js
+/**
+ * Divide i giocatori in 2 squadre equilibrate in base all'overall.
+ * @param {Array} players - Array di oggetti con {id, name, overall}
+ * @returns {{teamA: Array, teamB: Array}}
+ */
+export const balanceTeams = (players = []) => {
+  if (players.length === 0) return { teamA: [], teamB: [] };
+
+  // 1️⃣ Ordina per overall discendente
+  const sorted = [...players].sort((a, b) => b.overall - a.overall);
+
+  // 2️⃣ Bilancia alternando
+  const teamA = [];
+  const teamB = [];
+
+  sorted.forEach((p, idx) => {
+    const sumA = teamA.reduce((s, x) => s + x.overall, 0);
+    const sumB = teamB.reduce((s, x) => s + x.overall, 0);
+    if (sumA <= sumB) teamA.push(p);
+    else teamB.push(p);
+  });
+
+  return { teamA, teamB };
+};
 
 export const removeBackground = async imgFile => {
   const formData = new FormData();

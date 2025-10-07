@@ -8,6 +8,7 @@ import { getUser } from 'state/auth/selectors';
 import Dashboard from './View/Dashboard';
 import PrivateRoute from 'components/PrivateRoute';
 import Header from 'components/Header';
+import MatchesView from './View/MatchesView';
 
 function App() {
   const user = useSelector(getUser) || null;
@@ -27,6 +28,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Dashboard user={user} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/partite"
+            element={
+              <PrivateRoute>
+                <MatchesView user={user} />
               </PrivateRoute>
             }
           />
