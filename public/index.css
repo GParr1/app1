@@ -2,7 +2,7 @@
 @import './styles/navigationTabs.css';
 @import './styles/login.css';
 @import './styles/cardFifa.css';
-
+@import "./styles/teamFormation.css";
 
 /* Header della card Panini */
 .bg-panini {

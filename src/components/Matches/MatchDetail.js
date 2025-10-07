@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { balanceTeams } from 'utils/utils';
+import { CAMPO_CALCIO_BG } from 'utils/Constant';
 
 const MatchDetail = ({ match }) => {
   const [teams, setTeams] = useState(null);
@@ -13,11 +14,11 @@ const MatchDetail = ({ match }) => {
     const positions =
       match.tipo === '5'
         ? [
-            { top: '80%', left: '45%' }, // portiere
-            { top: '60%', left: '30%' },
-            { top: '60%', left: '60%' },
-            { top: '35%', left: '35%' },
-            { top: '35%', left: '55%' },
+            { top: '50%', left: '10%' }, // portiere
+            { top: '70%', left: '25%' },
+            { top: '30%', left: '25%' },
+            { top: '40%', left: '55%' },
+            { top: '65%', left: '70%' },
           ]
         : [
             { top: '85%', left: '45%' },
@@ -58,7 +59,12 @@ const MatchDetail = ({ match }) => {
       </button>
 
       {teams && (
-        <div className="mt-4 campo-wrapper">
+        <div
+          className="mt-4 campo-wrapper"
+          style={{
+            backgroundImage: `url('${CAMPO_CALCIO_BG}')`,
+          }}
+        >
           {renderTeam(teams.teamA, '#007bff', 'left')}
           {renderTeam(teams.teamB, '#dc3545', 'right')}
         </div>
