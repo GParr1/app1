@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PlayerCard from 'components/PlayerCard';
 import { teamInfo } from 'utils/infoTeam';
 import { authUpdateProfile, doSignOut } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
@@ -34,14 +33,6 @@ export const MyAccountView = ({ user }) => {
     setShowModal(false);
     setShowModalUpdateImage(false);
   };
-
-  const playerColor = teamInfo[selectedTeam].color;
-  const teamSymbol = teamInfo[selectedTeam].logo;
-  const displayName = user.displayName || 'Giocatore Sconosciuto';
-
-  const photoURL =
-    user.photoURL ||
-    'https://res.cloudinary.com/dehfdnxul/image/upload/v1749824943/profilePictures/IvUEkZuXs7bKWpTFaB9TkgPNFc92.png';
 
   const handleSave = async e => {
     e.preventDefault();
