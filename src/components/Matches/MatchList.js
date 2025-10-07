@@ -36,6 +36,7 @@ const MatchList = ({ user }) => {
     setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
   };
   const handleAddGuest = async (evt, matchId) => {
+    evt.preventDefault(); // 🔥 Importantissimo
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
     const formData = new FormData(evt.target); // raccoglie tutti i valori del form
@@ -80,8 +81,18 @@ const MatchList = ({ user }) => {
             {/* Aggiunta giocatori */}
             <h6>Aggiungi giocatori / ospiti</h6>
             <form onSubmit={evt => handleAddGuest(evt, m.id)} className="d-flex gap-2 mb-3">
-              <input type="text" className="form-control" placeholder="Nome giocatore" />
-              <input type="number" className="form-control" placeholder="Overall" />
+              <input
+                type="text"
+                name="guestName"
+                className="form-control"
+                placeholder="Nome giocatore"
+              />
+              <input
+                type="number"
+                name="guestOverall"
+                className="form-control"
+                placeholder="Overall"
+              />
               <button type="submit" className="btn btn-primary">
                 ➕
               </button>
