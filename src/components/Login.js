@@ -13,27 +13,27 @@ const Login = () => {
     setError('');
     setSuccess('');
     const credentials = { email, password };
-    let response;
+    let userObj;
     switch (provider) {
       case 'google': {
-        response = await doGoogleLogin();
+        userObj = await doGoogleLogin();
         break;
       }
       case 'credential': {
-        response = await doSignInWithEmailAndPassword({ credentials });
+        userObj = await doSignInWithEmailAndPassword({ credentials });
         break;
       }
       default:
     }
 
-    if (response) {
-      if (response.userLogin?.displayName) {
+    if (userObj) {
+      if (userObj.customerInfo?.overall) {
         navigate('/profile', { replace: true });
       } else {
         navigate('/confirm-profile', { replace: true });
       }
     } else {
-      setError(response.error.message);
+      setError(userObj.error.message);
     }
   };
 

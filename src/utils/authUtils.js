@@ -23,8 +23,10 @@ export const fetchUserProfile = async () => {
       await store.dispatch(login(userObj)); //Save on Redux
       return userObj; // ✅ Dati utente Firestore
     } else {
-      console.warn('Profilo utente non trovato in Firestore.');
-      return null;
+      console.warn('Profilo utente non trovato in Firestore DataBase.');
+      const userObj = { userLogin: user, customerInfo: {} };
+      await store.dispatch(login(userObj)); //Save on Redux
+      return userObj;
     }
   } catch (error) {
     console.error('Errore nel recupero del profilo:', error);
