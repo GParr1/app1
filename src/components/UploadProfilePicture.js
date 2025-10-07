@@ -1,20 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import CardBronze from 'components/FifaCard/CardBronze';
 import { removeBackground, uploadImage } from 'utils/utils';
-import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
-const UploadProfilePicture = () => {
-  const user = useSelector(getUser) || {};
+const UploadProfilePicture = ({ user = {} }) => {
   const [previewImg, setPreviewImg] = useState(DEFAULT_PHOTO);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [cameraActive, setCameraActive] = useState(false);
-
   const videoRef = useRef(null);
+
   const canvasRef = useRef(null);
 
   // 🎥 Gestione webcam

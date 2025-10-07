@@ -114,7 +114,7 @@ const Header = ({ user = {} }) => {
                 ></button>
               </div>
               <div className="modal-body">
-                <UploadProfilePicture />
+                <UploadProfilePicture user={user} />
               </div>
             </div>
           </div>
