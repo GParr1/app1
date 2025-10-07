@@ -42,7 +42,7 @@
     "format": "prettier --write src",
     "predeploy": "npm run build",
     "deploy:manually": "npm run predeploy && gh-pages -d build",
-    "postbuild": "cp build/index.html build/404.html",
+
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
