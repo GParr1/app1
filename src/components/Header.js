@@ -1,20 +1,37 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { doSignOut } from 'utils/authUtils';
+import { doSignOut, handleSaveFormUser } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
+import FormUser from 'components/FormUser';
 
 const Header = ({ user = {} }) => {
-  const [showModalUpdateImage, setShowModalUpdateImage] = useState(false);
-
+  const [activeModal, setActiveModal] = useState(null); // 'image' | 'profile' | null
   const displayName = user?.userLogin?.displayName ?? 'Utente';
 
-  const handleToggleModal = useCallback(() => {
-    setShowModalUpdateImage(prev => !prev);
-  }, []);
+  /** 🔄 Apertura / chiusura modali */
+  const openModal = useCallback(type => setActiveModal(type), []);
+  const closeModal = useCallback(() => setActiveModal(null), []);
 
+  /** 🚪 Logout utente */
   const handleSignOut = useCallback(async () => {
     await doSignOut();
   }, []);
+
+  /** 💾 Salvataggio profilo (placeholder per ora) */
+  const handleSave = useCallback(
+    async evt => {
+      try {
+        window.calcetto?.toggleSpinner?.(true);
+        await handleSaveFormUser(evt, user); // 👈 chiamata alla tua funzione
+        closeModal();
+      } catch (error) {
+        console.error('Errore durante il salvataggio del profilo:', error);
+      } finally {
+        window.calcetto?.toggleSpinner?.(false);
+      }
+    },
+    [user, closeModal],
+  );
 
   return (
     <header className="row mb-3">
@@ -22,12 +39,11 @@ const Header = ({ user = {} }) => {
         <h1 className="m-0">Benvenuto {displayName}</h1>
 
         <div className="d-flex gap-2">
+          {/* 🧾 Modifica profilo */}
           <button
-            type="button"
             className="btn"
-            onClick={handleToggleModal}
-            aria-label="Cambia immagine del profilo"
-            aria-expanded={showModalUpdateImage}
+            onClick={() => openModal('profile')}
+            aria-label="Completa il tuo profilo"
           >
             <svg
               width="40"
@@ -35,8 +51,26 @@ const Header = ({ user = {} }) => {
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-hidden="false"
+            >
+              <title>Completa il tuo profilo</title>
+              <circle cx="12" cy="8" r="4" fill="#4F46E5" />
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6v1H4v-1z" fill="#4F46E5" />
+            </svg>
+          </button>
+
+          {/* 🖼️ Cambia immagine */}
+          <button
+            type="button"
+            className="btn"
+            onClick={() => openModal('image')}
+            aria-label="Cambia immagine del profilo"
+          >
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <title>Cambia immagine del profilo</title>
               <path
@@ -45,11 +79,12 @@ const Header = ({ user = {} }) => {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              ></path>
-              <circle cx="12" cy="13" r="3" stroke="#2563EB" strokeWidth="2"></circle>
+              />
+              <circle cx="12" cy="13" r="3" stroke="#2563EB" strokeWidth="2" />
             </svg>
           </button>
 
+          {/* 🚪 Logout */}
           <button
             type="button"
             className="btn"
@@ -62,8 +97,6 @@ const Header = ({ user = {} }) => {
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-hidden="false"
             >
               <title>Esci dal profilo</title>
               <path
@@ -72,29 +105,28 @@ const Header = ({ user = {} }) => {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              ></path>
+              />
               <path
                 d="M21 12H9"
                 stroke="#DC2626"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              ></path>
+              />
               <path
                 d="M12 19C7.58172 19 4 15.4183 4 11C4 6.58172 7.58172 3 12 3"
                 stroke="#DC2626"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              ></path>
+              />
             </svg>
           </button>
         </div>
       </div>
 
-      {/* Condizionale: solo se showModalUpdateImage è true */}
-      {/* Bootstrap Modal */}
-      {showModalUpdateImage && (
+      {/* 🧩 Modale dinamica */}
+      {activeModal && (
         <div
           className="modal fade show d-block"
           tabIndex="-1"
@@ -105,17 +137,35 @@ const Header = ({ user = {} }) => {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Carica la tua immagine</h5>
+                <h5 className="modal-title">
+                  {activeModal === 'image' ? 'Carica la tua immagine' : 'Completa il tuo profilo'}
+                </h5>
                 <button
                   type="button"
                   className="btn-close"
                   aria-label="Chiudi"
-                  onClick={handleToggleModal}
+                  onClick={closeModal}
                 ></button>
               </div>
+
               <div className="modal-body">
-                <UploadProfilePicture user={user} />
+                {activeModal === 'image' ? (
+                  <UploadProfilePicture user={user} />
+                ) : (
+                  <FormUser id="updateProfile" onSubmit={handleSave} />
+                )}
               </div>
+
+              {activeModal === 'profile' && (
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                    Chiudi
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={handleSave}>
+                    Salva
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
