@@ -17,7 +17,16 @@ const MatchList = ({ user }) => {
   const handleJoin = async matchId => {
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
+    // 🔹 Calcola limite massimo giocatori in base al tipo partita
+    const maxPlayers = match.tipo === '5' ? 10 : 16;
 
+    // 🔹 Controllo: se raggiunto limite, blocca iscrizione
+    if (match.players.length >= maxPlayers) {
+      alert(
+        `❌ Hai già raggiunto il numero massimo di ${maxPlayers} giocatori per il calcio a ${match.tipo}.`,
+      );
+      return;
+    }
     const playerExists = match.players.find(p => p.id === user.userLogin.uid);
     if (playerExists) return alert('Sei già iscritto!');
 
@@ -39,6 +48,16 @@ const MatchList = ({ user }) => {
     evt.preventDefault(); // 🔥 Importantissimo
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
+    // 🔹 Calcola limite massimo giocatori in base al tipo partita
+    const maxPlayers = match.tipo === '5' ? 10 : 16;
+
+    // 🔹 Controllo: se raggiunto limite, blocca iscrizione
+    if (match.players.length >= maxPlayers) {
+      alert(
+        `❌ Hai già raggiunto il numero massimo di ${maxPlayers} giocatori per il calcio a ${match.tipo}.`,
+      );
+      return;
+    }
     const formData = new FormData(evt.target); // raccoglie tutti i valori del form
     const formObject = getObjFromForm({ formData });
     // Trova tutti i guest esistenti e calcola il prossimo ID
