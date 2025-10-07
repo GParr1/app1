@@ -15,7 +15,7 @@ export const getCardTier = overall => {
   if (overall < 80) return SILVER_CARD_BG;
   return GOLD_CARD_BG;
 };
-// utils/teamBalancer.js
+
 /**
  * Divide i giocatori in 2 squadre equilibrate in base all'overall.
  * @param {Array} players - Array di oggetti con {id, name, overall}

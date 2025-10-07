@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { balanceTeams } from 'utils/teamBalancer';
+import { balanceTeams } from 'utils/utils';
 
 const MatchDetail = ({ match }) => {
   const [teams, setTeams] = useState(null);
