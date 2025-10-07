@@ -92,7 +92,7 @@ export const handleSaveFormUser = async (evt, user) => {
       formObject[key] = value;
     }
   }
-  const isNewUser = formData.isNewUser;
+  const isNewUser = formObject.isNewUser === 'true';
   const position = formObject.position || '';
   const starterAttribute = position.toLowerCase().includes('POR')
     ? starterCard.find(c => c.role === 'portiere').attributes
