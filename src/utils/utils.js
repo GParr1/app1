@@ -31,7 +31,7 @@ export const balanceTeams = (players = []) => {
   const teamA = [];
   const teamB = [];
 
-  sorted.forEach((p, idx) => {
+  sorted.forEach(p => {
     const sumA = teamA.reduce((s, x) => s + x.overall, 0);
     const sumB = teamB.reduce((s, x) => s + x.overall, 0);
     if (sumA <= sumB) teamA.push(p);

@@ -30,7 +30,9 @@ const MatchCreator = ({ onCreated }) => {
       <h5 className="card-title text-center">Crea una nuova partita</h5>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Campo</label>
+          <label htmlFor="campo" className="form-label">
+            Campo
+          </label>
           <input
             name="campo"
             value={form.campo}
@@ -40,7 +42,9 @@ const MatchCreator = ({ onCreated }) => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Data</label>
+          <label htmlFor="data" className="form-label">
+            Data
+          </label>
           <input
             type="datetime-local"
             name="data"
@@ -51,7 +55,9 @@ const MatchCreator = ({ onCreated }) => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Tipo</label>
+          <label htmlFor="tipo" className="form-label">
+            Tipo
+          </label>
           <select name="tipo" value={form.tipo} onChange={handleChange} className="form-select">
             <option value="5">Calcio a 5</option>
             <option value="8">Calcio a 8</option>
