@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches, updateMatch } from 'utils/firestoreUtils';
 import MatchDetail from './MatchDetail';
+import { getObjFromForm } from 'utils/utils';
 
 const MatchList = ({ user }) => {
   const [matches, setMatches] = useState([]);
@@ -34,9 +35,11 @@ const MatchList = ({ user }) => {
     await updateMatch(matchId, updated);
     setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
   };
-  const handleAddGuest = async (matchId, guestName, guestOverall) => {
+  const handleAddGuest = async (evt, matchId) => {
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
+    const formData = new FormData(evt.target); // raccoglie tutti i valori del form
+    const formObject = getObjFromForm({ formData });
     // Trova tutti i guest esistenti e calcola il prossimo ID
     const guestNumbers = match.players
       .filter(p => p.isGuest)
@@ -45,8 +48,8 @@ const MatchList = ({ user }) => {
     const nextIdNumber = guestNumbers.length > 0 ? Math.max(...guestNumbers) + 1 : 1;
     const newGuest = {
       id: `guest-${nextIdNumber}`,
-      name: guestName,
-      overall: parseInt(guestOverall, 10),
+      name: formObject.guestName,
+      overall: parseInt(formObject.guestOverall, 10),
       isGuest: true,
     };
 
@@ -76,7 +79,7 @@ const MatchList = ({ user }) => {
             <p>{m.players.length} iscritti</p>
             {/* Aggiunta giocatori */}
             <h6>Aggiungi giocatori / ospiti</h6>
-            <form onSubmit={handleAddGuest} className="d-flex gap-2 mb-3">
+            <form onSubmit={evt => handleAddGuest(evt, m.id)} className="d-flex gap-2 mb-3">
               <input type="text" className="form-control" placeholder="Nome giocatore" />
               <input type="number" className="form-control" placeholder="Overall" />
               <button type="submit" className="btn btn-primary">
