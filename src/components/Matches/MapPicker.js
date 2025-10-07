@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const MapPicker = ({ onChange, initialPosition = { lat: 45.4642, lng: 9.19 } }) => {
   const mapRef = useRef(null);
   const searchRef = useRef(null);
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
 
   useEffect(() => {
     if (!window.google) {
@@ -13,20 +11,20 @@ const MapPicker = ({ onChange, initialPosition = { lat: 45.4642, lng: 9.19 } }) 
       return;
     }
 
+    // Crea la mappa
     const mapInstance = new window.google.maps.Map(mapRef.current, {
       center: initialPosition,
       zoom: 13,
     });
-    setMap(mapInstance);
 
+    // Crea marker
     const markerInstance = new window.google.maps.Marker({
       position: initialPosition,
       map: mapInstance,
       draggable: true,
     });
-    setMarker(markerInstance);
 
-    // Aggiorna posizione al drag
+    // Evento: trascinamento marker
     markerInstance.addListener('dragend', () => {
       const pos = markerInstance.getPosition();
       onChange({
@@ -36,7 +34,7 @@ const MapPicker = ({ onChange, initialPosition = { lat: 45.4642, lng: 9.19 } }) 
       });
     });
 
-    // Autocomplete
+    // Autocomplete di Google Places
     const autocomplete = new window.google.maps.places.Autocomplete(searchRef.current, {
       fields: ['geometry', 'formatted_address'],
     });
@@ -53,7 +51,7 @@ const MapPicker = ({ onChange, initialPosition = { lat: 45.4642, lng: 9.19 } }) 
         address: place.formatted_address,
       });
     });
-  }, []);
+  }, [initialPosition, onChange]);
 
   return (
     <div>
