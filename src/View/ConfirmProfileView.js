@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { handleSaveFormUser } from 'utils/authUtils';
 import FormUser from 'components/FormUser';
 import CardBronze from 'components/FifaCard/CardBronze';
+import { useNavigate } from 'react-router-dom';
 
 export const ConfirmProfileView = ({ user }) => {
   const [dynamicValue, setDynamicValue] = useState(user);
+  const navigate = useNavigate();
   const handleChange = (evt, section, key) => {
     const value = evt.target.value;
     console.log(evt.target.value);
@@ -15,6 +17,14 @@ export const ConfirmProfileView = ({ user }) => {
         [key]: value, // Aggiorna solo il campo specificato
       },
     }));
+  };
+  const handleSubmit = async evt => {
+    const result = await handleSaveFormUser(evt, user);
+    if (result) {
+      navigate('/dashboard', { replace: true });
+    } else {
+      console.error('handle Submit Error');
+    }
   };
   return (
     <div className="row">
@@ -28,7 +38,7 @@ export const ConfirmProfileView = ({ user }) => {
             <FormUser
               id={'confirmProfile'}
               handleChange={handleChange}
-              onSubmit={evt => handleSaveFormUser(evt, user)}
+              onSubmit={evt => handleSubmit(evt, user)}
             />
           </div>
         </div>

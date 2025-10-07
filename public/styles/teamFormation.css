@@ -1,0 +1,84 @@
+/* ------------------------
+   TEAM FORMATION
+--------------------------- */
+.formation-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 2 / 3;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #228b22;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.field {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#228b22 30%, #006400 70%);
+    border: 3px solid white;
+}
+
+.field::before,
+.field::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: white;
+    opacity: 0.5;
+}
+
+.field::before {
+    top: 33%;
+}
+
+.field::after {
+    bottom: 33%;
+}
+
+.player {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.player:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.player .name {
+    display: block;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.player .overall {
+    font-size: 0.7rem;
+    color: yellow;
+}
+
+.player-a::before,
+.player-b::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 4px;
+    border-radius: 50%;
+}
+
+.player-a::before {
+    background-color: #3b82f6; /* blu */
+}
+
+.player-b::before {
+    background-color: #ef4444; /* rosso */
+}

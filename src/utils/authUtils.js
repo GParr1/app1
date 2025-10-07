@@ -100,7 +100,7 @@ export const handleSaveFormUser = async (evt, user) => {
     },
   };
   console.log('Dati inseriti:', userObj);
-  await authUpdateProfile(userObj);
+  return await authUpdateProfile(userObj);
 };
 
 const fetchUserData = async ({ currentUser }) => {

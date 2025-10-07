@@ -40,6 +40,20 @@ export const balanceTeams = (players = []) => {
 
   return { teamA, teamB };
 };
+export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
+  const shuffled = [...giocatori].sort(() => Math.random() - 0.5);
+  const sorted = shuffled.sort((a, b) => b.overall - a.overall);
+
+  const teamA = [];
+  const teamB = [];
+
+  sorted.forEach((p, i) => {
+    if (teamA.length < tipo / 2 && (i % 2 === 0 || teamB.length >= tipo / 2)) teamA.push(p);
+    else teamB.push(p);
+  });
+
+  return { teamA, teamB };
+};
 
 export const removeBackground = async imgFile => {
   const formData = new FormData();
