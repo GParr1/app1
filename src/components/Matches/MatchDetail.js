@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { balanceTeams } from 'utils/utils';
-import './MatchDetail.css'; // 👈 aggiungiamo un file CSS per il campo
 
 const MatchDetail = ({ match }) => {
   const [teams, setTeams] = useState(null);
