@@ -10,6 +10,7 @@ import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { starterCard } from '../structure/starterCard';
+import { calculateAttributes, calculatePlayerOverall, getObjFromForm } from 'utils/utils';
 
 export const fetchUserProfile = async () => {
   const user = auth.currentUser;
@@ -75,29 +76,16 @@ export const doSignOut = async () => {
 export const handleSaveFormUser = async (evt, user) => {
   evt.preventDefault();
   const formData = new FormData(evt.target); // raccoglie tutti i valori del form
-  const formObject = {};
-
-  // Usa entries() per iterare sui dati di FormData
-  for (let [key, value] of formData.entries()) {
-    // Verifica se il campo è già presente nell'oggetto, se sì, crea un array per i valori multipli
-    if (formObject[key]) {
-      // Se è già un array, aggiungi il nuovo valore
-      if (Array.isArray(formObject[key])) {
-        formObject[key].push(value);
-      } else {
-        // Altrimenti crea un array e aggiungi i valori
-        formObject[key] = [formObject[key], value];
-      }
-    } else {
-      formObject[key] = value;
-    }
-  }
+  const formObject = getObjFromForm({ formData });
   const isNewUser = formObject.isNewUser === 'true';
   const position = formObject.position || '';
-  const starterAttribute = position.toLowerCase().includes('POR')
-    ? starterCard.find(c => c.role === 'portiere').attributes
-    : starterCard.find(c => c.role === 'player').attributes;
 
+  const attributes = calculateAttributes({
+    height: formObject.height,
+    birthDate: formObject.birthDate,
+    position,
+  });
+  const overall = calculatePlayerOverall(starterCard[0].attributes);
   // Stampa l'oggetto JSON
   console.log(JSON.stringify(formObject, null, 2));
   const userObj = {
@@ -105,10 +93,10 @@ export const handleSaveFormUser = async (evt, user) => {
     customerInfo: {
       ...user.customerInfo,
       ...formObject,
-      ...(isNewUser && { attributes: { ...starterAttribute } }),
+      ...(isNewUser && { attributes }),
+      overall,
     },
   };
-
   console.log('Dati inseriti:', userObj);
   await authUpdateProfile(userObj);
 };

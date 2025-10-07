@@ -64,3 +64,92 @@ export const uploadImage = async ({ user, file }) => {
     return null;
   }
 };
+export function calculateAttributes({ height, birthDate, position }) {
+  // 1️⃣ Calcolo età
+  const birth = new Date(birthDate);
+  const age = Math.max(15, Math.min(45, new Date().getFullYear() - birth.getFullYear()));
+
+  // 2️⃣ Normalizzazione altezza (150–200 cm → 0–1)
+  const heightFactor = Math.max(0, Math.min(1, (height - 150) / 50));
+
+  // 3️⃣ Determina tipo di ruolo
+  const isGoalkeeper = position === 'POR';
+
+  // 4️⃣ Coefficienti di base
+  const base = isGoalkeeper
+    ? {
+        VEL: 30,
+        TIR: 20,
+        PAS: 40,
+        DRI: 35,
+        DIF: 40,
+        FIS: 60,
+        RES: 55,
+        TEC: 45,
+        POS: 65,
+        VIZ: 60,
+        RIF: 70,
+        PAR: 75,
+      }
+    : {
+        VEL: 60,
+        TIR: 55,
+        PAS: 55,
+        DRI: 60,
+        DIF: 50,
+        FIS: 55,
+        RES: 60,
+        TEC: 55,
+        POS: 55,
+        VIZ: 55,
+        RIF: 50,
+        PAR: 25,
+      };
+
+  // 5️⃣ Bonus/malus in base a età e altezza
+  const ageFactor = age < 20 ? 1.1 : age > 35 ? 0.9 : 1;
+  const physFactor = 1 + (heightFactor - 0.5) * 0.2; // ±10% in base all’altezza
+
+  // 6️⃣ Bonus per posizione specifica
+  const positionBonus =
+    {
+      ATT: { TIR: 10, DRI: 5, VEL: 5 },
+      DC: { DIF: 10, FIS: 8, VEL: -5 },
+      CC: { PAS: 10, RES: 5, TEC: 5 },
+      AD: { VEL: 8, DRI: 8, TIR: 3 },
+      AS: { VEL: 8, DRI: 8, TIR: 3 },
+      POR: { PAR: 15, RIF: 10, POS: 5 },
+    }[position] || {};
+
+  // 7️⃣ Calcolo finale con variazione casuale
+  const attributes = Object.fromEntries(
+    Object.entries(base).map(([key, value]) => {
+      const bonus = positionBonus[key] || 0;
+      const random = Math.random() * 4 - 2; // ±2 punti casuali
+      const adjusted = value * ageFactor * physFactor + bonus + random;
+      return [key, Math.round(Math.max(20, Math.min(99, adjusted)))];
+    }),
+  );
+
+  return attributes;
+}
+
+export const getObjFromForm = ({ formData }) => {
+  const formObject = {};
+  // Usa entries() per iterare sui dati di FormData
+  for (let [key, value] of formData.entries()) {
+    // Verifica se il campo è già presente nell'oggetto, se sì, crea un array per i valori multipli
+    if (formObject[key]) {
+      // Se è già un array, aggiungi il nuovo valore
+      if (Array.isArray(formObject[key])) {
+        formObject[key].push(value);
+      } else {
+        // Altrimenti crea un array e aggiungi i valori
+        formObject[key] = [formObject[key], value];
+      }
+    } else {
+      formObject[key] = value;
+    }
+  }
+  return formObject;
+};
