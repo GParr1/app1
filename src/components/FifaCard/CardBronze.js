@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
-import { calculatePlayerOverall } from 'utils/utils';
+import { calculatePlayerOverall, getCardTier } from 'utils/utils';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { starterCard } from '../../structure/starterCard';
-import { ATTRIBUTES, DEFAULT_CARD_BG, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
+import { ATTRIBUTES, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
 
 const CardBronze = ({ dynamicValue, previewImg }) => {
   const stateUser = useSelector(getUser) || {};
@@ -32,6 +32,8 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
       })),
     [customerInfo],
   );
+  // Sfondo carta in base all'overall
+  const cardBackground = getCardTier(customerInfo.overall || 60);
   return (
     <figure className="woocommerce-product-gallery__wrapper">
       <div
@@ -42,7 +44,7 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
       >
         <div
           style={{
-            backgroundImage: `url('${DEFAULT_CARD_BG}')`,
+            backgroundImage: `url('${cardBackground}')`,
             color: 'rgb(62, 40, 28)',
           }}
         >

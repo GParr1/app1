@@ -5,6 +5,7 @@ import { authUpdateProfile, doSignOut } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
 import { RedirectOnLogin } from 'utils/RedirectOnLogin';
 import FormUser from 'components/FormUser';
+import CardBronze from 'components/FifaCard/CardBronze';
 
 // Mock dati di esempio
 const mockStats = {
@@ -62,16 +63,7 @@ export const MyAccountView = ({ user }) => {
       <div className="row">
         {/* Figurina Panini */}
         <div className="col-md-4 mb-4 d-flex flex-column align-items-center">
-          <PlayerCard
-            playerImage={photoURL}
-            playerName={displayName}
-            playerNumber={user.jerseyNumber}
-            teamSymbol={teamSymbol}
-            playerColor={playerColor}
-            countryCode="ITA"
-            birthDate={user.birthDate}
-            height={user.height}
-          />
+          <CardBronze />
           <select
             className="mb-3 col-12"
             value={selectedTeam}

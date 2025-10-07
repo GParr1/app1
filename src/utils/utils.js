@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { BRONZE_CARD_BG, GOLD_CARD_BG, SILVER_CARD_BG } from 'utils/Constant';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -8,6 +9,11 @@ export const calculatePlayerOverall = attrs => {
 export const calculateGoalkeeperOverall = attrs => {
   const { PAR, RIF, POS, VEL, TEC, RES } = attrs;
   return Math.round(PAR * 0.3 + RIF * 0.25 + POS * 0.2 + VEL * 0.1 + TEC * 0.1 + RES * 0.05);
+};
+export const getCardTier = overall => {
+  if (overall < 65) return BRONZE_CARD_BG;
+  if (overall < 80) return SILVER_CARD_BG;
+  return GOLD_CARD_BG;
 };
 
 export const removeBackground = async imgFile => {
