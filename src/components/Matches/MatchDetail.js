@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { balanceTeams } from 'utils/utils';
-import CardBronze from 'components/Cards/CardBronze'; // ✅ importa la carta
+import CardBronze from 'components/FifaCard/CardBronze';
 
 const MatchDetail = ({ match }) => {
   const [teams, setTeams] = useState({ teamA: [], teamB: [] });
