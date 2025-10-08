@@ -244,3 +244,9 @@
     font-size: 15.728px; }
 .cardFootball.cardNewDesign.cardFootballcard .input-torneo-mic {
     font-size: 19px; }
+
+.card-mini {
+    transform: scale(0.4); /* riduce la dimensione della card */
+    transform-origin: top center;
+    margin: -150px 0; /* per compensare lo spazio ridotto */
+}
