@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllMatches, updateMatch } from 'utils/firestoreUtils';
 import MatchDetail from './MatchDetail';
 import { getObjFromForm } from 'utils/utils';
+import { DEFAULT_PHOTO } from 'utils/Constant';
 
 const MatchList = ({ user }) => {
   const [matches, setMatches] = useState([]);
@@ -36,12 +37,34 @@ const MatchList = ({ user }) => {
         ...match.players,
         {
           id: user.userLogin.uid,
-          name: user.userLogin.displayName,
+          firstName: user.customerInfo.firstName,
+          lastName: user.customerInfo.lastName,
+          favoriteTeam: user.customerInfo.favoriteTeam,
+          position: user.customerInfo.position,
+          photoURL: user.customerInfo.photoURL,
           overall: user.customerInfo?.overall || 60,
         },
       ],
     };
     await updateMatch(matchId, updated);
+    setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
+  };
+  const handleRemove = async matchId => {
+    const match = matches.find(m => m.id === matchId);
+    if (!match) return;
+
+    const playerExists = match.players.find(p => p.id === user.userLogin.uid);
+    if (!playerExists) return; // Se il giocatore non è presente, esci dalla funzione (non c'è nulla da rimuovere)
+    // Rimuovi il giocatore dai giocatori del match
+    const updatedPlayers = match.players.filter(p => p.id !== user.userLogin.uid);
+    // Crea l'oggetto aggiornato con la lista dei giocatori senza il giocatore che si vuole rimuovere
+    const updated = {
+      ...match,
+      players: updatedPlayers,
+    };
+    // Aggiorna il match tramite l'API (o funzione per aggiornare i dati)
+    await updateMatch(matchId, updated);
+    // Aggiorna lo stato dei match nel componente
     setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
   };
   const handleAddGuest = async (evt, matchId) => {
@@ -68,7 +91,8 @@ const MatchList = ({ user }) => {
     const nextIdNumber = guestNumbers.length > 0 ? Math.max(...guestNumbers) + 1 : 1;
     const newGuest = {
       id: `guest-${nextIdNumber}`,
-      name: formObject.guestName,
+      firstName: formObject.guestName,
+      photoURL: DEFAULT_PHOTO,
       overall: parseInt(formObject.guestOverall, 10),
       isGuest: true,
     };
@@ -83,6 +107,36 @@ const MatchList = ({ user }) => {
     } catch (err) {
       console.error('Errore aggiunta guest:', err);
       alert('❌ Errore durante l’aggiunta del guest.');
+    }
+  };
+  const handleRemoveGuest = async (evt, matchId) => {
+    const match = matches.find(m => m.id === matchId); // Trova il match
+    if (!match) return; // Se il match non esiste, esci dalla funzione
+    const formData = new FormData(evt.target); // raccoglie tutti i valori del form
+    const formObject = getObjFromForm({ formData });
+    const { firstName } = formObject;
+    // Trova il guest da rimuovere in base al nome e al fatto che sia un guest
+    const guest = match.players.find(p => p.name === firstName && p.isGuest);
+    if (!guest) {
+      alert(`❌ Nessun guest con il nome "${firstName}" trovato.`);
+      return; // Se il guest non esiste, esci dalla funzione
+    }
+
+    // Filtra i giocatori per rimuovere il guest con il nome specificato
+    const updatedPlayers = match.players.filter(p => p.name !== firstName || !p.isGuest);
+
+    const updated = {
+      ...match,
+      players: updatedPlayers, // Aggiorna la lista dei giocatori senza il guest
+    };
+
+    try {
+      await updateMatch(matchId, updated); // Aggiorna il match
+      setMatches(prev => prev.map(m => (m.id === matchId ? updated : m))); // Aggiorna lo stato del match
+      alert(`✅ Guest "${guestName}" rimosso con successo.`);
+    } catch (err) {
+      console.error('Errore rimozione guest:', err);
+      alert('❌ Errore durante la rimozione del guest.');
     }
   };
 
@@ -115,9 +169,30 @@ const MatchList = ({ user }) => {
               <button type="submit" className="btn btn-primary">
                 ➕
               </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => handleRemoveGuest('xxx', m.id)}
+              >
+                ❌
+              </button>
+            </form>
+            <form onSubmit={evt => handleRemoveGuest(evt, m.id)} className="d-flex gap-2 mb-3">
+              <input
+                type="text"
+                name="guestName"
+                className="form-control"
+                placeholder="Nome giocatore"
+              />
+              <button type="submit" className="btn btn-danger">
+                ❌
+              </button>
             </form>
             <button className="btn btn-primary me-2" onClick={() => handleJoin(m.id)}>
-              Iscriviti
+              Iscriviti ➕
+            </button>
+            <button className="btn btn-primary me-2" onClick={() => handleRemove(m.id)}>
+              Cancellati ❌
             </button>
             <MatchDetail match={m} />
           </div>

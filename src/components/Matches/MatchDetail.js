@@ -22,13 +22,12 @@ const MatchDetail = ({ match }) => {
         <div className="col-md-6">
           <div className="card shadow-sm mb-3">
             <div className="card-header bg-primary text-white text-center fw-bold">Squadra A</div>
-            <div className="p-3 d-flex flex-wrap justify-content-center gap-3">
+            <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
               {teams.teamA.length > 0 ? (
-                teams.teamA.map(p => (
-                  <div key={p.id} className="card-mini">
-                    <CardBronze dynamicValue={p} />
-                  </div>
-                ))
+                teams.teamA.map(p => {
+                  const dynamicValue = { customerInfo: { overall: p.overall, firstName: p.name } };
+                  return <CardBronze key={p.id} dynamicValue={dynamicValue} />;
+                })
               ) : (
                 <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
               )}
