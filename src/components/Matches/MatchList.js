@@ -114,16 +114,16 @@ const MatchList = ({ user }) => {
     if (!match) return; // Se il match non esiste, esci dalla funzione
     const formData = new FormData(evt.target); // raccoglie tutti i valori del form
     const formObject = getObjFromForm({ formData });
-    const { firstName } = formObject;
+    const { guestName } = formObject;
     // Trova il guest da rimuovere in base al nome e al fatto che sia un guest
-    const guest = match.players.find(p => p.name === firstName && p.isGuest);
+    const guest = match.players.find(p => p.name === guestName && p.isGuest);
     if (!guest) {
-      alert(`❌ Nessun guest con il nome "${firstName}" trovato.`);
+      alert(`❌ Nessun guest con il nome "${guestName}" trovato.`);
       return; // Se il guest non esiste, esci dalla funzione
     }
 
     // Filtra i giocatori per rimuovere il guest con il nome specificato
-    const updatedPlayers = match.players.filter(p => p.name !== firstName || !p.isGuest);
+    const updatedPlayers = match.players.filter(p => p.name !== guestName || !p.isGuest);
 
     const updated = {
       ...match,
