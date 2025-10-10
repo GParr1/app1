@@ -24,10 +24,7 @@ const MatchDetail = ({ match }) => {
             <div className="card-header bg-primary text-white text-center fw-bold">Squadra A</div>
             <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
               {teams.teamA.length > 0 ? (
-                teams.teamA.map(p => {
-                  const dynamicValue = { customerInfo: { overall: p.overall, firstName: p.name } };
-                  return <CardBronze key={p.id} dynamicValue={dynamicValue} />;
-                })
+                teams.teamA.map(p => <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} />)
               ) : (
                 <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
               )}
