@@ -34,9 +34,9 @@
 .cardFootball .div-club_image {
     position: absolute;
     top: 40%;
-    left: 21.4%;
+    left: 21%;
     width: 15.5%;
-    height: 8.2%; }
+    height: 8.2%;}
 .cardFootball .div-face_image,
 .cardFootball .div-nation_image,
 .cardFootball .div-club_image {
@@ -55,7 +55,7 @@
     -ms-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     -o-transform: translateX(-50%);
-    width: 65%;
+    width: 73%;
     height: 9%;
     display: -webkit-flex;
     display: -moz-box;
@@ -77,7 +77,7 @@
 .cardFootball .input-media {
     font-size: 68px;
     font-weight: 400;
-    position: absolute;
+    position: relative;
     top: 10%;
     left: 23.3%;
     width: 11.65%;
@@ -85,9 +85,9 @@
 .cardFootball .input-position {
     font-size: 40px;
     font-weight: 300;
-    position: absolute;
-    top: 20.5%;
-    left: 23.3%;
+    position: relative;
+    top: 16%;
+    left: 7.3%;
     width: 11.65%;
     text-align: center; }
 .cardFootball .input-caracteristica {
@@ -156,13 +156,13 @@
 .cardFootball.cardNewDesign .input-media {
     font-family: 'Cruyff Sans Condensed';
     font-weight: 700;
-    left: 12%;
+    left: 15%;
     font-size: 76px; }
 .cardFootball.cardNewDesign .input-position {
     font-family: 'Cruyff Sans Condensed';
     font-weight: 500;
-    top: 21.5%;
-    left: 14.2%; }
+    top: 15%;
+    left: 0%; }
 .cardFootball.cardNewDesign .input-caracteristica {
     font-family: 'Cruyff Sans Condensed';
     font-weight: 500; }
@@ -247,6 +247,15 @@
 
 .card-mini {
     transform: scale(0.4); /* riduce la dimensione della card */
-    transform-origin: top center;
-    margin: -150px 0; /* per compensare lo spazio ridotto */
+}
+.card-mini .input-caracteristica {
+    display: none;
+}
+.card-mini .div-name .input-name {
+    font-size: 50px;
+    font-weight: bold;
+    height: auto;
+}
+.card-mini .div-name {
+    height: 20%;
 }
