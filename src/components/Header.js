@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { doSignOut, handleSaveFormUser } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
 import FormUser from 'components/FormUser';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({ user = {} }) => {
+  const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null); // 'image' | 'profile' | null
   const displayName = user?.userLogin?.displayName ?? 'Utente';
-
   /** 🔄 Apertura / chiusura modali */
   const openModal = useCallback(type => setActiveModal(type), []);
   const closeModal = useCallback(() => setActiveModal(null), []);
@@ -38,6 +39,32 @@ const Header = ({ user = {} }) => {
       <div className="d-flex justify-content-between align-items-center w-100">
         <h1 className="m-0">Benvenuto {displayName}</h1>
 
+        <div className="d-flex gap-2">
+          {/* 🧾 HOME profilo */}
+          <button
+            className="btn"
+            onClick={() => navigate('dashboard')}
+            aria-label="Completa il tuo profilo"
+          >
+            Home
+          </button>
+          <button
+            className="btn"
+            onClick={() => navigate('profile')}
+            aria-label="Completa il tuo profilo"
+          >
+            Profilo
+          </button>
+          <button
+            className="btn"
+            onClick={() => navigate('profile')}
+            aria-label="Completa il tuo profilo"
+          >
+            Partite
+          </button>
+
+          {/* 🖼️ Cambia immagine */}
+        </div>
         <div className="d-flex gap-2">
           {/* 🧾 Modifica profilo */}
           <button
