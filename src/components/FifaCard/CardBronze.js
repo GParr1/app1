@@ -35,7 +35,7 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
   // Sfondo carta in base all'overall
   const cardBackground = getCardTier(customerInfo.overall || 60);
   return (
-    <figure className="woocommerce-product-gallery__wrapper">
+    <figure className="">
       <div
         id="football-card_15367"
         className="cardFootball hasChangeImage cardNewDesign"

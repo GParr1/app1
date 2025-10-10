@@ -9,7 +9,7 @@ export const saveMatch = async match => {
 // Funzione per eliminare una partita
 export const deleteMatch = async matchId => {
   try {
-    const matchRef = doc(db, 'matches', matchId);  // Ottieni il riferimento al documento della partita
+    const matchRef = doc(db, 'matches', matchId); // Ottieni il riferimento al documento della partita
     await deleteDoc(matchRef); // Elimina il documento corrispondente
     console.log(`Partita con ID ${matchId} eliminata con successo.`);
   } catch (error) {

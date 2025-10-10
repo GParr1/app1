@@ -246,7 +246,9 @@
     font-size: 19px; }
 
 .card-mini {
-    transform: scale(0.4); /* riduce la dimensione della card */
+    display: inline-block !important;
+    transform: scale(0.2);
+    transform-origin: top;
 }
 .card-mini .input-caracteristica {
     display: none;
