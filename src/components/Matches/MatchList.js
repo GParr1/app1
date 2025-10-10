@@ -110,6 +110,7 @@ const MatchList = ({ user }) => {
     }
   };
   const handleRemoveGuest = async (evt, matchId) => {
+    evt.preventDefault(); // 🔥 Importantissimo
     const match = matches.find(m => m.id === matchId); // Trova il match
     if (!match) return; // Se il match non esiste, esci dalla funzione
     const formData = new FormData(evt.target); // raccoglie tutti i valori del form

@@ -36,15 +36,11 @@ const MatchDetail = ({ match }) => {
         <div className="col-md-6">
           <div className="card shadow-sm mb-3">
             <div className="card-header bg-danger text-white text-center fw-bold">Squadra B</div>
-            <div className="p-3 d-flex flex-wrap justify-content-center gap-3">
-              {teams.teamB.length > 0 ? (
-                teams.teamB.map(p => (
-                  <div key={p.id} className="card-mini">
-                    <CardBronze dynamicValue={p} />
-                  </div>
-                ))
+            <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
+              {teams.teamA.length > 0 ? (
+                  teams.teamA.map(p => <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} />)
               ) : (
-                <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
+                  <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
               )}
             </div>
           </div>
