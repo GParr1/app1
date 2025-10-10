@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches } from 'utils/firestoreUtils';
-import MatchDetail from 'components/Matches/MatchDetail';
 
 const Dashboard = () => {
   const [matches, setMatches] = useState([]);
@@ -24,8 +23,8 @@ const Dashboard = () => {
                   {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
                 </p>
                 <p>{m.players.length} iscritti</p>
-                {m.players.map(p => (
-                  <p>{JSON.stringify(p)}</p>
+                {m.players.map((p, i) => (
+                  <p key={`players-${i}`}>{JSON.stringify(p)}</p>
                 ))}
               </div>
             </div>
