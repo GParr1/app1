@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches, updateMatch, deleteMatch } from 'utils/firestoreUtils'; // Aggiungi la funzione deleteMatch
 import MatchDetail from './MatchDetail';
-import { getObjFromForm } from 'utils/utils';
+import { findInArrByUid, getObjFromForm } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
 const MatchList = ({ user }) => {
@@ -36,7 +36,7 @@ const MatchList = ({ user }) => {
       );
       return;
     }
-    const playerExists = match.players.find(p => p.id === user.userLogin.uid);
+    const playerExists = findInArrByUid(match.players, user.userLogin.uid);
     if (playerExists) return alert('Sei già iscritto!');
 
     const updated = {
@@ -61,7 +61,7 @@ const MatchList = ({ user }) => {
   const handleRemove = async matchId => {
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
-    const playerExists = match.players.find(p => p.id === user.userLogin.uid);
+    const playerExists = findInArrByUid(match.players, user.userLogin.uid);
     if (!playerExists) return; // Se il giocatore non è presente, esci dalla funzione
     const updatedPlayers = match.players.filter(p => p.id !== user.userLogin.uid);
     const updated = {
@@ -72,8 +72,9 @@ const MatchList = ({ user }) => {
     setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
   };
 
-  const handleModalAddGuest = async (evt, matchId) => {
+  const handleModalAddGuest = async evt => {
     evt.preventDefault();
+    const { matchId } = modalInfo;
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
     const maxPlayers = match.tipo === '5' ? 10 : 16;
@@ -111,8 +112,9 @@ const MatchList = ({ user }) => {
     }
   };
 
-  const handleModalRemoveGuest = async (evt, matchId) => {
+  const handleModalRemoveGuest = async evt => {
     evt.preventDefault();
+    const { matchId } = modalInfo;
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
     const formData = new FormData(evt.target);
@@ -172,66 +174,84 @@ const MatchList = ({ user }) => {
     <div className="container">
       <h5 className="text-center mb-3">Partite Disponibili</h5>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3">
-        {matches.map(m => (
-          <div key={m.id} className="col">
-            <div className="card match-card h-100">
-              <div className="card-body d-flex flex-column">
-                <h6 className="card-title">{m.campo}</h6>
-                <p className="card-text small">
-                  {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
-                </p>
-                <p className="card-text">
-                  <strong>{m.players.length} iscritti</strong>
-                </p>
+        {matches.map(m => {
+          const playerExists = findInArrByUid(m.players, user.userLogin.uid);
+          const maxPlayers = m.tipo === '5' ? 10 : 16;
 
-                {/* Aggiunta giocatori / ospiti */}
-                <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
-                {/* Azioni per iscrizione e cancellazione */}
-                <div className="mt-auto">
-                  <div className="d-flex gap-2 flex-wrap">
+          return (
+            <div key={m.id} className="col">
+              <div className="card match-card h-100">
+                <div className="card-body d-flex flex-column">
+                  <h6 className="card-title">{m.campo}</h6>
+                  <p className="card-text small">
+                    {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
+                  </p>
+                  <p className="card-text">
+                    <strong>{m.players.length} iscritti</strong>
+                  </p>
+                  {playerExists && (
+                    <p className="card-text">
+                      <strong>Sei già iscritto</strong>
+                    </p>
+                  )}
+
+                  {/* Aggiunta giocatori / ospiti */}
+                  <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
+                  {/* Azioni per iscrizione e cancellazione */}
+                  <div className="mt-auto">
+                    <div className="d-flex gap-2 flex-wrap">
+                      {!playerExists && (
+                        <button
+                          className="btn btn-primary btn-sm flex-grow-1"
+                          onClick={() => handleJoin(m.id)}
+                        >
+                          Iscriviti ➕
+                        </button>
+                      )}
+                      {playerExists && (
+                        <button
+                          className="btn btn-danger btn-sm flex-grow-1"
+                          onClick={() => handleRemove(m.id)}
+                        >
+                          Cancellati ❌
+                        </button>
+                      )}
+                    </div>
+                    {m.players.length < maxPlayers && (
+                      <button
+                        className="btn btn-secondary btn-sm w-100 mb-2"
+                        onClick={() => openModal('addGuest', m.id)}
+                      >
+                        Aggiungi Guest
+                      </button>
+                    )}
+                    {m.players.length >= maxPlayers && (
+                      <button
+                        className="btn btn-secondary btn-sm w-100 mb-2"
+                        onClick={() => openModal('removeGuest', m.id)}
+                      >
+                        Rimuovi Guest
+                      </button>
+                    )}
                     <button
-                      className="btn btn-primary btn-sm flex-grow-1"
-                      onClick={() => handleJoin(m.id)}
+                      className="btn btn-info btn-sm w-100 mb-2"
+                      onClick={() => openDetailOverlay(m)}
                     >
-                      Iscriviti ➕
+                      Guarda Formazione
                     </button>
                     <button
-                      className="btn btn-danger btn-sm flex-grow-1"
-                      onClick={() => handleRemove(m.id)}
+                      className="btn btn-danger btn-sm mt-2 w-100"
+                      onClick={() => handleDeleteMatch(m.id)}
                     >
-                      Cancellati ❌
+                      Elimina Partita ❌
                     </button>
                   </div>
-                  <button
-                    className="btn btn-secondary btn-sm w-100 mb-2"
-                    onClick={() => openModal('addGuest', m.id)}
-                  >
-                    Aggiungi Guest
-                  </button>
-                  <button
-                    className="btn btn-secondary btn-sm w-100 mb-2"
-                    onClick={() => openModal('removeGuest', m.id)}
-                  >
-                    Rimuovi Guest
-                  </button>
-                  <button
-                    className="btn btn-info btn-sm w-100 mb-2"
-                    onClick={() => openDetailOverlay(m)}
-                  >
-                    Guarda Formazione
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm mt-2 w-100"
-                    onClick={() => handleDeleteMatch(m.id)}
-                  >
-                    Elimina Partita ❌
-                  </button>
                 </div>
+                {/*<MatchDetail match={m}/>*/}
               </div>
-              {/*<MatchDetail match={m}/>*/}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       {/* Overlay / Modal dettaglio */}
       {detailOverlay.show && (

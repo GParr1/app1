@@ -40,6 +40,7 @@ export const balanceTeams = (players = []) => {
 
   return { teamA, teamB };
 };
+export const findInArrByUid = (arr, uid) => arr.players.find(p => p.id === uid);
 export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
   const shuffled = [...giocatori].sort(() => Math.random() - 0.5);
   const sorted = shuffled.sort((a, b) => b.overall - a.overall);
