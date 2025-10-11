@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches, updateMatch, deleteMatch } from 'utils/firestoreUtils'; // Aggiungi la funzione deleteMatch
-import MatchDetail from './MatchDetail';
+//import MatchDetail from './MatchDetail';
 import { getObjFromForm } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
@@ -145,65 +145,81 @@ const MatchList = ({ user }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h5 className="text-center mb-3">Partite Disponibili</h5>
-      {matches.map(m => (
-        <div key={m.id} className="card mb-3 shadow-sm">
-          <div className="card-body">
-            <h6>{m.campo}</h6>
-            <p>
-              {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
-            </p>
-            <p>{m.players.length} iscritti</p>
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3">
+        {matches.map(m => (
+          <div key={m.id} className="col">
+            <div className="card match-card h-100">
+              <div className="card-body d-flex flex-column">
+                <h6 className="card-title">{m.campo}</h6>
+                <p className="card-text small">
+                  {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
+                </p>
+                <p className="card-text">
+                  <strong>{m.players.length} iscritti</strong>
+                </p>
 
-            {/* Aggiunta giocatori / ospiti */}
-            <h6>Aggiungi giocatori / ospiti</h6>
-            <form onSubmit={evt => handleAddGuest(evt, m.id)} className="d-flex gap-2 mb-3">
-              <input
-                type="text"
-                name="guestName"
-                className="form-control"
-                placeholder="Nome giocatore"
-              />
-              <input
-                type="number"
-                name="guestOverall"
-                className="form-control"
-                placeholder="Overall"
-              />
-              <button type="submit" className="btn btn-primary">
-                ➕
-              </button>
-            </form>
-            <form onSubmit={evt => handleRemoveGuest(evt, m.id)} className="d-flex gap-2 mb-3">
-              <input
-                type="text"
-                name="guestName"
-                className="form-control"
-                placeholder="Nome guest"
-              />
-              <button type="submit" className="btn btn-danger">
-                ❌
-              </button>
-            </form>
+                {/* Aggiunta giocatori / ospiti */}
+                <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
+                <form className="d-flex gap-2 mb-2" onSubmit={evt => handleAddGuest(evt, m.id)}>
+                  <input
+                    type="text"
+                    name="guestName"
+                    className="form-control form-control-sm"
+                    placeholder="Nome giocatore"
+                  />
+                  <input
+                    type="number"
+                    name="guestOverall"
+                    className="form-control form-control-sm"
+                    placeholder="Overall"
+                  />
+                  <button type="submit" className="btn btn-primary btn-sm">
+                    ➕
+                  </button>
+                </form>
+                <form className="d-flex gap-2 mb-2" onSubmit={evt => handleRemoveGuest(evt, m.id)}>
+                  <input
+                    type="text"
+                    name="guestName"
+                    className="form-control form-control-sm"
+                    placeholder="Nome guest"
+                  />
+                  <button type="submit" className="btn btn-danger btn-sm">
+                    ❌
+                  </button>
+                </form>
 
-            {/* Azioni per iscrizione e cancellazione */}
-            <div className="d-flex gap-2 mb-3">
-              <button className="btn btn-primary me-2" onClick={() => handleJoin(m.id)}>
-                Iscriviti ➕
-              </button>
-              <button className="btn btn-danger" onClick={() => handleRemove(m.id)}>
-                Cancellati ❌
-              </button>
-              <button className="btn btn-danger" onClick={() => handleDeleteMatch(m.id)}>
-                Elimina Partita ❌
-              </button>
+                {/* Azioni per iscrizione e cancellazione */}
+                <div className="mt-auto">
+                  <div className="d-flex gap-2 flex-wrap">
+                    <button
+                      className="btn btn-primary btn-sm flex-grow-1"
+                      onClick={() => handleJoin(m.id)}
+                    >
+                      Iscriviti ➕
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm flex-grow-1"
+                      onClick={() => handleRemove(m.id)}
+                    >
+                      Cancellati ❌
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm mt-2 w-100"
+                      onClick={() => handleDeleteMatch(m.id)}
+                    >
+                      Elimina Partita ❌
+                    </button>
+                  </div>
+                </div>
+                {/*<MatchDetail match={m}/>*/}
+              </div>
             </div>
-
-            <MatchDetail match={m} />
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
