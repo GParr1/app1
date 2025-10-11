@@ -20,7 +20,7 @@ const MatchDetail = ({ match }) => {
       <div className="row">
         {/* 🟦 Squadra A */}
         <div className="col-md-6">
-          <div className="card shadow-sm mb-3">
+          <div className="card shadow-sm mb-3 card-mini-wrapper">
             <div className="card-header bg-primary text-white text-center fw-bold">Squadra A</div>
             <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
               {teams.teamA.length > 0 ? (
@@ -34,11 +34,11 @@ const MatchDetail = ({ match }) => {
 
         {/* 🟥 Squadra B */}
         <div className="col-md-6">
-          <div className="card shadow-sm mb-3">
+          <div className="card shadow-sm mb-3 card-mini-wrapper">
             <div className="card-header bg-danger text-white text-center fw-bold">Squadra B</div>
             <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
-              {teams.teamA.length > 0 ? (
-                teams.teamA.map(p => <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} />)
+              {teams.teamB.length > 0 ? (
+                teams.teamB.map(p => <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} />)
               ) : (
                 <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
               )}

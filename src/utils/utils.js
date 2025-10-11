@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BRONZE_CARD_BG, GOLD_CARD_BG, SILVER_CARD_BG } from 'utils/Constant';
+import { FORM_ADD_GUEST, FORM_REMOVE_GUEST } from '../structure/formUser';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -9,6 +10,24 @@ export const calculatePlayerOverall = attrs => {
 export const calculateGoalkeeperOverall = attrs => {
   const { PAR, RIF, POS, VEL, TEC, RES } = attrs;
   return Math.round(PAR * 0.3 + RIF * 0.25 + POS * 0.2 + VEL * 0.1 + TEC * 0.1 + RES * 0.05);
+};
+
+export const getFormStructure = formId => {
+  let formStructure = {};
+  switch (formId) {
+    case 'addGuest': {
+      formStructure = FORM_ADD_GUEST;
+      break;
+    }
+    case 'removeGuest': {
+      formStructure = FORM_REMOVE_GUEST;
+      break;
+    }
+    default: {
+      formStructure = {};
+    }
+  }
+  return formStructure;
 };
 export const getCardTier = overall => {
   if (overall < 65) return BRONZE_CARD_BG;
@@ -41,6 +60,14 @@ export const balanceTeams = (players = []) => {
   return { teamA, teamB };
 };
 export const findInArrByUid = (arr, uid) => arr.find(p => p.id === uid);
+export const findInArrByCriteria = (arr, criteria) => {
+  // criteria è un oggetto tipo { name: 'Mario', isGuest: true }
+  return arr.find(p => Object.keys(criteria).every(key => p[key] === criteria[key]));
+};
+export const filterInArrByCriteria = (arr, criteria) => {
+  // criteria è un oggetto tipo { name: 'Mario', isGuest: true }
+  return arr.filter(p => Object.keys(criteria).every(key => p[key] === criteria[key]));
+};
 export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
   const shuffled = [...giocatori].sort(() => Math.random() - 0.5);
   const sorted = shuffled.sort((a, b) => b.overall - a.overall);

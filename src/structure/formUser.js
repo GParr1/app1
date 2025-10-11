@@ -57,3 +57,40 @@ export const FORMUSER = {
     },
   ],
 };
+
+export const FORM_ADD_GUEST = {
+  id: 'addGuest',
+  fields: [
+    {
+      type: 'text',
+      name: 'guestName',
+      label: 'Nome guest',
+      placeholder: 'Nome guest',
+      defaultValue: '',
+    },
+    {
+      type: 'number',
+      name: 'guestOverall',
+      label: 'Overall',
+      placeholder: 'Overall',
+      defaultValue: '',
+    },
+    {
+      type: 'submit',
+      className: 'btn btn-primary',
+      label: 'Aggiungi',
+    },
+  ],
+};
+export const FORM_REMOVE_GUEST = {
+  id: 'addGuest',
+  fields: [
+    {
+      type: 'text',
+      name: 'guestName',
+      label: 'Nome guest',
+      placeholder: 'Nome guest',
+      defaultValue: '',
+    },
+  ],
+};
