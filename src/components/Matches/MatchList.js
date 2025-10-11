@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches, updateMatch, deleteMatch } from 'utils/firestoreUtils'; // Aggiungi la funzione deleteMatch
-//import MatchDetail from './MatchDetail';
+import MatchDetail from './MatchDetail';
 import { getObjFromForm } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
 const MatchList = ({ user }) => {
   const [matches, setMatches] = useState([]);
+  // Stato per gestire la modal
+  const [modalInfo, setModalInfo] = useState({
+    show: false,
+    mode: null, // 'addGuest' | 'removeGuest'
+    matchId: null,
+  });
+  // Stato per l’overlay / modal di dettaglio
+  const [detailOverlay, setDetailOverlay] = useState({
+    show: false,
+    match: null,
+  });
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -61,7 +72,7 @@ const MatchList = ({ user }) => {
     setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
   };
 
-  const handleAddGuest = async (evt, matchId) => {
+  const handleModalAddGuest = async (evt, matchId) => {
     evt.preventDefault();
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
@@ -100,7 +111,7 @@ const MatchList = ({ user }) => {
     }
   };
 
-  const handleRemoveGuest = async (evt, matchId) => {
+  const handleModalRemoveGuest = async (evt, matchId) => {
     evt.preventDefault();
     const match = matches.find(m => m.id === matchId);
     if (!match) return;
@@ -143,6 +154,19 @@ const MatchList = ({ user }) => {
       }
     }
   };
+  const openModal = (mode, matchId) => {
+    setModalInfo({ show: true, mode, matchId });
+  };
+  const closeModal = () => {
+    setModalInfo({ show: false, mode: null, matchId: null });
+  };
+  const openDetailOverlay = match => {
+    setDetailOverlay({ show: true, match });
+  };
+
+  const closeDetailOverlay = () => {
+    setDetailOverlay({ show: false, match: null });
+  };
 
   return (
     <div className="container">
@@ -162,35 +186,6 @@ const MatchList = ({ user }) => {
 
                 {/* Aggiunta giocatori / ospiti */}
                 <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
-                <form className="d-flex gap-2 mb-2" onSubmit={evt => handleAddGuest(evt, m.id)}>
-                  <input
-                    type="text"
-                    name="guestName"
-                    className="form-control form-control-sm"
-                    placeholder="Nome giocatore"
-                  />
-                  <input
-                    type="number"
-                    name="guestOverall"
-                    className="form-control form-control-sm"
-                    placeholder="Overall"
-                  />
-                  <button type="submit" className="btn btn-primary btn-sm">
-                    ➕
-                  </button>
-                </form>
-                <form className="d-flex gap-2 mb-2" onSubmit={evt => handleRemoveGuest(evt, m.id)}>
-                  <input
-                    type="text"
-                    name="guestName"
-                    className="form-control form-control-sm"
-                    placeholder="Nome guest"
-                  />
-                  <button type="submit" className="btn btn-danger btn-sm">
-                    ❌
-                  </button>
-                </form>
-
                 {/* Azioni per iscrizione e cancellazione */}
                 <div className="mt-auto">
                   <div className="d-flex gap-2 flex-wrap">
@@ -206,20 +201,132 @@ const MatchList = ({ user }) => {
                     >
                       Cancellati ❌
                     </button>
-                    <button
-                      className="btn btn-danger btn-sm mt-2 w-100"
-                      onClick={() => handleDeleteMatch(m.id)}
-                    >
-                      Elimina Partita ❌
-                    </button>
                   </div>
+                  <button
+                    className="btn btn-secondary btn-sm w-100 mb-2"
+                    onClick={() => openModal('addGuest', m.id)}
+                  >
+                    Aggiungi Guest
+                  </button>
+                  <button
+                    className="btn btn-secondary btn-sm w-100 mb-2"
+                    onClick={() => openModal('removeGuest', m.id)}
+                  >
+                    Rimuovi Guest
+                  </button>
+                  <button
+                    className="btn btn-info btn-sm w-100 mb-2"
+                    onClick={() => openDetailOverlay(m)}
+                  >
+                    Guarda Formazione
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm mt-2 w-100"
+                    onClick={() => handleDeleteMatch(m.id)}
+                  >
+                    Elimina Partita ❌
+                  </button>
                 </div>
-                {/*<MatchDetail match={m}/>*/}
               </div>
+              {/*<MatchDetail match={m}/>*/}
             </div>
           </div>
         ))}
       </div>
+      {/* Overlay / Modal dettaglio */}
+      {detailOverlay.show && (
+        <div
+          className="overlay-content"
+          role="button"
+          tabIndex={0}
+          onClick={e => e.stopPropagation()}
+          onKeyDown={e => {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+              // magari chiudi l’overlay o fai nulla
+              e.stopPropagation();
+            }
+          }}
+        >
+          <button
+            type="button"
+            className="btn-close float-end"
+            onClick={closeDetailOverlay}
+            aria-label="Close"
+          ></button>
+          <MatchDetail match={detailOverlay.match} />
+        </div>
+      )}
+      {/* Modal */}
+      {modalInfo.show && (
+        <div className="modal show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {modalInfo.mode === 'addGuest' ? 'Aggiungi Guest' : 'Rimuovi Guest'}
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                {modalInfo.mode === 'addGuest' ? (
+                  <form onSubmit={handleModalAddGuest}>
+                    <div className="mb-3">
+                      <label htmlFor="guestNameInput" className="form-label">
+                        Nome guest
+                      </label>
+                      <input
+                        type="text"
+                        name="guestName"
+                        className="form-control"
+                        id="guestNameInput"
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="guestOverallInput" className="form-label">
+                        Overall
+                      </label>
+                      <input
+                        type="number"
+                        name="guestOverall"
+                        className="form-control"
+                        id="guestOverallInput"
+                        required
+                      />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                      Aggiungi
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleModalRemoveGuest}>
+                    <div className="mb-3">
+                      <label htmlFor="guestNameRemoveInput" className="form-label">
+                        Nome guest da rimuovere
+                      </label>
+                      <input
+                        type="text"
+                        name="guestName"
+                        className="form-control"
+                        id="guestNameRemoveInput"
+                        required
+                      />
+                    </div>
+                    <button type="submit" className="btn btn-danger">
+                      Rimuovi
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
