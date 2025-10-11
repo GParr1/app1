@@ -1,0 +1,33 @@
+/* Sfondo semitrasparente che copre tutto lo schermo */
+.overlay-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050; /* sopra il contenuto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenuto dell’overlay (modal) */
+.overlay-content {
+    background-color: white;
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px; /* o una larghezza desiderata */
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1060;
+}
+
+/* Bottone chiusura in overlay */
+.overlay-content .btn-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
