@@ -236,24 +236,37 @@ const MatchList = ({ user }) => {
       {/* Overlay / Modal dettaglio */}
       {detailOverlay.show && (
         <div
-          className="overlay-content"
+          className="overlay-backdrop"
           role="button"
           tabIndex={0}
-          onClick={e => e.stopPropagation()}
+          onClick={closeDetailOverlay}
           onKeyDown={e => {
             if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-              // magari chiudi l’overlay o fai nulla
-              e.stopPropagation();
+              closeDetailOverlay();
             }
           }}
         >
-          <button
-            type="button"
-            className="btn-close float-end"
-            onClick={closeDetailOverlay}
-            aria-label="Close"
-          ></button>
-          <MatchDetail match={detailOverlay.match} />
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <div
+            className="overlay-content"
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            onClick={e => e.stopPropagation()}
+            onKeyDown={e => {
+              if (e.key === 'Escape') {
+                closeDetailOverlay();
+              }
+            }}
+          >
+            <button
+              type="button"
+              className="btn-close float-end"
+              onClick={closeDetailOverlay}
+              aria-label="Close"
+            ></button>
+            <MatchDetail match={detailOverlay.match} />
+          </div>
         </div>
       )}
       {/* Modal */}
