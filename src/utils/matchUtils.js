@@ -1,9 +1,7 @@
 import {
   filterInArrByCriteria,
   findInArrByCriteria,
-  findInArrByParams,
   findInArrByUid,
-  getObjFromForm,
 } from 'utils/utils';
 import { deleteMatch, getAllMatches, updateMatch } from 'utils/firestoreUtils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
