@@ -8,22 +8,25 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ user = {} }) => {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null); // 'image' | 'profile' | null
+  const [menuOpen, setMenuOpen] = useState(false);
   const displayName = user?.userLogin?.displayName ?? 'Utente';
-  /** 🔄 Apertura / chiusura modali */
-  const openModal = useCallback(type => setActiveModal(type), []);
+
+  const openModal = useCallback(type => {
+    setActiveModal(type);
+    setMenuOpen(false); // chiude il menu mobile se aperto
+  }, []);
+
   const closeModal = useCallback(() => setActiveModal(null), []);
 
-  /** 🚪 Logout utente */
   const handleSignOut = useCallback(async () => {
     await doSignOut();
   }, []);
 
-  /** 💾 Salvataggio profilo (placeholder per ora) */
   const handleSave = useCallback(
     async evt => {
       try {
         window.calcetto?.toggleSpinner?.(true);
-        await handleSaveFormUser(evt, user); // 👈 chiamata alla tua funzione
+        await handleSaveFormUser(evt, user);
         closeModal();
       } catch (error) {
         console.error('Errore durante il salvataggio del profilo:', error);
@@ -36,123 +39,72 @@ const Header = ({ user = {} }) => {
 
   return (
     <header className="row mb-3">
-      <div className="d-flex justify-content-between align-items-center w-100">
-        <h1 className="m-0">Benvenuto {displayName}</h1>
+      <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+        <h1 className="m-0 flex-grow-1">Benvenuto {displayName}</h1>
 
-        <div className="d-flex gap-2">
-          {/* 🧾 HOME profilo */}
-          <button
-            className="btn"
-            onClick={() => navigate('dashboard')}
-            aria-label="Completa il tuo profilo"
-          >
+        {/* Desktop buttons */}
+        <div className="d-none d-md-flex gap-2 align-items-center">
+          <button className="btn" onClick={() => navigate('dashboard')}>
             Home
           </button>
-          <button
-            className="btn"
-            onClick={() => navigate('profile')}
-            aria-label="Completa il tuo profilo"
-          >
+          <button className="btn" onClick={() => navigate('profile')}>
             Profilo
           </button>
-          <button
-            className="btn"
-            onClick={() => navigate('profile')}
-            aria-label="Completa il tuo profilo"
-          >
+          <button className="btn" onClick={() => navigate('profile')}>
             Partite
           </button>
-
-          {/* 🖼️ Cambia immagine */}
-        </div>
-        <div className="d-flex gap-2">
-          {/* 🧾 Modifica profilo */}
           <button
             className="btn"
             onClick={() => openModal('profile')}
             aria-label="Completa il tuo profilo"
           >
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Completa il tuo profilo</title>
-              <circle cx="12" cy="8" r="4" fill="#4F46E5" />
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6v1H4v-1z" fill="#4F46E5" />
-            </svg>
+            👤
           </button>
-
-          {/* 🖼️ Cambia immagine */}
           <button
-            type="button"
             className="btn"
             onClick={() => openModal('image')}
             aria-label="Cambia immagine del profilo"
           >
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Cambia immagine del profilo</title>
-              <path
-                d="M5 20h14a2 2 0 0 0 2-2v-7l-3-3h-4l-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"
-                stroke="#2563EB"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="12" cy="13" r="3" stroke="#2563EB" strokeWidth="2" />
-            </svg>
+            🖼️
           </button>
+          <button className="btn" onClick={handleSignOut} aria-label="Esci dal profilo">
+            🚪
+          </button>
+        </div>
 
-          {/* 🚪 Logout */}
-          <button
-            type="button"
-            className="btn"
-            onClick={handleSignOut}
-            aria-label="Esci dal profilo"
-          >
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Esci dal profilo</title>
-              <path
-                d="M16 17L21 12L16 7"
-                stroke="#DC2626"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 12H9"
-                stroke="#DC2626"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 19C7.58172 19 4 15.4183 4 11C4 6.58172 7.58172 3 12 3"
-                stroke="#DC2626"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+        {/* Mobile menu toggle */}
+        <div className="d-flex d-md-none">
+          <button className="btn" onClick={() => setMenuOpen(!menuOpen)} aria-label="Apri menu">
+            ☰
           </button>
         </div>
       </div>
 
-      {/* 🧩 Modale dinamica */}
+      {/* Mobile menu content */}
+      {menuOpen && (
+        <div className="d-md-none mt-2 bg-light p-3 rounded shadow-sm w-100">
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('dashboard')}>
+            Home
+          </button>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('profile')}>
+            Profilo
+          </button>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('profile')}>
+            Partite
+          </button>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => openModal('profile')}>
+            Modifica profilo
+          </button>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => openModal('image')}>
+            Cambia immagine
+          </button>
+          <button className="btn btn-sm btn-danger w-100" onClick={handleSignOut}>
+            Logout
+          </button>
+        </div>
+      )}
+
+      {/* Modale dinamica */}
       {activeModal && (
         <div
           className="modal fade show d-block"
