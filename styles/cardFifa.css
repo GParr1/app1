@@ -261,3 +261,7 @@
 .card-mini .div-name {
     height: 20%;
 }
+.card-mini-wrapper {
+    position: relative;
+    height: 0;
+}
