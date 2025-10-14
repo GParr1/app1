@@ -1,4 +1,6 @@
-name: SonarCloud
+name: Run Tests and Coverage
+
+# Trigger: esegue i test ad ogni push o PR sulla branch main
 on:
   push:
     branches: [ "main" ]
@@ -6,26 +8,32 @@ on:
     branches: [ "main" ]
 
 jobs:
-  sonarcloud:
+  test:
+    name: Run Jest Tests and Generate Coverage
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
+    steps:
+      # 1️⃣ Checkout del repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Run Jest tests with coverage
       - name: Run tests and generate coverage
         run: npm test -- --coverage --watchAll=false
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # 5️⃣ Upload coverage artifacts (opzionale)
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/lcov-report
