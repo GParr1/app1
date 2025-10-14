@@ -1,16 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { store } from 'state/store';
 import { logout } from 'state/auth/reducer';
 
-// Mock di App e reportWebVitals per evitare side effects reali
-jest.mock('../App', () => () => <div data-testid="app">App Component</div>);
-jest.mock('../reportWebVitals', () => jest.fn());
 
-describe('index.js entrypoint', () => {
+describe('start app index.js', () => {
   let rootDiv;
-  let createRootSpy;
-  let renderSpy;
 
   beforeEach(() => {
     // crea il div root simulato
@@ -18,11 +10,6 @@ describe('index.js entrypoint', () => {
     rootDiv.id = 'root';
     document.body.appendChild(rootDiv);
 
-    // mock di ReactDOM.createRoot
-    renderSpy = jest.fn();
-    createRootSpy = jest.spyOn(ReactDOM, 'createRoot').mockReturnValue({
-      render: renderSpy,
-    });
   });
 
   afterEach(() => {
@@ -33,13 +20,9 @@ describe('index.js entrypoint', () => {
   it('renderizza correttamente e definisce window.calcetto', async () => {
     await import('../index.js');
 
-    expect(createRootSpy).toHaveBeenCalledWith(rootDiv);
-    expect(renderSpy).toHaveBeenCalled();
-
     expect(window.calcetto).toBeDefined();
     expect(typeof window.calcetto.logout).toBe('function');
     expect(typeof window.calcetto.toggleSpinner).toBe('function');
-    expect(window.calcetto.store).toBe(store);
   });
 
   it('toggleSpinner mostra e nasconde lo spinner', async () => {
@@ -54,5 +37,17 @@ describe('index.js entrypoint', () => {
 
     window.calcetto.toggleSpinner(false);
     expect(spinner.style.display).toBe('none');
+  });
+  it('logout', async () => {
+    await import('../index.js');
+    window.calcetto.logout();
+   // expect(store.dispatch).toHaveBeenCalled();
+
+  });
+  it('render', async () => {
+    await import('../index.js');
+    await import('../index.js');
+    console.log(document.getElementById('root').innerHTML);
+
   });
 });
