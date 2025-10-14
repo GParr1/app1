@@ -2,10 +2,10 @@
 export const initializeApp = jest.fn(() => ({}));
 
 export const getAuth = jest.fn(() => ({
-    signInWithPopup: jest.fn(),
-    signOut: jest.fn(),
-    currentUser: null,
-    onAuthStateChanged: jest.fn(),
+  signInWithPopup: jest.fn(),
+  signOut: jest.fn(),
+  currentUser: null,
+  onAuthStateChanged: jest.fn(),
 }));
 
 export const GoogleAuthProvider = jest.fn();
