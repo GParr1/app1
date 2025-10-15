@@ -3,6 +3,13 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import React from 'react';
+import { createStore } from 'redux';
+
+const reducer = (state = { auth: { user: null } }, action) => state;
+const store = createStore(reducer);
+export const Wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
 // Mock globale per Firebase
 jest.mock('firebase/app', () => ({

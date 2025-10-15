@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getFutureMatches,
-  getMatchesByPlayerId,
-  getPastMatches,
-} from 'utils/firestoreUtils';
+import { getFutureMatches, getMatchesByPlayerId, getPastMatches } from 'utils/firestoreUtils';
 import { findInArrByUid, getObjFromForm } from 'utils/utils';
 import ModalForm from 'components/Modal/ModalForm';
 import OverlayBackdrop from 'components/Modal/OverlayBackdrop';

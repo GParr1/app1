@@ -33,7 +33,7 @@ const Login = () => {
         navigate('/confirm-profile', { replace: true });
       }
     } else {
-      setError(userObj.error.message);
+      setError('Errore durante la login');
     }
   };
 
@@ -44,7 +44,11 @@ const Login = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <h2 className="card-title text-center">Login</h2>
-            <button onClick={() => handleLogin('google')} className="btn btn-outline-danger">
+            <button
+              id="google-login"
+              onClick={() => handleLogin('google')}
+              className="btn btn-outline-danger"
+            >
               <i className="bi bi-google me-2"></i> Accedi con Google
             </button>
             <form onSubmit={() => handleLogin('credential')}>
@@ -64,7 +68,7 @@ const Login = () => {
                   onChange={e => setPassword(e.target.value)}
                 />
               </div>
-              <button className="btn btn-primary w-100" type="submit">
+              <button id="credential-login" className="btn btn-primary w-100" type="submit">
                 Accedi
               </button>
             </form>
