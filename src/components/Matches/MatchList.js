@@ -40,7 +40,7 @@ const MatchList = ({ user }) => {
   }, []);
   useEffect(() => {
     const fetchMatchesById = async () => {
-      const list = await getMatchesByPlayerId();
+      const list = await getMatchesByPlayerId(user.userLogin.uid);
       setMatchesById(list);
     };
     fetchMatchesById();
