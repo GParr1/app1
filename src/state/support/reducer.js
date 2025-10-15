@@ -9,7 +9,10 @@ const supportSlice = createSlice({
   initialState,
   reducers: {
     matches: (state, action) => {
-      state.support = action.payload;
+      state.support = {
+        ...state.support,
+        ...action.payload,
+      };
     },
   },
 });
