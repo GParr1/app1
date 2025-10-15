@@ -8,12 +8,12 @@ const supportSlice = createSlice({
   name: 'support',
   initialState,
   reducers: {
-    setLoading: (state, action) => {
+    matches: (state, action) => {
       state.support = action.payload;
     },
   },
 });
 
-export const { setLoading } = supportSlice.actions;
+export const { matches } = supportSlice.actions;
 
 export default supportSlice.reducer;

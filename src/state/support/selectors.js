@@ -1,1 +1,1 @@
-export const isLoading = state => state.support?.loading;
+export const getMatches = state => state.support?.matches || [];

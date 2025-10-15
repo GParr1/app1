@@ -34,6 +34,7 @@ export const handleJoinMatch = async ({ matches, matchId, user }) => {
       ],
     };
     await updateMatch(matchId, updated);
+    await getAllMatches();
     window.calcetto.toggleSpinner(false);
     return updated;
   } catch (err) {
@@ -60,6 +61,7 @@ export const handleRemoveMatch = async ({ matches, matchId, user }) => {
       players: updatedPlayers,
     };
     await updateMatch(matchId, updated);
+    await getAllMatches();
     return updated;
   } catch (err) {
     console.error('Errore aggiunta guest:', err);
@@ -101,6 +103,7 @@ export const handleJoinGuestMatch = async ({ matches, matchId, formObject }) => 
       players: [...match.players, newGuest],
     };
     await updateMatch(matchId, updated);
+    await getAllMatches();
     return updated;
   } catch (err) {
     console.error('Errore aggiunta guest:', err);
@@ -133,6 +136,7 @@ export const handleRemoveGuestMatch = async ({ matches, matchId, formObject }) =
     };
     await updateMatch(matchId, updated);
     alert(`✅ Guest "${guestName}" rimosso con successo.`);
+    await getAllMatches();
     return updated;
   } catch (err) {
     console.error('Errore rimozione guest:', err);
@@ -153,7 +157,7 @@ export const handleDeleteMatchUtils = async ({ matches, matchId }) => {
       try {
         await deleteMatch(matchId); // Aggiungi la funzione per eliminare la partita
         alert('✅ Partita eliminata con successo.');
-        return await getAllMatches();
+        await getAllMatches();
       } catch (err) {
         console.error('Errore eliminazione partita:', err);
         alert('❌ Errore durante l’eliminazione della partita.');

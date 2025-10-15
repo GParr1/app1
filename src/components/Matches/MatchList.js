@@ -12,11 +12,15 @@ import {
   handleRemoveMatch,
 } from 'utils/matchUtils';
 import MatchSlider from 'components/Matches/MatchSlider';
+import { useSelector } from 'react-redux';
+import { getUser } from 'state/auth/selectors';
+import { getMatches } from 'state/support/selectors';
 
 const MatchList = ({ user }) => {
-  const [matches, setMatches] = useState([]);
-  const [matchesById, setMatchesById] = useState([]);
   const [matchesPast, setMatchesPast] = useState([]);
+  const matches = useSelector(getMatches);
+  const uid = user.userLogin.uid;
+  const matchesByPlayerId = getMatchesByPlayerId(matches, uid);
   // Stato per gestire la modal
   const [modalInfo, setModalInfo] = useState({
     show: false,
@@ -34,18 +38,10 @@ const MatchList = ({ user }) => {
 
   useEffect(() => {
     const fetchMatches = async () => {
-      const list = await getAllMatches();
-      setMatches(list);
+      await getAllMatches();
     };
     fetchMatches();
   }, []);
-  useEffect(() => {
-    const fetchMatchesById = async () => {
-      const list = await getMatchesByPlayerId(user.userLogin.uid);
-      setMatchesById(list);
-    };
-    fetchMatchesById();
-  }, [user.userLogin.uid]);
   useEffect(() => {
     const fetchMatchesById = async () => {
       const list = await getPastMatches();
@@ -55,13 +51,11 @@ const MatchList = ({ user }) => {
   }, []);
 
   const handleJoin = async matchId => {
-    const updated = await handleJoinMatch({ matches, matchId, user });
-    !!updated && setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
+    await handleJoinMatch({ matches, matchId, user });
   };
 
   const handleRemove = async matchId => {
-    const updated = await handleRemoveMatch({ matches, matchId, user });
-    !!updated && setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
+    await handleRemoveMatch({ matches, matchId, user });
   };
 
   const handleModalAddGuest = async evt => {
@@ -69,8 +63,7 @@ const MatchList = ({ user }) => {
     const { matchId } = modalInfo;
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
-    const updated = await handleJoinGuestMatch({ matches, matchId, formObject });
-    !!updated && setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
+    await handleJoinGuestMatch({ matches, matchId, formObject });
   };
 
   const handleModalRemoveGuest = async evt => {
@@ -78,13 +71,11 @@ const MatchList = ({ user }) => {
     const { matchId } = modalInfo;
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
-    const updated = await handleRemoveGuestMatch({ matches, matchId, formObject });
-    !!updated && setMatches(prev => prev.map(m => (m.id === matchId ? updated : m)));
+    await handleRemoveGuestMatch({ matches, matchId, formObject });
   };
 
   const handleDeleteMatch = async matchId => {
-    const list = await handleDeleteMatchUtils({ matches, matchId });
-    setMatches(list);
+    await handleDeleteMatchUtils({ matches, matchId });
   };
   const openModal = (mode, modalTitle, matchId, handleSubmit) => {
     setModalInfo({ show: true, mode, matchId, modalTitle, handleSubmit });
@@ -117,7 +108,7 @@ const MatchList = ({ user }) => {
       />
       <h5 className="text-center mb-3">le tue partite</h5>
       <MatchSlider
-        matches={matchesById}
+        matches={matchesByPlayerId}
         user={user}
         handleJoin={handleJoin}
         handleRemove={handleRemove}
