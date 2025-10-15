@@ -1,6 +1,19 @@
-export const deleteErrorAndSetState = name => (state, action) =>
-  action.error
-    ? state.set('error', action.payload.message)
-    : state.remove('error').set(name, action.payload);
-export const deleteErrorAndMergeState = () => (state, action) =>
-  action.error ? state.set('error', action.payload.message) : state.merge(action.payload);
+export const deleteErrorAndSetState = name => (state, action) => {
+  if (action.error) {
+    // se action.error è true, impostiamo l'errore
+    state.error = action.payload?.message ?? action.payload ?? 'Errore';
+  } else {
+    // rimuoviamo eventuale errore e impostiamo il campo specificato
+    if (state.error !== undefined) delete state.error;
+    state[name] = action.payload;
+  }
+};
+export const deleteErrorAndMergeState = () => (state, action) => {
+  if (action.error) {
+    state.error = action.payload?.message ?? action.payload ?? 'Errore';
+  } else {
+    if (state.error !== undefined) delete state.error;
+    // merge: sovrascrive/aggiunge le proprietà del payload nello state
+    Object.assign(state, action.payload);
+  }
+};
