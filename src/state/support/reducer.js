@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { deleteErrorAndSetState } from 'state/stateUtils';
 
 const initialState = {
-  loading: false,
+  matches: [],
 };
 
 const supportSlice = createSlice({
