@@ -1,6 +1,8 @@
 import Slider from 'react-slick';
 import { findInArrByUid } from 'utils/utils';
 import { checkMaxPlayersMatch } from 'utils/matchUtils';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const MatchSlider = ({
   matches,
