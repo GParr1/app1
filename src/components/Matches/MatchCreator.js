@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 import { saveMatch } from 'utils/firestoreUtils';
 
 const MatchCreator = ({ onCreated }) => {
@@ -17,6 +18,8 @@ const MatchCreator = ({ onCreated }) => {
     const newMatch = {
       ...form,
       createdAt: new Date().toISOString(),
+      // converto la stringa form.data in Timestamp
+      dataTimestamp: Timestamp.fromDate(new Date(form.data)),
       players: [],
       status: 'open',
     };

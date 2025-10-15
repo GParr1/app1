@@ -37,12 +37,12 @@ export const getMatchesByPlayerId = async playerId => {
   return matches.filter(match => match.players?.some(player => player.id === playerId));
 };
 export const getFutureMatches = async () => {
-  const today = new Date().toISOString(); // es: "2025-10-15T18:30:00.000Z"
+  const today = new Date();
 
   const q = query(
     collection(db, 'matches'),
-    where('data', '>', today),
-    orderBy('data', 'asc'), // per sicurezza
+    where('dataTimestamp', '>', today), // campo Timestamp
+    orderBy('dataTimestamp', 'asc'),
   );
 
   const snapshot = await getDocs(q);
