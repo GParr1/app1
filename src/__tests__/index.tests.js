@@ -1,6 +1,5 @@
 import { logout } from 'state/auth/reducer';
 
-
 describe('start app index.js', () => {
   let rootDiv;
 
@@ -9,7 +8,6 @@ describe('start app index.js', () => {
     rootDiv = document.createElement('div');
     rootDiv.id = 'root';
     document.body.appendChild(rootDiv);
-
   });
 
   afterEach(() => {
@@ -41,13 +39,11 @@ describe('start app index.js', () => {
   it('logout', async () => {
     await import('../index.js');
     window.calcetto.logout();
-   // expect(store.dispatch).toHaveBeenCalled();
-
+    // expect(store.dispatch).toHaveBeenCalled();
   });
   it('render', async () => {
     await import('../index.js');
     await import('../index.js');
     console.log(document.getElementById('root').innerHTML);
-
   });
 });

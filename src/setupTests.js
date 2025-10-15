@@ -6,35 +6,35 @@ import '@testing-library/jest-dom';
 
 // Mock globale per Firebase
 jest.mock('firebase/app', () => ({
-    initializeApp: jest.fn(() => ({
-        // puoi aggiungere eventuali proprietà se servono
-    })),
+  initializeApp: jest.fn(() => ({
+    // puoi aggiungere eventuali proprietà se servono
+  })),
 }));
 
 jest.mock('firebase/auth', () => ({
-    getAuth: jest.fn(() => ({
-        // eventuali metodi fittizi
-        signInWithPopup: jest.fn(),
-        signOut: jest.fn(),
-    })),
-    GoogleAuthProvider: jest.fn(),
+  getAuth: jest.fn(() => ({
+    // eventuali metodi fittizi
+    signInWithPopup: jest.fn(),
+    signOut: jest.fn(),
+  })),
+  GoogleAuthProvider: jest.fn(),
 }));
 
 jest.mock('firebase/firestore', () => ({
-    getFirestore: jest.fn(() => ({
-        // metodi fittizi di Firestore
-        collection: jest.fn(),
-        doc: jest.fn(),
-        getDoc: jest.fn(),
-        setDoc: jest.fn(),
-    })),
+  getFirestore: jest.fn(() => ({
+    // metodi fittizi di Firestore
+    collection: jest.fn(),
+    doc: jest.fn(),
+    getDoc: jest.fn(),
+    setDoc: jest.fn(),
+  })),
 }));
 
 jest.mock('firebase/storage', () => ({
-    getStorage: jest.fn(() => ({
-        // metodi fittizi di Storage
-        ref: jest.fn(),
-        uploadBytes: jest.fn(),
-        getDownloadURL: jest.fn(),
-    })),
+  getStorage: jest.fn(() => ({
+    // metodi fittizi di Storage
+    ref: jest.fn(),
+    uploadBytes: jest.fn(),
+    getDownloadURL: jest.fn(),
+  })),
 }));
