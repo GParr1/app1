@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMatches } from 'utils/firestoreUtils';
+import {useSelector} from "react-redux";
+import {getMatches} from "state/support/selectors";
 
 const Dashboard = () => {
-  const [matches, setMatches] = useState([]);
-
+  const matches = useSelector(getMatches);
   useEffect(() => {
     const fetchMatches = async () => {
-      const list = await getAllMatches();
-      setMatches(list);
+      await getAllMatches();
     };
     fetchMatches();
   }, []);

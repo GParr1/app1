@@ -50,7 +50,7 @@ const Header = ({ user = {} }) => {
           <button className="btn" onClick={() => navigate('profile')}>
             Profilo
           </button>
-          <button className="btn" onClick={() => navigate('profile')}>
+          <button className="btn" onClick={() => navigate('partite')}>
             Partite
           </button>
           <button
