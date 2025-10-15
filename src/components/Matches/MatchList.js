@@ -63,6 +63,7 @@ const MatchList = ({ user }) => {
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
     await handleJoinGuestMatch({ matches, matchId, formObject });
+    closeModal();
   };
 
   const handleModalRemoveGuest = async (evt, obj) => {
@@ -71,6 +72,7 @@ const MatchList = ({ user }) => {
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
     await handleRemoveGuestMatch({ matches, matchId, formObject });
+    closeModal();
   };
 
   const handleDeleteMatch = async matchId => {
