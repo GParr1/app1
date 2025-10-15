@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from 'state/auth/reducer';
+import supportReduser from 'state/support/reducer';
 import { combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // usa localStorage
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  support: supportReduser,
 });
 const persistConfig = {
   key: 'root',
