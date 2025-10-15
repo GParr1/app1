@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { getAllMatches } from 'utils/firestoreUtils';
-import {useSelector} from "react-redux";
-import {getMatches} from "state/support/selectors";
+import { useSelector } from 'react-redux';
+import { getMatches } from 'state/support/selectors';
 
 const Dashboard = () => {
   const matches = useSelector(getMatches);
