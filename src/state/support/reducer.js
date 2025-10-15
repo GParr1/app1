@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { deleteErrorAndSetState } from 'state/stateUtils';
 
 const initialState = {
   loading: false,
@@ -8,12 +9,7 @@ const supportSlice = createSlice({
   name: 'support',
   initialState,
   reducers: {
-    matches: (state, action) => {
-      state.support = {
-        ...state.support,
-        ...action.payload,
-      };
-    },
+    matches: (state, action) => deleteErrorAndSetState('matches')(state, action),
   },
 });
 
