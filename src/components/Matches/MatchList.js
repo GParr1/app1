@@ -57,17 +57,17 @@ const MatchList = ({ user }) => {
     await handleRemoveMatch({ matches, matchId, user });
   };
 
-  const handleModalAddGuest = async evt => {
+  const handleModalAddGuest = async (evt, obj) => {
     evt.preventDefault();
-    const { matchId } = modalInfo;
+    const { matchId } = obj;
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
     await handleJoinGuestMatch({ matches, matchId, formObject });
   };
 
-  const handleModalRemoveGuest = async evt => {
+  const handleModalRemoveGuest = async (evt, obj) => {
     evt.preventDefault();
-    const { matchId } = modalInfo;
+    const { matchId } = obj;
     const formData = new FormData(evt.target);
     const formObject = getObjFromForm({ formData });
     await handleRemoveGuestMatch({ matches, matchId, formObject });
@@ -208,9 +208,9 @@ const MatchList = ({ user }) => {
       {/* Modal */}
       {modalInfo.show && (
         <ModalForm
-          mode={modalInfo.mode}
+          modalInfo={modalInfo}
+          objSubmit={{ matchId: modalInfo.matchId }}
           closeModal={closeModal}
-          handleSubmit={modalInfo.handleSubmit}
         />
       )}
     </div>

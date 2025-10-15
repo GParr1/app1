@@ -22,9 +22,15 @@ const MatchDetail = ({ match }) => {
         <div className="col-md-6">
           <div className="card shadow-sm mb-3 card-mini-wrapper">
             <div className="card-header bg-primary text-white text-center fw-bold">Squadra A</div>
-            <div className="p-3 d-flex flex-wrap justify-content-center gap-3 card-mini">
+            <div className="p-3 d-flex flex-wrap justify-content-center gap-0">
               {teams.teamA.length > 0 ? (
-                teams.teamA.map(p => <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} />)
+                teams.teamA.map(p => (
+                  <CardBronze
+                    key={p.id}
+                    dynamicValue={{ customerInfo: p }}
+                    className={'card-mini'}
+                  />
+                ))
               ) : (
                 <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
               )}

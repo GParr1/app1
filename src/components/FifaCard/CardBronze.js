@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { starterCard } from '../../structure/starterCard';
 import { ATTRIBUTES, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
 
-const CardBronze = ({ dynamicValue, previewImg }) => {
+const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
   const stateUser = useSelector(getUser) || {};
   const user = dynamicValue || stateUser;
   const userLogin = user.userLogin || {};
@@ -35,7 +35,7 @@ const CardBronze = ({ dynamicValue, previewImg }) => {
   // Sfondo carta in base all'overall
   const cardBackground = getCardTier(customerInfo.overall || 60);
   return (
-    <figure className="">
+    <figure className={className}>
       <div
         id="football-card_15367"
         className="cardFootball hasChangeImage cardNewDesign"

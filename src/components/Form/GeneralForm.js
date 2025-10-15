@@ -1,10 +1,11 @@
 import React from 'react';
 import { getFormStructure } from 'utils/utils';
+import { matches } from 'state/support/reducer';
 
-const GeneralForm = ({ handleSubmit, formId }) => {
+const GeneralForm = ({ handleSubmit, formId, obj }) => {
   const formData = getFormStructure(formId);
   return (
-    <form id={formId} onSubmit={handleSubmit}>
+    <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
         const { type, name, label, placeholder, defaultValue, options, className } = field;
 
