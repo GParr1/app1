@@ -44,7 +44,7 @@ const MatchList = ({ user }) => {
       setMatchesById(list);
     };
     fetchMatchesById();
-  }, []);
+  }, [user.userLogin.uid]);
   useEffect(() => {
     const fetchMatchesById = async () => {
       const list = await getPastMatches();
