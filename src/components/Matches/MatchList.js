@@ -13,7 +13,6 @@ import {
 } from 'utils/matchUtils';
 import MatchSlider from 'components/Matches/MatchSlider';
 import { useSelector } from 'react-redux';
-import { getUser } from 'state/auth/selectors';
 import { getMatches } from 'state/support/selectors';
 
 const MatchList = ({ user }) => {
