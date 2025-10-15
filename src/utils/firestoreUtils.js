@@ -33,7 +33,7 @@ export const getAllMatches = async () => {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 export const getMatchesByPlayerId = async playerId => {
-  const matches = getAllMatches();
+  const matches = await getAllMatches();
   return matches.filter(match => match.players?.some(player => player.id === playerId));
 };
 export const getFutureMatches = async () => {
