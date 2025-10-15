@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { getAllMatches } from 'utils/firestoreUtils';
 import { useSelector } from 'react-redux';
 import { getMatches } from 'state/support/selectors';
+import { getUser } from 'state/auth/selectors';
 
 const Dashboard = () => {
   const matches = useSelector(getMatches);
+  const user = useSelector(getUser);
   useEffect(() => {
     const fetchMatches = async () => {
       await getAllMatches();
@@ -31,9 +33,9 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      {Object.keys(matches).map(key => (
+      {Object.keys(user).map(key => (
         <p key={key}>
-          {key}: {typeof matches[key] === 'object' ? JSON.stringify(matches[key]) : matches[key]}
+          {key}: {typeof user[key] === 'object' ? JSON.stringify(user[key]) : user[key]}
         </p>
       ))}
     </>
