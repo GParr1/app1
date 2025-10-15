@@ -10,8 +10,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { doSetMatches } from 'state/support/operations';
-import { store } from 'state/store'; // la tua istanza Firebase
+import { doSetMatches } from 'state/support/operations'; // la tua istanza Firebase
 
 export const saveMatch = async match => {
   const ref = doc(collection(db, 'matches'));
@@ -33,7 +32,7 @@ export const deleteMatch = async matchId => {
 export const getAllMatches = async () => {
   const snapshot = await getDocs(collection(db, 'matches'));
   const listMatches = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  store.dispatch(doSetMatches(listMatches));
+  await doSetMatches(listMatches);
 };
 export const getMatchesByPlayerId = (matches, playerId) => {
   return matches.filter(match => match.players?.some(player => player.id === playerId));
