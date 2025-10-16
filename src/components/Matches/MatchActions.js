@@ -1,6 +1,6 @@
 import { findInArrByUid } from 'utils/utils';
 import React from 'react';
-import { SVGPlus, SVGPlusCircle, SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
+import { SVGPlus, SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
 import { SVGClose, SVGCloseCircleFilled } from 'components/SVG/SVGClose';
 
 const MatchActions = ({
