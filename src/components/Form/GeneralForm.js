@@ -6,7 +6,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
   return (
     <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
-        const { type, name, label, placeholder, defaultValue, options, className } = field;
+        const { type, name, label, placeholder, defaultValue, options } = field;
 
         // Render dinamico dei campi
         switch (type) {
@@ -21,8 +21,9 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                 </label>
                 <input
                   type={type}
-                  className="form-control"
+                  className="form-control rounded-1"
                   name={name}
+                  id={name}
                   placeholder={placeholder}
                   defaultValue={defaultValue}
                 />
@@ -34,7 +35,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                 <label htmlFor={name} className="form-label">
                   {label}
                 </label>
-                <select className="form-control" name={name} defaultValue={''}>
+                <select className="form-control rounded-1" name={name} id={name} defaultValue={''}>
                   {options.map(option => (
                     <option key={option.code} value={option.code}>
                       {option.label}
@@ -45,7 +46,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
             );
           case 'submit': {
             return (
-              <button type={type} className={className}>
+              <button type={type} className="btn btn-primary">
                 {label}
               </button>
             );
