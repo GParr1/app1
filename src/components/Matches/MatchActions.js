@@ -1,7 +1,7 @@
 import { findInArrByUid } from 'utils/utils';
 import React from 'react';
-import { SVGPlus, SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
-import { SVGClose, SVGCloseCircleFilled } from 'components/SVG/SVGClose';
+import { SVGPlus } from 'components/SVG/SVGPlus';
+import { SVGClose } from 'components/SVG/SVGClose';
 
 const MatchActions = ({
   match,
@@ -25,14 +25,14 @@ const MatchActions = ({
           disabled={playerExists}
           onClick={() => handleJoin(id)}
         >
-          Iscriviti <SVGPlusCircleFilled />
+          Iscriviti <SVGPlus />
         </button>
         <button
-          className="btn btn-danger  flex-grow-1"
+          className="btn btn-secondary flex-grow-1"
           disabled={!playerExists}
           onClick={() => handleRemove(id)}
         >
-          Cancellati <SVGCloseCircleFilled />
+          Cancellati <SVGClose />
         </button>
       </div>
       {/* Dettagli Formazione */}
@@ -46,7 +46,7 @@ const MatchActions = ({
       </div>
       {/* Guest */}
       <div className="d-flex gap-2 mt-2">
-        <button className="btn btn-secondary  w-100 mb-2" onClick={() => openModal('addGuest', id)}>
+        <button className="btn btn-secondary w-100 mb-2" onClick={() => openModal('addGuest', id)}>
           Aggiungi Guest <SVGPlus />
         </button>
 
@@ -60,7 +60,7 @@ const MatchActions = ({
 
       <div className="mt-2">
         {/* Eliminazione */}
-        <button className="btn btn-danger  mt-2 w-100" onClick={() => handleDeleteMatch(id)}>
+        <button className="btn btn-secondary  mt-2 w-100" onClick={() => handleDeleteMatch(id)}>
           Elimina Partita <SVGClose />
         </button>
       </div>
