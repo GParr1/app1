@@ -9,13 +9,13 @@ body {
     padding: 0;
 }
 .zoom05 {
-    zoom:05;
+    zoom:0.5;
 }
 .zoom07 {
-    zoom:07;
+    zoom:0.7;
 }
 .zoom02 {
-    zoom:02;
+    zoom:0.2;
 }
 /* Container spacing */
 .container {
