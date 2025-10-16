@@ -3,7 +3,7 @@
 --------------------------- */
 body {
     font-family: 'Cruyff Sans', 'Segoe UI', sans-serif;
-    background:var(--primary-bg);
+    background: var(--primary-bg);
     color: var(--primary-text);
     margin: 0;
     padding: 0;
@@ -18,15 +18,23 @@ body {
    BUTTONS
 --------------------------- */
 .btn {
-    border-radius: 999px;
+    border-radius: var(--bs-btn-border-radius, 999px);
     color: var(--primary-text);
+    transition: all 0.2s ease;
 }
+
 .btn-primary {
     background-color: var(--primary-bg-btn);
+    color: var(--primary-text);
+    border: 1px solid var(--primary-color);
 }
+
 .btn-secondary {
     background-color: var(--secondary-bg-btn);
+    color: var(--primary-text);
+    border: 1px solid var(--secondary-color);
 }
+
 .btn-nav {
     background-color: transparent;
     border: 0;
@@ -34,13 +42,15 @@ body {
     color: var(--primary-text);
     cursor: pointer;
 }
+
 .btn-nav:hover:after {
-   background-color: var(--primary-color);
+    background-color: var(--primary-color);
     content: '';
     height: 0.125rem;
     inset-inline-start: 0;
     inset-inline-end: 0;
 }
+
 /* Bottoni con icone SVG */
 .btn svg {
     transition: transform 0.2s ease;
@@ -49,28 +59,52 @@ body {
 .btn:hover svg {
     transform: scale(1.1);
 }
+
+/* Bottoni disabilitati */
+.btn-primary:disabled {
+    background-color: var(--disabled-color);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    cursor: not-allowed;
+}
+
+.btn-secondary:disabled {
+    background-color: var(--secondary-bg);
+    color: var(--disabled-color);
+    border-color: var(--secondary-color);
+    cursor: not-allowed;
+}
+
 /* ------------------------
    BORDER
 --------------------------- */
 .border {
-    border-radius: 12px;
+    border-radius: var(--border-radius);
 }
+
 .border-primary {
     border: 2px solid var(--primary-color);
 }
+
 .border-secondary {
     border: 1px solid var(--secondary-color);
 }
+
 /* ------------------------
    CARD
 --------------------------- */
 .card-primary {
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     border: 2px solid var(--primary-color);
     background-color: var(--secondary-bg);
+    color: var(--primary-text);
+    box-shadow: 0 0 10px rgba(7, 244, 104, 0.15);
 }
-.card-primary {
-    border-radius: 12px;
+
+.card-secondary {
+    border-radius: var(--border-radius);
     border: 1px solid var(--secondary-color);
     background-color: var(--secondary-bg);
+    color: var(--primary-text);
+    box-shadow: 0 0 5px rgba(7, 244, 104, 0.1);
 }
