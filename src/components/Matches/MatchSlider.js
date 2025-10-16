@@ -77,7 +77,7 @@ const MatchSlider = ({
                 <img
                   src={CAMPO_CALCIO_BG}
                   alt="Campo da calcio"
-                  className="card-img-top"
+                  className="rounded-4"
                   style={{ objectFit: 'cover', height: '180px' }}
                 />
                 <div className="card-body d-flex flex-column">
