@@ -16,7 +16,12 @@ const MatchesView = ({ user }) => {
   const matchesByPlayerId = getMatchesByPlayerId(matches, uid);
   return (
     <div className="container py-3">
-      <MatchList user={user} matches={matches} title={'Partite Disponibili'} showAddMatch={true} />
+      <MatchList
+        user={user}
+        matches={matches}
+        title={`Partite Disponibili (${matches.length})`}
+        showAddMatch={true}
+      />
       <MatchList user={user} matches={matchesByPlayerId} title={'Le tue partite'} />
     </div>
   );

@@ -8,6 +8,7 @@ import { CAMPO_CALCIO_BG } from 'utils/Constant';
 
 const MatchSlider = ({
   matches,
+  title,
   showAddMatch,
   user,
   handleJoin,
@@ -37,10 +38,10 @@ const MatchSlider = ({
     <div className="match-slider-container">
       {/* Card fissa */}
       {showAddMatch && (
-        <div className="mb-3" style={{ maxWidth: '280px' }}>
+        <div className="mb-3">
           <button
             type="button"
-            className="card match-card h-100 d-flex align-items-center justify-content-center position-relative border border-2 border-primary bg-transparent w-100"
+            className="card match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
             style={{
               minHeight: '250px',
               cursor: 'pointer',
@@ -65,7 +66,7 @@ const MatchSlider = ({
           </button>
         </div>
       )}
-
+      <h5 className="text-center mb-3">{title}</h5>
       {/* Slider partite */}
       <Slider {...settings}>
         {matches.map(m => {

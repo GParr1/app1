@@ -1,21 +1,11 @@
+@import './styles/root.css';
 @import './styles/general.css';
+
 @import './styles/navigationTabs.css';
 @import './styles/login.css';
 @import './styles/cardFifa.css';
 @import "./styles/teamFormation.css";
 @import "./styles/overlay.css";
-
-/* Header della card Panini */
-.bg-panini {
-  background-color: #f7d500;
-  color: #000;
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
-
 
 /* ------------------------
    PLAYER PROFILE CARD

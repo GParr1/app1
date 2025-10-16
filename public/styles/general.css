@@ -2,9 +2,9 @@
    FONT E STILE GENERALE
 --------------------------- */
 body {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    background: #f3f4f6;
-    color: #111827;
+    font-family: 'Cruyff Sans', 'Segoe UI', sans-serif;
+    background:var(--primary-bg);
+    color: var(--primary-text);
     margin: 0;
     padding: 0;
 }
@@ -18,34 +18,29 @@ body {
    BUTTONS
 --------------------------- */
 .btn {
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    border-radius: 999px;
+    color: var(--primary-text);
 }
-
-.btn-outline-danger {
-    border: 1px solid #ef4444;
-    color: #ef4444;
-    background-color: transparent;
-}
-
-.btn-outline-danger:hover {
-    background-color: #ef4444;
-    color: #ffffff;
-}
-
 .btn-primary {
-    background-color: #3b82f6;
-    border-color: #3b82f6;
-    color: white;
+    background-color: var(--primary-bg-btn);
 }
-
-.btn-primary:hover {
-    background-color: #2563eb;
-    border-color: #2563eb;
+.btn-secondary {
+    background-color: var(--secondary-bg-btn);
 }
-
+.btn-nav {
+    background-color: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--primary-text);
+    cursor: pointer;
+}
+.btn-nav:hover:after {
+   background-color: var(--primary-color);
+    content: '';
+    height: 0.125rem;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+}
 /* Bottoni con icone SVG */
 .btn svg {
     transition: transform 0.2s ease;
@@ -53,4 +48,29 @@ body {
 
 .btn:hover svg {
     transform: scale(1.1);
+}
+/* ------------------------
+   BORDER
+--------------------------- */
+.border {
+    border-radius: 12px;
+}
+.border-primary {
+    border: 2px solid var(--primary-color);
+}
+.border-secondary {
+    border: 1px solid var(--secondary-color);
+}
+/* ------------------------
+   CARD
+--------------------------- */
+.card-primary {
+    border-radius: 12px;
+    border: 2px solid var(--primary-color);
+    background-color: var(--secondary-bg);
+}
+.card-primary {
+    border-radius: 12px;
+    border: 1px solid var(--secondary-color);
+    background-color: var(--secondary-bg);
 }

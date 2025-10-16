@@ -115,8 +115,8 @@ const MatchList = ({ user, matches, title, showAddMatch }) => {
 
   return (
     <div className="container">
-      <h5 className="text-center mb-3">{title}</h5>
       <MatchSlider
+        title={title}
         matches={matches}
         showAddMatch={showAddMatch}
         user={user}

@@ -1,5 +1,6 @@
 import { findInArrByUid } from 'utils/utils';
 import React from 'react';
+import { SVGPlus } from 'components/SVG/SVGPlus';
 
 const MatchActions = ({
   match,
@@ -23,7 +24,7 @@ const MatchActions = ({
           disabled={playerExists}
           onClick={() => handleJoin(id)}
         >
-          Iscriviti ➕
+          Iscriviti <SVGPlus />
         </button>
         <button
           className="btn btn-danger btn-sm flex-grow-1"
