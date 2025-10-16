@@ -7,6 +7,7 @@ import React from 'react';
 
 const MatchSlider = ({
   matches,
+  showAddMatch,
   user,
   handleJoin,
   handleRemove,
@@ -33,33 +34,35 @@ const MatchSlider = ({
   return (
     <div className="d-flex align-items-start gap-3">
       {/* 🔹 CARD FISSA PER CREARE UNA PARTITA */}
-      <div className="p-2" style={{ flex: '0 0 280px' }}>
-        <button
-          type="button"
-          className="card match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
-          style={{
-            minHeight: '250px',
-            cursor: 'pointer',
-            outline: 'none',
-          }}
-          onClick={() => openModal('createMatch')}
-        >
-          <div className="position-absolute top-50 start-50 translate-middle">
-            <div
-              className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
-              style={{
-                width: '80px',
-                height: '80px',
-                fontSize: '2rem',
-                boxShadow: '0 0 10px rgba(0,0,0,0.3)',
-              }}
-            >
-              +
+      {showAddMatch && (
+        <div className="p-2" style={{ flex: '0 0 280px' }}>
+          <button
+            type="button"
+            className="card match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
+            style={{
+              minHeight: '250px',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+            onClick={() => openModal('createMatch')}
+          >
+            <div className="position-absolute top-50 start-50 translate-middle">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  fontSize: '2rem',
+                  boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+                }}
+              >
+                +
+              </div>
             </div>
-          </div>
-          <div className="text-center mt-5 text-muted fw-semibold">Crea una nuova partita</div>
-        </button>
-      </div>
+            <div className="text-center mt-5 text-muted fw-semibold">Crea una nuova partita</div>
+          </button>
+        </div>
+      )}
 
       {/* 🔹 SLIDER CON LE PARTITE */}
       <div style={{ flex: '1 1 auto' }}>

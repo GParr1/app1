@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { getAllMatches, getMatchesByPlayerId } from 'utils/firestoreUtils';
+import React, { useState } from 'react';
 import { getObjFromForm } from 'utils/utils';
 import ModalForm from 'components/Modal/ModalForm';
 import OverlayBackdrop from 'components/Modal/OverlayBackdrop';
@@ -12,13 +11,8 @@ import {
   handleRemoveMatch,
 } from 'utils/matchUtils';
 import MatchSlider from 'components/Matches/MatchSlider';
-import { useSelector } from 'react-redux';
-import { getMatches } from 'state/support/selectors';
 
-const MatchList = ({ user }) => {
-  const matches = useSelector(getMatches);
-  const uid = user.userLogin.uid;
-  const matchesByPlayerId = getMatchesByPlayerId(matches, uid);
+const MatchList = ({ user, matches, title, showAddMatch }) => {
   // Stato per gestire la modal
   const [modalInfo, setModalInfo] = useState({
     show: false,
@@ -33,14 +27,6 @@ const MatchList = ({ user }) => {
     match: null,
     closeDetailOverlay: null,
   });
-
-  useEffect(() => {
-    const fetchMatches = async () => {
-      await getAllMatches();
-    };
-    fetchMatches();
-  }, []);
-
   const handleJoin = async matchId => {
     await handleJoinMatch({ matches, matchId, user });
   };
@@ -129,22 +115,10 @@ const MatchList = ({ user }) => {
 
   return (
     <div className="container">
-      <h5 className="text-center mb-3">Partite Disponibili</h5>
+      <h5 className="text-center mb-3">{title}</h5>
       <MatchSlider
         matches={matches}
-        user={user}
-        handleJoin={handleJoin}
-        handleRemove={handleRemove}
-        openModal={openModal}
-        handleModalAddGuest={handleModalAddGuest}
-        handleModalRemoveGuest={handleModalRemoveGuest}
-        openDetailOverlay={openDetailOverlay}
-        closeDetailOverlay={closeDetailOverlay}
-        handleDeleteMatch={handleDeleteMatch}
-      />
-      <h5 className="text-center mb-3">le tue partite</h5>
-      <MatchSlider
-        matches={matchesByPlayerId}
+        showAddMatch={showAddMatch}
         user={user}
         handleJoin={handleJoin}
         handleRemove={handleRemove}
