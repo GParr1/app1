@@ -1,0 +1,14 @@
+:root {
+    --primary-bg: rgb(21 22 22);
+    --secondary-bg: rgb(50 50 50);
+    --primary-text: rgb(250 250 250);
+    --primary-color: rgb(7 244 104);
+    --secondary-color: rgb(75 75 75);
+
+    --primary-bg-btn: rgb(7 244 104);
+    --secondary-bg-btn: transparent;
+
+    --border-primary: 2px solid var(--primary-color);
+    --border-secondary: 1px solid var(--secondary-color);
+    --border-radius: 12px;
+}
