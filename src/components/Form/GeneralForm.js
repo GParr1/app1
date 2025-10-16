@@ -12,6 +12,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
         switch (type) {
           case 'text':
           case 'number':
+          case 'datetime-local':
           case 'date':
             return (
               <div key={name} className="mb-3">
