@@ -32,6 +32,10 @@
   color: var(--primary-text);
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+.form-control::placeholder{
+    color: var(--secondary-color) !important; /* nuovo colore del placeholder */
+    opacity: 1; /* forza piena visibilità */
+}
 
 .form-control:focus {
   border-color: var(--primary-color);

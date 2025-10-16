@@ -1,1 +1,5 @@
-export const labels = { welcome: 'Benvenuto', loginTab: 'Login', registerTab: 'Registrati' };
+export const labels = {
+  welcome: 'Accedi al tuo account ',
+  loginTab: 'Login',
+  registerTab: 'Registrati',
+};

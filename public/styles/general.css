@@ -24,15 +24,26 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-bg-btn);
-    color: var(--primary-text);
-    border: 1px solid var(--primary-color);
+    background-color: var(--primary-bg-btn)!important;
+    color: var(--primary-text)!important;
+    border: 1px solid var(--primary-color)!important;
 }
-
+.btn-primary:hover {
+    background-color: var(--primary-bg-btn)!important;
+    color: var(--primary-text)!important;
+    border: 1px solid var(--primary-color)!important;
+    transform: scale(0.95);
+}
 .btn-secondary {
     background-color: var(--secondary-bg-btn);
     color: var(--primary-text);
     border: 1px solid var(--secondary-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-bg-btn)!important;
+    color: var(--primary-text)!important;
+    border: 1px solid var(--primary-color)!important;
+    transform: scale(0.95);
 }
 
 .btn-nav {
