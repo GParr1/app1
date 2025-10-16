@@ -9,7 +9,6 @@ const Header = ({ user = {} }) => {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null); // 'image' | 'profile' | null
   const [menuOpen, setMenuOpen] = useState(false);
-  const displayName = user?.userLogin?.displayName ?? 'Utente';
 
   const openModal = useCallback(type => {
     setActiveModal(type);
@@ -84,8 +83,12 @@ const Header = ({ user = {} }) => {
 
         {/* Mobile menu toggle */}
         <div className="d-flex d-md-none">
-          <button className="btn btn-secondary" onClick={() => setMenuOpen(!menuOpen)} aria-label="Apri menu">
-            ☰
+          <button
+            className="btn btn-secondary"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Apri menu"
+          >
+            <i className="bi bi-list"></i>
           </button>
         </div>
       </div>
