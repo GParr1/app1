@@ -1,12 +1,16 @@
-/* Sfondo semitrasparente che copre tutto lo schermo */
+/* ------------------------
+   OVERLAY FC26
+--------------------------- */
+
+/* Sfondo semitrasparente */
 .overlay-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1050; /* sopra il contenuto */
+    background-color: rgba(21, 22, 22, 0.8); /* sfondo scuro FC26 con trasparenza */
+    z-index: 1050;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,13 +18,16 @@
 
 /* Contenuto dell’overlay (modal) */
 .overlay-content {
-    background-color: white;
+    background-color: var(--secondary-bg); /* sfondo grigio scuro */
+    color: var(--primary-text); /* testo chiaro */
     max-width: 90%;
     max-height: 90%;
     height: 90%;
     width: 80%;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
+    border: 2px solid rgba(var(--bs-primary-rgb), 0.25);
+    box-shadow: 0 0 20px rgba(7, 244, 104, 0.3);
     overflow-y: auto;
     position: relative;
     z-index: 1060;
@@ -31,4 +38,21 @@
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--primary-bg);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.overlay-content .btn-close:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(7, 244, 104, 0.7);
 }
