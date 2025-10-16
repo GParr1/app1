@@ -21,7 +21,7 @@ const MatchSlider = ({
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 3, // quante card visibili
+    slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
       { breakpoint: 1200, settings: { slidesToShow: 3 } },
@@ -31,12 +31,12 @@ const MatchSlider = ({
   };
 
   return (
-    <Slider {...settings}>
-      {/* CARD INIZIALE PER CREARE UNA PARTITA */}
-      <div key="create-match" className="p-2">
+    <div className="d-flex align-items-start gap-3">
+      {/* 🔹 CARD FISSA PER CREARE UNA PARTITA */}
+      <div className="p-2" style={{ flex: '0 0 280px' }}>
         <button
           type="button"
-          className="card match-card h-100 d-flex align-items-center justify-content-center position-relative border border-2 border-primary bg-transparent w-100"
+          className="card match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
           style={{
             minHeight: '250px',
             cursor: 'pointer',
@@ -61,40 +61,45 @@ const MatchSlider = ({
         </button>
       </div>
 
-      {/* LE ALTRE PARTITE */}
-      {matches.map(m => {
-        const playerExists = findInArrByUid(m.players, user.userLogin.uid);
-        return (
-          <div key={m.id} className="p-2">
-            <div className="card match-card h-100">
-              <div className="card-body d-flex flex-column">
-                <h6 className="card-title">{m.campo}</h6>
-                <p className="card-text small">
-                  {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
-                </p>
-                <p className="card-text">
-                  <strong>{m.players.length} iscritti </strong>
-                  {playerExists && <strong>Sei già iscritto</strong>}
-                </p>
-                <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
-                <MatchActions
-                  match={m}
-                  user={user}
-                  handleJoin={handleJoin}
-                  handleRemove={handleRemove}
-                  handleModalAddGuest={handleModalAddGuest}
-                  handleModalRemoveGuest={handleModalRemoveGuest}
-                  handleDeleteMatch={handleDeleteMatch}
-                  openDetailOverlay={openDetailOverlay}
-                  closeDetailOverlay={closeDetailOverlay}
-                  openModal={openModal}
-                />
+      {/* 🔹 SLIDER CON LE PARTITE */}
+      <div style={{ flex: '1 1 auto' }}>
+        <Slider {...settings}>
+          {matches.map(m => {
+            const playerExists = findInArrByUid(m.players, user.userLogin.uid);
+            return (
+              <div key={m.id} className="p-2">
+                <div className="card match-card h-100">
+                  <div className="card-body d-flex flex-column">
+                    <h6 className="card-title">{m.campo}</h6>
+                    <p className="card-text small">
+                      {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
+                    </p>
+                    <p className="card-text">
+                      <strong>{m.players.length} iscritti </strong>
+                      {playerExists && <strong>– Sei già iscritto</strong>}
+                    </p>
+
+                    <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
+                    <MatchActions
+                      match={m}
+                      user={user}
+                      handleJoin={handleJoin}
+                      handleRemove={handleRemove}
+                      handleModalAddGuest={handleModalAddGuest}
+                      handleModalRemoveGuest={handleModalRemoveGuest}
+                      handleDeleteMatch={handleDeleteMatch}
+                      openDetailOverlay={openDetailOverlay}
+                      closeDetailOverlay={closeDetailOverlay}
+                      openModal={openModal}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
-    </Slider>
+            );
+          })}
+        </Slider>
+      </div>
+    </div>
   );
 };
 
