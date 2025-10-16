@@ -1,6 +1,7 @@
 import { findInArrByUid } from 'utils/utils';
 import React from 'react';
-import { SVGPlus } from 'components/SVG/SVGPlus';
+import { SVGPlus, SVGPlusCircle, SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
+import { SVGClose, SVGCloseCircleFilled } from 'components/SVG/SVGClose';
 
 const MatchActions = ({
   match,
@@ -20,24 +21,24 @@ const MatchActions = ({
       {/* Pulsanti iscrizione / cancellazione */}
       <div className="d-flex gap-2">
         <button
-          className="btn btn-primary btn-sm flex-grow-1"
+          className="btn btn-primary  flex-grow-1"
           disabled={playerExists}
           onClick={() => handleJoin(id)}
         >
-          Iscriviti <SVGPlus />
+          Iscriviti <SVGPlusCircleFilled />
         </button>
         <button
-          className="btn btn-danger btn-sm flex-grow-1"
+          className="btn btn-danger  flex-grow-1"
           disabled={!playerExists}
           onClick={() => handleRemove(id)}
         >
-          Cancellati ❌
+          Cancellati <SVGCloseCircleFilled />
         </button>
       </div>
       {/* Dettagli Formazione */}
       <div className="mt-2">
         <button
-          className="btn btn-info btn-sm w-100 mb-2"
+          className="btn btn-info  w-100 mb-2"
           onClick={() => openDetailOverlay(match, closeDetailOverlay)}
         >
           Guarda Formazione
@@ -45,25 +46,22 @@ const MatchActions = ({
       </div>
       {/* Guest */}
       <div className="d-flex gap-2 mt-2">
-        <button
-          className="btn btn-secondary btn-sm w-100 mb-2"
-          onClick={() => openModal('addGuest', id)}
-        >
-          Aggiungi Guest
+        <button className="btn btn-secondary  w-100 mb-2" onClick={() => openModal('addGuest', id)}>
+          Aggiungi Guest <SVGPlus />
         </button>
 
         <button
-          className="btn btn-secondary btn-sm w-100 mb-2"
+          className="btn btn-secondary  w-100 mb-2"
           onClick={() => openModal('removeGuest', id)}
         >
-          Rimuovi Guest
+          Rimuovi Guest <SVGClose />
         </button>
       </div>
 
       <div className="mt-2">
         {/* Eliminazione */}
-        <button className="btn btn-danger btn-sm mt-2 w-100" onClick={() => handleDeleteMatch(id)}>
-          Elimina Partita ❌
+        <button className="btn btn-danger  mt-2 w-100" onClick={() => handleDeleteMatch(id)}>
+          Elimina Partita <SVGClose />
         </button>
       </div>
     </div>

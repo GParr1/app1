@@ -41,7 +41,7 @@ const MatchSlider = ({
         <div className="mb-3">
           <button
             type="button"
-            className="card match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
+            className="card rounded-4 match-card h-100 d-flex align-items-center justify-content-start position-relative border border-2 border-primary bg-transparent w-100"
             style={{
               minHeight: '250px',
               cursor: 'pointer',
@@ -73,7 +73,7 @@ const MatchSlider = ({
           const playerExists = findInArrByUid(m.players, user.userLogin.uid);
           return (
             <div key={m.id} className="p-2">
-              <div className="card match-card h-100">
+              <div className="card rounded-4 match-card h-100">
                 <img
                   src={CAMPO_CALCIO_BG}
                   alt="Campo da calcio"
