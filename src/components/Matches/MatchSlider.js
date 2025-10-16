@@ -1,6 +1,5 @@
 import Slider from 'react-slick';
 import { findInArrByUid } from 'utils/utils';
-import { checkMaxPlayersMatch } from 'utils/matchUtils';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import MatchActions from 'components/Matches/MatchActions';
@@ -65,7 +64,6 @@ const MatchSlider = ({
       {/* LE ALTRE PARTITE */}
       {matches.map(m => {
         const playerExists = findInArrByUid(m.players, user.userLogin.uid);
-        const isMaxPlayers = checkMaxPlayersMatch({ match: m });
         return (
           <div key={m.id} className="p-2">
             <div className="card match-card h-100">
