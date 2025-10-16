@@ -21,17 +21,16 @@ const RegisterTwoSteps = () => {
 
   const handleRegister = async e => {
     e.preventDefault();
-    const form = e.target;
-    //const form = document.querySelector('#step2Register');
-    const formData = new FormData(form);
-    // Converti in oggetto semplice
+    const formData = new FormData(e.target);
     const newAccount = Object.fromEntries(formData.entries());
     newAccount.email = email;
     newAccount.password = password;
+
     if (!newAccount.firstName || !newAccount.lastName) {
       setError('Nome e cognome obbligatori.');
       return;
     }
+
     setError('');
     const response = await doCreateUserWithEmailAndPassword({ account: newAccount });
     if (response.result) {
@@ -45,28 +44,32 @@ const RegisterTwoSteps = () => {
   };
 
   return (
-    <div className="mb-4">
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <h2 className="card-title text-center">Registrazione</h2>
-          {step === 1 && <p className="card-title text-center">Step 1</p>}
-          {step === 2 && <p className="card-title text-center">Step 2</p>}
-          {step === 1 && (
-            <FirstStepOfRegister
-              handleFirstStep={handleFirstStep}
-              setEmail={setEmail}
-              setPassword={setPassword}
-            />
-          )}
-          {step === 2 && <FormUser id={'step2Register'} onSubmit={handleRegister} />}
-          {error && <p className="mt-3 text-danger">{error}</p>}
-          {success && <p className="mt-3 text-success">{success}</p>}
-        </div>
+    <div className="card shadow-sm border-primary">
+      <div className="card-body">
+        <h2 className="card-title text-center mb-3">Registrazione</h2>
+        {step === 1 && <p className="text-center mb-3">Step 1</p>}
+        {step === 2 && <p className="text-center mb-3">Step 2</p>}
+
+        {step === 1 && (
+          <FirstStepOfRegister
+            handleFirstStep={handleFirstStep}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+          />
+        )}
+
+        {step === 2 && <FormUser id="step2Register" onSubmit={handleRegister} />}
+
+        {error && <p className="mt-3 text-danger text-center">{error}</p>}
+        {success && <p className="mt-3 text-success text-center">{success}</p>}
       </div>
     </div>
   );
 };
-const FirstStepOfRegister = ({ handleFirstStep, setEmail, email, setPassword, password }) => (
+
+const FirstStepOfRegister = ({ handleFirstStep, email, setEmail, password, setPassword }) => (
   <form onSubmit={handleFirstStep}>
     <div className="mb-3">
       <input
@@ -75,6 +78,7 @@ const FirstStepOfRegister = ({ handleFirstStep, setEmail, email, setPassword, pa
         placeholder="Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
+        required
       />
     </div>
     <div className="mb-3">
@@ -84,6 +88,7 @@ const FirstStepOfRegister = ({ handleFirstStep, setEmail, email, setPassword, pa
         placeholder="Password"
         value={password}
         onChange={e => setPassword(e.target.value)}
+        required
       />
     </div>
     <button type="submit" className="btn btn-primary w-100">

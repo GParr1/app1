@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import Login from 'components/Login';
-import Register from 'components/Register';
+import RegisterTwoSteps from 'components/Register';
 import { labels } from 'properties/authView';
 
 export const AuthView = () => {
   const [activeTab, setActiveTab] = useState('login');
+
   return (
     <div className="container mt-5 col-md-8">
       <h1 className="text-center mb-4" id="welcome-heading">
         {labels.welcome}
       </h1>
+
       {/* Tab Navigation */}
       <ul
         role="tablist"
@@ -66,7 +68,7 @@ export const AuthView = () => {
             aria-labelledby="register-tab"
           >
             <div className="col-md-6">
-              <Register />
+              <RegisterTwoSteps />
             </div>
           </div>
         )}

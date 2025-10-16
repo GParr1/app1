@@ -8,22 +8,22 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
   const handleLogin = async provider => {
-    //e.preventDefault();
     setError('');
     setSuccess('');
     const credentials = { email, password };
     let userObj;
+
     switch (provider) {
-      case 'google': {
+      case 'google':
         userObj = await doGoogleLogin();
         break;
-      }
-      case 'credential': {
+      case 'credential':
         userObj = await doSignInWithEmailAndPassword({ credentials });
         break;
-      }
       default:
+        return;
     }
 
     if (userObj) {
@@ -33,49 +33,56 @@ const Login = () => {
         navigate('/confirm-profile', { replace: true });
       }
     } else {
-      setError('Errore durante la login');
+      setError('Errore durante il login');
     }
   };
 
   return (
-    <div className="row">
-      {/* Login */}
-      <div className="mb-4">
-        <div className="card shadow-sm">
-          <div className="card-body">
-            <h2 className="card-title text-center">Login</h2>
-            <button
-              id="google-login"
-              onClick={() => handleLogin('google')}
-              className="btn btn-outline-danger"
-            >
-              <i className="bi bi-google me-2"></i> Accedi con Google
-            </button>
-            <form onSubmit={() => handleLogin('credential')}>
-              <div className="mb-3">
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Email"
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Password"
-                  onChange={e => setPassword(e.target.value)}
-                />
-              </div>
-              <button id="credential-login" className="btn btn-primary w-100" type="submit">
-                Accedi
-              </button>
-            </form>
-            {error && <p className="mt-2 text-danger">{error}</p>}
-            {success && <p className="mt-2 text-success">{success}</p>}
+    <div className="card shadow-sm border-primary">
+      <div className="card-body">
+        <h2 className="card-title text-center mb-4">Login</h2>
+
+        <button
+          id="google-login"
+          onClick={() => handleLogin('google')}
+          className="btn btn-outline-danger w-100 mb-3"
+        >
+          <i className="bi bi-google me-2"></i> Accedi con Google
+        </button>
+
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleLogin('credential');
+          }}
+        >
+          <div className="mb-3">
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
           </div>
-        </div>
+          <div className="mb-3">
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Accedi
+          </button>
+        </form>
+
+        {error && <p className="mt-3 text-danger text-center">{error}</p>}
+        {success && <p className="mt-3 text-success text-center">{success}</p>}
       </div>
     </div>
   );
