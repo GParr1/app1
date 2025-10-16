@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BRONZE_CARD_BG, GOLD_CARD_BG, SILVER_CARD_BG } from 'utils/Constant';
-import { FORM_ADD_GUEST, FORM_REMOVE_GUEST } from '../structure/formUser';
+import { FORM_ADD_GUEST, FORM_CREATE_MATCH, FORM_REMOVE_GUEST } from '../structure/formUser';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -15,6 +15,10 @@ export const calculateGoalkeeperOverall = attrs => {
 export const getFormStructure = formId => {
   let formStructure = {};
   switch (formId) {
+    case 'createMatch': {
+      formStructure = FORM_CREATE_MATCH;
+      break;
+    }
     case 'addGuest': {
       formStructure = FORM_ADD_GUEST;
       break;

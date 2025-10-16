@@ -1,6 +1,12 @@
-import { filterInArrByCriteria, findInArrByCriteria, findInArrByUid } from 'utils/utils';
-import { deleteMatch, getAllMatches, updateMatch } from 'utils/firestoreUtils';
+import {
+  filterInArrByCriteria,
+  findInArrByCriteria,
+  findInArrByUid,
+  getObjFromForm,
+} from 'utils/utils';
+import { deleteMatch, getAllMatches, saveMatch, updateMatch } from 'utils/firestoreUtils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
+import { Timestamp } from 'firebase/firestore';
 
 export const handleJoinMatch = async ({ matches, matchId, user }) => {
   try {
@@ -166,6 +172,27 @@ export const handleDeleteMatchUtils = async ({ matches, matchId }) => {
   } catch (err) {
     console.error('Errore aggiunta guest:', err);
     alert('❌ Errore durante la rimozione della partita.');
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
+export const handleCreateMatchUtils = async evt => {
+  try {
+    const formData = new FormData(evt.target);
+    const formObject = getObjFromForm({ formData });
+    const newMatch = {
+      ...formObject,
+      createdAt: new Date().toISOString(),
+      // converto la stringa form.data in Timestamp
+      dataTimestamp: Timestamp.fromDate(new Date(formObject.data)),
+      players: [],
+      status: 'open',
+    };
+    const id = await saveMatch(newMatch);
+    !!id && (await getAllMatches());
+  } catch (err) {
+    console.error('Errore durante la creazione della partita:', err);
+    alert('❌ Errore durante la creazione della partita.');
   } finally {
     window.calcetto.toggleSpinner(false);
   }

@@ -4,6 +4,7 @@ import { db } from '../../firebaseConfig';
 import PlayerSelector from './PlayerSelector';
 import { generaSquadreBilanciate } from 'utils/utils'; // funzione che abbiamo definito prima
 import PropTypes from 'prop-types';
+import TeamFormation from 'components/Matches/TeamFormation';
 
 const MatchDetails = ({ matchId, allUsers }) => {
   const [match, setMatch] = useState(null);

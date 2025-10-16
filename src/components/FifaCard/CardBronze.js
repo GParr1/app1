@@ -20,7 +20,7 @@ const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
     return info;
   }, [user.customerInfo]); // ✅ dipendenza stabile
   // Prepara immagine profilo
-  const playerImage = previewImg || userLogin.photoURL || customerInfo.photoURL || DEFAULT_PHOTO;
+  const playerImage = previewImg || customerInfo.photoURL || userLogin.photoURL || DEFAULT_PHOTO;
   // Mappa gli attributi
   const stats = useMemo(
     () =>
