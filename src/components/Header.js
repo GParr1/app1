@@ -40,8 +40,16 @@ const Header = ({ user = {} }) => {
   return (
     <header className="row mb-3">
       <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
-        <h1 className="m-0 flex-grow-1">Benvenuto {displayName}</h1>
-
+        <div className="d-flex align-items-center">
+          <img
+            className="header zoom02"
+            aria-hidden="true"
+            alt="logo"
+            decoding="async"
+            src="/app1/assets/logo.png"
+          />
+          <h1 className="m-0 flex-grow-1">Benvenuto {displayName}</h1>
+        </div>
         {/* Desktop buttons */}
         <div className="d-none d-md-flex gap-2 align-items-center">
           <button className="btn" onClick={() => navigate('dashboard')}>
@@ -53,22 +61,24 @@ const Header = ({ user = {} }) => {
           <button className="btn" onClick={() => navigate('partite')}>
             Partite
           </button>
+        </div>
+        <div className="d-none d-md-flex gap-2 align-items-center">
           <button
             className="btn"
             onClick={() => openModal('profile')}
             aria-label="Completa il tuo profilo"
           >
-            👤
+            <i className="bi bi-person"></i>
           </button>
           <button
             className="btn"
             onClick={() => openModal('image')}
             aria-label="Cambia immagine del profilo"
           >
-            🖼️
+            <i className="bi bi-image"></i>️
           </button>
           <button className="btn" onClick={handleSignOut} aria-label="Esci dal profilo">
-            🚪
+            <i className="bi bi-box-arrow-right"></i>️
           </button>
         </div>
 

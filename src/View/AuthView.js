@@ -9,7 +9,7 @@ export const AuthView = () => {
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center mt-5 col-md-6">
       <img
-        className="header"
+        className="header zoom05"
         aria-hidden="true"
         src="/app1/assets/logo.png"
         fetchPriority={'high'}

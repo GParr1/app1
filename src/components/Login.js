@@ -74,7 +74,7 @@ const Login = () => {
 
       <button
         type="button"
-        className="btn btn-outline-primary w-100"
+        className="btn btn-secondary w-100"
         onClick={() => navigate('/create-account', { replace: true })}
       >
         CREA ACCOUNT
