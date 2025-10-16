@@ -48,7 +48,7 @@ const Header = ({ user = {} }) => {
             decoding="async"
             src="/app1/assets/logo.png"
           />
-          <h1 className="m-0 flex-grow-1">Benvenuto {displayName}</h1>
+          <h1 className="m-0 flex-grow-1">MINILIGA</h1>
         </div>
         {/* Desktop buttons */}
         <div className="d-none d-md-flex gap-2 align-items-center">
@@ -84,7 +84,7 @@ const Header = ({ user = {} }) => {
 
         {/* Mobile menu toggle */}
         <div className="d-flex d-md-none">
-          <button className="btn" onClick={() => setMenuOpen(!menuOpen)} aria-label="Apri menu">
+          <button className="btn btn-secondary" onClick={() => setMenuOpen(!menuOpen)} aria-label="Apri menu">
             ☰
           </button>
         </div>
@@ -92,7 +92,7 @@ const Header = ({ user = {} }) => {
 
       {/* Mobile menu content */}
       {menuOpen && (
-        <div className="d-md-none mt-2 bg-light p-3 rounded shadow-sm w-100">
+        <div className="d-md-none mt-2 p-3 shadow-sm w-100">
           <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('dashboard')}>
             Home
           </button>
@@ -108,7 +108,7 @@ const Header = ({ user = {} }) => {
           <button className="btn btn-sm w-100 mb-2" onClick={() => openModal('image')}>
             Cambia immagine
           </button>
-          <button className="btn btn-sm btn-danger w-100" onClick={handleSignOut}>
+          <button className="btn btn-sm w-100" onClick={handleSignOut}>
             Logout
           </button>
         </div>
