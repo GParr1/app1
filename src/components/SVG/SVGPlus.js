@@ -1,5 +1,3 @@
-import { SVGCloseCircle } from 'components/SVG/SVGClose';
-
 export const SVGPlus = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
