@@ -55,8 +55,8 @@
     /* CARDS */
     --bs-card-bg: var(--secondary-bg) !important;
     --bs-card-color: var(--primary-text) !important;
-    --bs-card-border-color: rgba(var(--bs-primary-rgb), 0.2) !important;
-    --bs-card-border-radius: var(--border-radius) !important;
+    --bs-card-border-color: rgba(var(--bs-primary-rgb)) !important;
+    --bs-card-border-radius: 20px !important;
     --bs-card-box-shadow: 0 0 10px rgba(7, 244, 104, 0.15) !important;
 }
 /* ========================
@@ -78,11 +78,11 @@
    CARDS
 ======================== */
 .card {
-    background-color: var(--bs-card-bg) !important;
-    color: var(--bs-card-color) !important;
-    border: 1px solid var(--bs-card-border-color) !important;
-    border-radius: var(--bs-card-border-radius) !important;
-    box-shadow: var(--bs-card-box-shadow) !important;
+    background-color: var(--bs-card-bg);
+    color: var(--bs-card-color);
+    border: 1px solid var(--bs-card-border-color);
+    border-radius: var(--bs-card-border-radius);
+    box-shadow: var(--bs-card-box-shadow);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
