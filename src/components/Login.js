@@ -98,13 +98,14 @@ const LoginStepPassword = ({ email, cta, setPassword }) => {
     <>
       <h4 className="text-center">Inserisci la password di {maskEmail(email)}</h4>
       <div className="mb-3">
-        <label className="otklabel label-uppercase" htmlFor="password">
+        <label className="text-uppercase form-label text-primary-text" htmlFor="password">
           Password
         </label>
         <input
           type="password"
           id="password"
           name="password"
+          className="form-control bg-primary-bg text-primary-text border-secondary-color"
           aria-describedby="password-form-hint"
           placeholder="Inserisci la password"
           autoCorrect="off"
