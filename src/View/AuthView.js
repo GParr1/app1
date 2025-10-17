@@ -7,7 +7,7 @@ export const AuthView = () => {
   const [email, setEamil] = useState(null);
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center mt-5 col-md-6">
-      <HeaderAuthView title={email ? 'Inserisci la password' : labels.welcome} />
+      <HeaderAuthView label={email ? 'Inserisci la password' : labels.welcome} />
 
       {!email && (
         <>
@@ -40,7 +40,7 @@ export const AuthView = () => {
   );
 };
 
-const HeaderAuthView = title => (
+const HeaderAuthView = label => (
   <>
     <img
       className="header zoom05"
@@ -51,7 +51,7 @@ const HeaderAuthView = title => (
       decoding="async"
     />
     <h1 className="text-center mb-4" id="welcome-heading">
-      {title}
+      {label}
     </h1>
   </>
 );
