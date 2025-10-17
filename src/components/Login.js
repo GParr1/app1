@@ -125,7 +125,7 @@ const LoginStepPassword = ({ email, cta, setPassword }) => {
     </>
   );
 };
-const HeaderAuthView = message => (
+const HeaderAuthView = ({message}) => (
   <>
     <img
       className="header zoom05"
