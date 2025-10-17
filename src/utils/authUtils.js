@@ -39,7 +39,7 @@ export const fetchDocProfile = async userUid => {
     const userDocSnap = await getDoc(userDocRef);
     if (userDocSnap.exists()) {
       const doc = userDocSnap.data();
-      await store.dispatch(login(doc)); //Save on Redux
+      await store.dispatch(login({ customerInfo: doc })); //Save on Redux
       return doc;
     } else {
       console.warn('Profilo utente non trovato in Firestore DataBase.');
@@ -158,7 +158,7 @@ export const doFirebaseLogin = async ({ action, options }) => {
       result = await signInWithPopup(auth, facebookProvider);
     }
     const userLogin = result.user;
-    await store.dispatch(login(userLogin));
+    await store.dispatch(login({ userLogin }));
     await fetchDocProfile(userLogin.uid);
     console.log('✅ Accesso riuscito:', result.user);
   } catch (error) {
@@ -207,7 +207,18 @@ const getFirebaseErrorMessage = error => {
       return 'Richiesta di accesso annullata.';
     case 'auth/account-exists-with-different-credential':
       return 'L’email è già associata a un altro metodo di accesso.';
-
+    case 'auth/operation-not-allowed':
+      return 'Metodo di login disabilitato.';
+    case 'auth/too-many-requests':
+      return 'Troppe richieste. Riprova più tardi.';
+    case 'auth/requires-recent-login':
+      return 'Devi effettuare nuovamente il login per completare questa operazione.';
+    case 'auth/credential-already-in-use':
+      return 'Questa credenziale è già collegata a un altro account.';
+    case 'auth/invalid-credential':
+      return 'Credenziale non valida.';
+    case 'auth/provider-already-linked':
+      return 'Questo provider è già collegato al tuo account.';
     default:
       return 'Errore di autenticazione. Riprova più tardi.';
   }

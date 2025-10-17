@@ -156,7 +156,7 @@ const SocialLogin = ({ handleLogin }) => (
   <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
     <button
       className="btn btn-secondary btn-social"
-      onClick={async () => await handleLogin({ acton: 'google' })}
+      onClick={async () => await handleLogin({ action: 'google' })}
     >
       <i className="bi bi-google">
         <span> Google</span>
@@ -164,7 +164,7 @@ const SocialLogin = ({ handleLogin }) => (
     </button>
     <button
       className="btn btn-secondary btn-social"
-      onClick={async () => await handleLogin({ acton: 'facebook' })}
+      onClick={async () => await handleLogin({ action: 'facebook' })}
     >
       <i className="bi bi-facebook">
         <span> Facebook</span>
