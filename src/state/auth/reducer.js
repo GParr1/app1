@@ -1,23 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { deleteErrorAndMergeState, deleteErrorAndSetState } from 'state/stateUtils';
 
 const initialState = {
   user: null,
-  accountInformation: null,
+  accountInfo: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action) => {
-      state.user = {
-        ...state.user,
-        ...action.payload,
-      };
-    },
-    accountInformation: (state, action) => {
-      state.accountInformation = action.payload;
-    },
+    login: (state, action) => deleteErrorAndMergeState('user')(state, action),
+    accountInformation: (state, action) => deleteErrorAndSetState('accountInfo')(state, action),
     logout: () => initialState,
   },
 });

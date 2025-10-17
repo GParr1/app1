@@ -5,7 +5,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { auth, db, provider } from '../firebaseConfig';
+import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -31,6 +31,23 @@ export const fetchUserProfile = async () => {
   } catch (error) {
     console.error('Errore nel recupero del profilo:', error);
     return null;
+  }
+};
+export const fetchDocProfile = async userUid => {
+  try {
+    const userDocRef = doc(db, 'users', userUid);
+    const userDocSnap = await getDoc(userDocRef);
+    if (userDocSnap.exists()) {
+      const doc = userDocSnap.data();
+      await store.dispatch(login(doc)); //Save on Redux
+      return doc;
+    } else {
+      console.warn('Profilo utente non trovato in Firestore DataBase.');
+      return {};
+    }
+  } catch (error) {
+    console.error('Errore nel recupero del profilo:', error);
+    return {};
   }
 };
 export const authUpdateProfile = async userObj => {
@@ -117,14 +134,37 @@ const fetchUserData = async ({ currentUser }) => {
 export const doGoogleLogin = async () => {
   window.calcetto.toggleSpinner(true);
   try {
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth, googleProvider);
     const userData = await fetchUserProfile();
     await store.dispatch(login(userData));
     return userData;
   } catch (error) {
-    console.error('Google sign-in error:', error);
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Google sign-in errorCode:: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
   } finally {
     window.calcetto.toggleSpinner(false);
+  }
+};
+export const doFirebaseLogin = async ({ action, options }) => {
+  try {
+    let result;
+    // Esempi di login possibili
+    if (action === 'email') {
+      result = await signInWithEmailAndPassword(auth, options.email, options.password);
+    } else if (action === 'google') {
+      result = await signInWithPopup(auth, googleProvider);
+    } else if (action === 'facebook') {
+      result = await signInWithPopup(auth, facebookProvider);
+    }
+    const userLogin = result.user;
+    await store.dispatch(login(userLogin));
+    await fetchDocProfile(userLogin.uid);
+    console.log('✅ Accesso riuscito:', result.user);
+  } catch (error) {
+    const errorMessage = getFirebaseErrorMessage(error);
+    console.error('❌ Errore login:', error.code, errorMessage);
+    return { errorMessage }; // se sei in React
   }
 };
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
@@ -136,9 +176,40 @@ export const doSignInWithEmailAndPassword = async ({ credentials }) => {
     console.log('Login effettuato:', userData.userLogin.email);
     return userData;
   } catch (error) {
-    console.error('Errore nel login.css:', error.code, error.message);
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
   } finally {
     window.calcetto.toggleSpinner(false);
+  }
+};
+const getFirebaseErrorMessage = error => {
+  if (!error || !error.code) return 'Si è verificato un errore imprevisto.';
+
+  switch (error.code) {
+    // Errori comuni
+    case 'auth/invalid-email':
+      return "L'indirizzo email non è valido.";
+    case 'auth/user-disabled':
+      return 'Questo account è stato disabilitato.';
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+      return 'Email o password non corretta.';
+    case 'auth/network-request-failed':
+      return 'Errore di rete. Controlla la connessione.';
+
+    // Errori tipici dei provider (Google, Facebook, ecc.)
+    case 'auth/popup-closed-by-user':
+      return 'Hai chiuso la finestra di accesso.';
+    case 'auth/popup-blocked':
+      return 'Il browser ha bloccato la finestra di accesso.';
+    case 'auth/cancelled-popup-request':
+      return 'Richiesta di accesso annullata.';
+    case 'auth/account-exists-with-different-credential':
+      return 'L’email è già associata a un altro metodo di accesso.';
+
+    default:
+      return 'Errore di autenticazione. Riprova più tardi.';
   }
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {

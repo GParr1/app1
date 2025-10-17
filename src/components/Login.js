@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doGoogleLogin, doSignInWithEmailAndPassword } from 'utils/authUtils';
+import { doFirebaseLogin } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 import { emailRegex, phoneRegex } from 'utils/regex';
 
@@ -20,17 +20,12 @@ const Login = () => {
       setEmail(emailOrPhone);
     }
   };
-  const handleLogin = async () => {
+  const handleLogin = async ({ action }) => {
     setError('');
     setSuccess('');
-    const userObj = await doSignInWithEmailAndPassword({ credentials: { email, password } });
-
-    if (userObj) {
-      if (userObj.customerInfo?.overall) navigate('/profile', { replace: true });
-      else navigate('/confirm-profile', { replace: true });
-    } else {
-      setError('Errore durante il login');
-    }
+    const { errorMessage } = await doFirebaseLogin({ action, options: { email, password } });
+    errorMessage && setError(errorMessage);
+    !errorMessage && navigate('/profile', { replace: true });
   };
 
   return (
@@ -39,13 +34,19 @@ const Login = () => {
       {!email && (
         <>
           {/* Pulsanti Social */}
-          <SocialLogin />
+          <SocialLogin handleLogin={handleLogin} />
           {/* Divider */}
           <DividerLogin />
         </>
       )}
       <div className="w-100  bg-secondary-bg p-4">
-        {email && <LoginStepPassword email={email} cta={handleLogin} setPassword={setPassword} />}
+        {email && (
+          <LoginStepPassword
+            email={email}
+            cta={() => handleLogin({ action: 'email' })}
+            setPassword={setPassword}
+          />
+        )}
 
         {!email && <LoginStepEmail error={error} handleSetEmail={handleSetEmail} />}
 
@@ -88,7 +89,7 @@ const LoginStepEmail = ({ error, handleSetEmail }) => {
           placeholder="Inserisci numero di telefono o e-mail"
           required
         />
-        <div className={`invalid-feedback ${error ? 'd-block' : ''}`}>{error}</div>
+        <div className={`invalid-feedback text-center ${error ? 'd-block' : ''}`}>{error}</div>
       </div>
       <button className="btn btn-primary w-100 mb-3" onClick={() => handleSetEmail()}>
         AVANTI
@@ -151,14 +152,20 @@ const HeaderAuthView = ({ message }) => (
     </h1>
   </>
 );
-const SocialLogin = () => (
+const SocialLogin = ({ handleLogin }) => (
   <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
-    <button className="btn btn-secondary btn-social" onClick={async () => await doGoogleLogin()}>
+    <button
+      className="btn btn-secondary btn-social"
+      onClick={async () => await handleLogin({ acton: 'google' })}
+    >
       <i className="bi bi-google">
         <span> Google</span>
       </i>
     </button>
-    <button className="btn btn-secondary btn-social">
+    <button
+      className="btn btn-secondary btn-social"
+      onClick={async () => await handleLogin({ acton: 'facebook' })}
+    >
       <i className="bi bi-facebook">
         <span> Facebook</span>
       </i>
