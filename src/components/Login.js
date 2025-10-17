@@ -54,8 +54,8 @@ const Login = ({ email, setEmail }) => {
           <button
             type="submit"
             className="btn btn-primary w-100 mb-3"
-            onClick={e => {
-              handleLogin('credential');
+            onClick={async () => {
+              await handleLogin('credential');
             }}
           >
             ACCEDI
