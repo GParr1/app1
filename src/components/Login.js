@@ -39,7 +39,7 @@ const Login = () => {
       <div className="w-100  bg-secondary-bg p-4">
         {email && <LoginStepPassword email={email} cta={handleLogin} setPassword={setPassword} />}
 
-        {!email && <LoginStepEmail error={error} cta={handleSetEmail} />}
+        {!email && <LoginStepEmail error={error} handleSetEmail={handleSetEmail} />}
 
         {error && <p className="mt-2 text-danger text-center">{error}</p>}
         {success && <p className="mt-2 text-success text-center">{success}</p>}
@@ -64,7 +64,7 @@ const Login = () => {
   );
 };
 
-const LoginStepEmail = ({ error, cta }) => {
+const LoginStepEmail = ({ error, handleSetEmail }) => {
   return (
     <>
       <div className="mb-3">
@@ -80,7 +80,7 @@ const LoginStepEmail = ({ error, cta }) => {
         />
         {error && <p className="mt-2 text-danger text-center">{error}</p>}
       </div>
-      <button className="btn btn-primary w-100 mb-3" onClick={() => cta}>
+      <button className="btn btn-primary w-100 mb-3" onClick={() => handleSetEmail()}>
         AVANTI
       </button>
     </>
