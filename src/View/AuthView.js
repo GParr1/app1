@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import Login from 'components/Login';
-import { labels } from 'properties/authView';
 import { doGoogleLogin } from 'utils/authUtils';
 
 export const AuthView = () => {
   const [email, setEamil] = useState(null);
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center mt-5 col-md-6">
-      <HeaderAuthView label={email ? 'Inserisci la password' : labels.welcome} />
+      <HeaderAuthView message={email ? 'Inserisci la password' : 'Accedi al tuo account'} />
 
       {!email && (
         <>
@@ -40,7 +39,7 @@ export const AuthView = () => {
   );
 };
 
-const HeaderAuthView = label => (
+const HeaderAuthView = message => (
   <>
     <img
       className="header zoom05"
@@ -51,7 +50,7 @@ const HeaderAuthView = label => (
       decoding="async"
     />
     <h1 className="text-center mb-4" id="welcome-heading">
-      {label}
+      {message}
     </h1>
   </>
 );
