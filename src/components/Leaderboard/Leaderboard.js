@@ -64,9 +64,18 @@ export default function Leaderboard() {
             <thead className="table-light">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Giocatore</th>
-                <th scope="col">Ruolo</th>
-                <th scope="col">Overall</th>
+                <th scope="col" className="text-center">
+                  Card
+                </th>
+                <th scope="col" className="text-center">
+                  Giocatore
+                </th>
+                <th scope="col" className="text-center">
+                  Ruolo
+                </th>
+                <th scope="col" className="text-center">
+                  Overall
+                </th>
                 <th scope="col" className="text-center">
                   Card
                 </th>
@@ -75,24 +84,20 @@ export default function Leaderboard() {
             <tbody>
               {users.map((user, index) => (
                 <tr key={user.id}>
-                  <td className="fw-semibold">{index + 4}</td>
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={user.photoURL}
-                        alt={user.firstName}
-                        className="rounded-circle me-2"
-                        style={{ width: '40px', height: '40px', objectFit: 'cover' }}
-                      />
-                      <div>
-                        <div className="fw-semibold">
-                          {user.firstName} {user.lastName}
-                        </div>
-                      </div>
+                  <td className="fw-semibold">{index}</td>
+                  <td className="">
+                    <CardBronze
+                      dynamicValue={{ customerInfo: user }}
+                      className={'card-mini zoom02'}
+                    />
+                  </td>
+                  <td className="text-center">
+                    <div className="fw-semibold">
+                      {user.firstName} {user.lastName}
                     </div>
                   </td>
-                  <td>{user.position || '-'}</td>
-                  <td>{user.overall}</td>
+                  <td className="text-center">{user.position || '-'}</td>
+                  <td className="text-center">{user.overall}</td>
                   <td className="text-center">
                     <CardBronze
                       dynamicValue={{ customerInfo: user }}
