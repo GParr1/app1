@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { doGoogleLogin, doSignInWithEmailAndPassword } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
+import { emailRegex, phoneRegex } from 'utils/regex';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,8 +10,15 @@ const Login = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const handleSetEmail = () => {
-    const value = document.querySelector('#email')?.value;
-    setEmail(value);
+    const emailOrPhone = document.querySelector('#email')?.value;
+    if (!emailOrPhone) {
+      setError("Inserisci un numero di telefono o un'email.");
+    } else if (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone)) {
+      setError("Formato non valido. Inserisci un'email o un numero corretto.");
+    } else {
+      setError('');
+      setEmail(emailOrPhone);
+    }
   };
   const handleLogin = async () => {
     setError('');
@@ -74,11 +82,13 @@ const LoginStepEmail = ({ error, handleSetEmail }) => {
         <input
           type="text"
           id={'email'}
-          className="form-control bg-primary-bg text-primary-text border-secondary-color"
+          className={`form-control bg-primary-bg text-primary-text border-secondary-color ${
+            error ? 'is-invalid' : ''
+          }`}
           placeholder="Inserisci numero di telefono o e-mail"
           required
         />
-        {error && <p className="mt-2 text-danger text-center">{error}</p>}
+        <div className={`invalid-feedback ${error ? 'd-block' : ''}`}>{error}</div>
       </div>
       <button className="btn btn-primary w-100 mb-3" onClick={() => handleSetEmail()}>
         AVANTI
