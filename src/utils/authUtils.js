@@ -8,9 +8,19 @@ import {
 import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
 import { store } from 'state/store';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  setDoc,
+} from 'firebase/firestore';
 import { starterCard } from '../structure/starterCard';
 import { calculateAttributes, calculatePlayerOverall, getObjFromForm } from 'utils/utils';
+import { DEFAULT_PHOTO } from 'utils/Constant';
 
 export const fetchUserProfile = async () => {
   const user = auth.currentUser;
@@ -243,6 +253,32 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       error: err,
       result: false,
     };
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
+
+export const fetchAllUsers = async (limitCount = 50) => {
+  window.calcetto.toggleSpinner(true);
+  try {
+    const usersCollection = collection(db, 'users');
+    // Ordina per overall (discendente) e limita il numero
+    const q = query(usersCollection, orderBy('overall', 'desc'), limit(limitCount));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
+        photoURL: data.photoURL || DEFAULT_PHOTO,
+        overall: data.overall || 54,
+        position: data.position || '',
+      };
+    });
+  } catch (error) {
+    console.error('Errore nel recupero del profilo:', error);
   } finally {
     window.calcetto.toggleSpinner(false);
   }

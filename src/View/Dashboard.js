@@ -3,6 +3,7 @@ import { getAllMatches } from 'utils/firestoreUtils';
 import { useSelector } from 'react-redux';
 import { getMatches } from 'state/support/selectors';
 import { getUser } from 'state/auth/selectors';
+import Leaderboard from 'components/Leaderboard/Leaderboard';
 
 const Dashboard = () => {
   const matches = useSelector(getMatches);
@@ -16,6 +17,8 @@ const Dashboard = () => {
   return (
     <>
       <div className="container mt-5">
+        <Leaderboard />
+        {/* tutte le partite */}
         <div className="row">
           {matches.map(m => (
             <div key={m.id} className="card mb-3 shadow-sm">
