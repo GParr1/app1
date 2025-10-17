@@ -26,7 +26,7 @@ export default function Leaderboard() {
     return <div className="alert alert-info text-center mt-4">Nessun giocatore trovato.</div>;
   }
 
-  const [first, second, third, ...others] = users;
+  const [first, second, third] = users;
 
   return (
     <div className="container my-4">
