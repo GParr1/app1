@@ -37,51 +37,21 @@ export default function Leaderboard() {
         {/* Secondo posto */}
         {second && (
           <div className="col-4 col-md-3 text-center">
-            <div className="position-relative">
-              <img
-                src={second.photoURL}
-                alt={second.firstName}
-                className="rounded-circle border border-secondary mb-2"
-                style={{ width: '90px', height: '90px', objectFit: 'cover' }}
-              />
-              <div className="fw-bold text-secondary">{second.firstName}</div>
-              <div className="text-muted small">Overall {second.overall}</div>
-              <div className="badge bg-secondary mt-1">🥈</div>
-            </div>
+            <CardBronze dynamicValue={{ customerInfo: second }} className={'card-mini zoom02'} />
           </div>
         )}
 
         {/* Primo posto */}
         {first && (
           <div className="col-4 col-md-3 text-center">
-            <div className="position-relative">
-              <img
-                src={first.photoURL}
-                alt={first.firstName}
-                className="rounded-circle border border-warning mb-2 shadow"
-                style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-              />
-              <div className="fw-bold text-warning">{first.firstName}</div>
-              <div className="text-muted small">Overall {first.overall}</div>
-              <div className="badge bg-warning mt-1">🥇</div>
-            </div>
+            <CardBronze dynamicValue={{ customerInfo: first }} className={'card-mini zoom02'} />
           </div>
         )}
 
         {/* Terzo posto */}
         {third && (
           <div className="col-4 col-md-3 text-center">
-            <div className="position-relative">
-              <img
-                src={third.photoURL}
-                alt={third.firstName}
-                className="rounded-circle border border-danger mb-2"
-                style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-              />
-              <div className="fw-bold text-danger">{third.firstName}</div>
-              <div className="text-muted small">Overall {third.overall}</div>
-              <div className="badge bg-danger mt-1">🥉</div>
-            </div>
+            <CardBronze dynamicValue={{ customerInfo: third }} className={'card-mini zoom02'} />
           </div>
         )}
       </div>
@@ -103,7 +73,7 @@ export default function Leaderboard() {
               </tr>
             </thead>
             <tbody>
-              {others.map((user, index) => (
+              {users.map((user, index) => (
                 <tr key={user.id}>
                   <td className="fw-semibold">{index + 4}</td>
                   <td>
