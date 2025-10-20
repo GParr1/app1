@@ -51,13 +51,13 @@ const Header = ({ user = {} }) => {
         </div>
         {/* Desktop buttons */}
         <div className="d-none d-md-flex gap-2 align-items-center">
-          <button className="btn" onClick={() => navigate('dashboard')}>
+          <button className="btn" onClick={() => navigate('/dashboard')}>
             Home
           </button>
-          <button className="btn" onClick={() => navigate('profile')}>
+          <button className="btn" onClick={() => navigate('/profile')}>
             Profilo
           </button>
-          <button className="btn" onClick={() => navigate('partite')}>
+          <button className="btn" onClick={() => navigate('/partite')}>
             Partite
           </button>
         </div>
@@ -96,13 +96,13 @@ const Header = ({ user = {} }) => {
       {/* Mobile menu content */}
       {menuOpen && (
         <div className="d-md-none mt-2 p-3 shadow-sm w-100">
-          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('dashboard')}>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('/dashboard')}>
             Home
           </button>
-          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('profile')}>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('/profile')}>
             Profilo
           </button>
-          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('profile')}>
+          <button className="btn btn-sm w-100 mb-2" onClick={() => navigate('/partite')}>
             Partite
           </button>
           <button className="btn btn-sm w-100 mb-2" onClick={() => openModal('profile')}>

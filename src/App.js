@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthView } from './View/AuthView';
 import { useSelector } from 'react-redux';
 import { ConfirmProfileView } from './View/ConfirmProfileView';
@@ -18,10 +18,20 @@ function App() {
         {/* 👈 header sempre visibile */}
         <Routes>
           {/* Se l'utente è loggato, fai il redirect alla dashboard */}
-          <Route path="/" element={<PrivateRoute></PrivateRoute>} />
+          <Route
+            path="/"
+            element={
+              user ? <Navigate to="/dashboard" replace /> : <Navigate to="/welcome" replace />
+            }
+          />
           <Route path="/welcome" element={<AuthView />} />
           <Route path="/create-account" element={<AuthView register={true} />} />
-          <Route path="*" element={<PrivateRoute></PrivateRoute>} />
+          <Route
+            path="*"
+            element={
+              user ? <Navigate to="/dashboard" replace /> : <Navigate to="/welcome" replace />
+            }
+          />
 
           <Route
             path="/dashboard"

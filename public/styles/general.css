@@ -26,7 +26,7 @@ body {
    BUTTONS
 --------------------------- */
 .btn {
-    border-radius: var(--bs-btn-border-radius, 999px);
+    border-radius: var(--bs-btn-border-radius, 999px)!important;
     color: var(--primary-text);
     transition: all 0.2s ease;
 }
