@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { doCreateUserWithEmailAndPassword } from 'utils/authUtils';
 import FormUser from 'components/FormUser';
+import GeneralForm from 'components/Form/GeneralForm';
 
 const RegisterTwoSteps = () => {
   const [step, setStep] = useState(1);
@@ -60,7 +61,14 @@ const RegisterTwoSteps = () => {
           />
         )}
 
-        {step === 2 && <FormUser id="step2Register" onSubmit={handleRegister} />}
+        {step === 2 && (
+          <GeneralForm
+            id="step2Register"
+            formId={'formUser'}
+            handleSubmit={handleRegister}
+            obj={{}}
+          />
+        )}
 
         {error && <p className="mt-3 text-danger text-center">{error}</p>}
         {success && <p className="mt-3 text-success text-center">{success}</p>}
