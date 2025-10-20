@@ -13,7 +13,7 @@
     /* === BUTTONS === */
     --primary-bg-btn: var(--primary-color);
     --secondary-bg-btn: var(--secondary-bg);
-    /**--border-radius: 0.5rem;**/
+    -border-radius: 1rem;
 
     /* === Bootstrap non invasivo === */
     --bs-body-bg: var(--secondary-bg) !important;
