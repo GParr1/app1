@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { doCreateUserWithEmailAndPassword } from 'utils/authUtils';
-import FormUser from 'components/FormUser';
 import GeneralForm from 'components/Form/GeneralForm';
 
 const RegisterTwoSteps = () => {
