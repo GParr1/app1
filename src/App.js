@@ -18,46 +18,10 @@ function App() {
         {/* 👈 header sempre visibile */}
         <Routes>
           {/* Se l'utente è loggato, fai il redirect alla dashboard */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <AuthView />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/welcome"
-            element={
-              <PrivateRoute>
-                <AuthView />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PrivateRoute>
-                <AuthView register={true} />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/create-account"
-            element={
-              <PrivateRoute>
-                <AuthView register={true} />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <PrivateRoute>
-                <AuthView />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/" element={<PrivateRoute></PrivateRoute>} />
+          <Route path="/welcome" element={<AuthView />} />
+          <Route path="/create-account" element={<AuthView register={true} />} />
+          <Route path="*" element={<PrivateRoute></PrivateRoute>} />
 
           <Route
             path="/dashboard"
