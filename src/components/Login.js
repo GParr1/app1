@@ -58,7 +58,7 @@ const Login = () => {
           <button
             type="button"
             className="btn btn-secondary w-100"
-            //           onClick={() => navigate('/create-account', { replace: true })}
+            onClick={() => navigate('/create-account', { replace: true })}
           >
             CREA ACCOUNT
           </button>
