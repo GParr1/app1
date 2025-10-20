@@ -12,21 +12,24 @@ import MatchesView from './View/MatchesView';
 
 function App() {
   const user = useSelector(getUser) || null;
-  const showHeader = !!user;
-
   return (
     <Router basename="/app1">
       <div className="container mt-5">
-        {showHeader && <Header user={user} />}
         {/* 👈 header sempre visibile */}
         <Routes>
-          <Route path="/" element={<AuthView />} />
-          <Route path="/welcome" element={<AuthView />} />
-          <Route path="*" element={<AuthView />} />
+          {/* Se l'utente è loggato, fai il redirect alla dashboard */}
+          {!user && (
+            <>
+              <Route path="/" element={<AuthView />} />
+              <Route path="/welcome" element={<AuthView />} />
+              <Route path="*" element={<AuthView />} />
+            </>
+          )}
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
+                <Header user={user} />
                 <Dashboard user={user} />
               </PrivateRoute>
             }
@@ -35,6 +38,7 @@ function App() {
             path="/partite"
             element={
               <PrivateRoute>
+                <Header user={user} />
                 <MatchesView user={user} />
               </PrivateRoute>
             }
@@ -43,6 +47,7 @@ function App() {
             path="/profile"
             element={
               <PrivateRoute>
+                <Header user={user} />
                 <MyAccountView user={user} />
               </PrivateRoute>
             }
@@ -51,6 +56,7 @@ function App() {
             path="/confirm-profile"
             element={
               <PrivateRoute>
+                <Header user={user} />
                 <ConfirmProfileView user={user} />
               </PrivateRoute>
             }
