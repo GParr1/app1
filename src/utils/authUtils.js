@@ -171,6 +171,7 @@ export const doFirebaseLogin = async ({ action, options }) => {
     await store.dispatch(login({ userLogin }));
     await fetchDocProfile(userLogin.uid);
     console.log('✅ Accesso riuscito:', result.user);
+    return { errorMessage: false };
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error);
     console.error('❌ Errore login:', error.code, errorMessage);
