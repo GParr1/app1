@@ -55,6 +55,11 @@ export const FORMUSER = {
       name: 'isNewUser',
       value: true,
     },
+    {
+      type: 'submit',
+      className: 'btn btn-success w-100',
+      label: 'Registrati',
+    },
   ],
 };
 
