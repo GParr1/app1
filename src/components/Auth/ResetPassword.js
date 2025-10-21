@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { /*useEffect,*/ useState } from 'react';
 import { doResetPassword } from 'utils/authUtils';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { verifyPasswordResetCode, confirmPasswordReset } from 'firebase/auth';
+import { /* useSearchParams,*/ useNavigate } from 'react-router-dom';
+import { /* verifyPasswordResetCode,*/ confirmPasswordReset } from 'firebase/auth';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 
 import GeneralForm from 'components/Form/GeneralForm';
@@ -9,28 +9,28 @@ import { getObjFormFromEvt } from 'utils/utils';
 import { auth } from '../../firebaseConfig';
 
 const ResetPassword = () => {
-  const [searchParams] = useSearchParams();
+  //const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
-  const [oobCode, setOobCode] = useState('');
+  const [oobCode /*, setOobCode*/] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Step 1: Verifica il codice
-  useEffect(() => {
-    const code = searchParams.get('oobCode');
-    if (!code) {
-      return;
-    }
-    setOobCode(code);
-    verifyPasswordResetCode(auth, code)
-      .then(email => {
-        console.log(email);
-      })
-      .catch(() => {
-        setError('Il link di reset è scaduto o non valido.');
-      });
-  }, [searchParams]);
+  // // Step 1: Verifica il codice
+  // useEffect(() => {
+  //   const code = searchParams.get('oobCode');
+  //   if (!code) {
+  //     return;
+  //   }
+  //   setOobCode(code);
+  //   verifyPasswordResetCode(auth, code)
+  //     .then(email => {
+  //       console.log(email);
+  //     })
+  //     .catch(() => {
+  //       setError('Il link di reset è scaduto o non valido.');
+  //     });
+  // }, [searchParams]);
 
   const handleResetPassword = async evt => {
     const credential = getObjFormFromEvt(evt);
