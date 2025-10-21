@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {doResetPassword, doVerifyPasswordResetCode} from 'utils/authUtils';
+import { doResetPassword, doVerifyPasswordResetCode } from 'utils/authUtils';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { verifyPasswordResetCode, confirmPasswordReset } from 'firebase/auth';
+import { confirmPasswordReset } from 'firebase/auth';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 
 import GeneralForm from 'components/Form/GeneralForm';
