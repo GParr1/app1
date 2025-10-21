@@ -22,10 +22,10 @@ const ResetPassword = () => {
     if (!code) {
       return;
     }
-    setOobCode(code);
     doVerifyPasswordResetCode({ code }).then(result => {
       const { errorMessage } = result;
       errorMessage && setError(errorMessage);
+      !errorMessage && setOobCode(code);
     });
   }, [searchParams]);
 
