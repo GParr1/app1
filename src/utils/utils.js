@@ -7,6 +7,7 @@ import {
   FORM_REGISTER_STEP_2,
   FORM_REMOVE_GUEST,
   FORM_RESET_PASSWORD,
+  FORM_RESET_PASSWORD_STEP_PASSWORD,
   FORMUSER,
 } from '../structure/formUser';
 
@@ -32,7 +33,7 @@ export const getFormStructure = formId => {
       break;
     }
     case 'resetPassword-step-password': {
-      formStructure = FORM_RESET_PASSWORD;
+      formStructure = FORM_RESET_PASSWORD_STEP_PASSWORD;
       break;
     }
     case 'register-step-2': {

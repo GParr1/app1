@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doResetPassword } from 'utils/authUtils';
+import {doResetPassword, doVerifyPasswordResetCode} from 'utils/authUtils';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { verifyPasswordResetCode, confirmPasswordReset } from 'firebase/auth';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
@@ -23,13 +23,10 @@ const ResetPassword = () => {
       return;
     }
     setOobCode(code);
-    verifyPasswordResetCode(auth, code)
-      .then(email => {
-        console.log(email);
-      })
-      .catch(() => {
-        setError('Il link di reset è scaduto o non valido.');
-      });
+    doVerifyPasswordResetCode({ code }).then(result => {
+      const { errorMessage } = result;
+      errorMessage && setError(errorMessage);
+    });
   }, [searchParams]);
 
   const handleResetPassword = async evt => {

@@ -5,6 +5,7 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  verifyPasswordResetCode,
 } from 'firebase/auth';
 import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
@@ -164,6 +165,19 @@ export const doResetPassword = async ({ email }) => {
     alert('Ti abbiamo inviato una mail per reimpostare la password.');
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
+export const doVerifyPasswordResetCode = async ({ code }) => {
+  window.calcetto.toggleSpinner(true);
+  try {
+    const result = await verifyPasswordResetCode(auth, code);
+    console.log(result);
+  } catch (error) {
+    let errorMessage = 'Il link di reset è scaduto o non valido.'; //getFirebaseErrorMessage(error);
     console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
     return { errorMessage };
   } finally {
