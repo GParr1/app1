@@ -200,7 +200,7 @@ const getFirebaseErrorMessage = error => {
   switch (error.code) {
     // Errori comuni
     case 'auth/invalid-email':
-      return "L'indirizzo email non è valido.";
+      return "L'indirizzo email inserito non è valido o risulta già registrato.";
     case 'auth/user-disabled':
       return 'Questo account è stato disabilitato.';
     case 'auth/user-not-found':

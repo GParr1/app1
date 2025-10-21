@@ -27,14 +27,10 @@ const RegisterTwoSteps = () => {
   const handleRegister = async (evt, obj) => {
     evt.preventDefault();
     const credential = getObjFormFromEvt(evt);
-    credential.email = email;
-    credential.password = password;
-
     if (!obj.firstName || !obj.lastName) {
       setError('Nome e cognome obbligatori.');
       return;
     }
-
     setError('');
     const { errorMessage } = await doCreateUserWithEmailAndPassword({
       account: { ...credential },
@@ -59,6 +55,8 @@ const RegisterTwoSteps = () => {
   };
   const handleBack = async () => {
     setStep(1);
+    setError('');
+    setSuccess('');
   };
   return (
     <>
@@ -79,8 +77,8 @@ const RegisterTwoSteps = () => {
           <DividerLogin />
         </>
       )}
-      <div className="w-100 rounded-4 bg-secondary-bg p-4">
-        <div className="card shadow-sm border-primary">
+      <div className="w-100 bg-secondary-bg p-4">
+        <div className="card rounded-4 shadow-sm border-primary">
           <div className="card-body">
             {step === 1 && (
               <GeneralForm formId={'register-step-1'} handleSubmit={handleFirstStep} obj={{}} />

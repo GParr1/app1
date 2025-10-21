@@ -6,7 +6,8 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
   return (
     <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
-        const { type, name, label, placeholder, defaultValue, options, className } = field;
+        const { type, name, label, placeholder, defaultValue, options, className, required } =
+          field;
         // Render dinamico dei campi
         switch (type) {
           case 'text':
@@ -20,6 +21,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                 </label>
                 <input
                   type={type}
+                  {...(required && { required: required })}
                   className="form-control rounded-4"
                   name={name}
                   id={name}
@@ -58,7 +60,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
               : ['', '', ''];
 
             return (
-              <div key={name} className="mb-3 d-flex gap-2 align-items-center">
+              <div key={name} className="mb-3">
                 <label htmlFor={name} className="form-label me-2">
                   {label}
                 </label>
@@ -66,6 +68,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                   <select
                     name={`${name}_day`}
                     defaultValue={defaultDay || ''}
+                    {...(required && { required: required })}
                     className="form-select rounded-4"
                   >
                     <option value="">Giorno</option>
@@ -79,6 +82,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                   <select
                     name={`${name}_month`}
                     defaultValue={defaultMonth || ''}
+                    {...(required && { required: required })}
                     className="form-select rounded-4"
                   >
                     <option value="">Mese</option>
@@ -92,6 +96,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                   <select
                     name={`${name}_year`}
                     defaultValue={defaultYear || ''}
+                    {...(required && { required: required })}
                     className="form-select rounded-4"
                   >
                     <option value="">Anno</option>
@@ -127,6 +132,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                   <input
                     type={type} // Mostra/nascondi password
                     className="form-control rounded-4"
+                    {...(required && { required: required })}
                     name={name}
                     id={name}
                     placeholder={placeholder}
@@ -153,6 +159,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                       <input
                         type="checkbox"
                         className="form-check-input"
+                        {...(required && { required: required })}
                         id={option.code}
                         name={name}
                         value={option.code}
@@ -173,7 +180,13 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                 <label htmlFor={name} className="form-label">
                   {label}
                 </label>
-                <select className="form-control rounded-4" name={name} id={name} defaultValue={''}>
+                <select
+                  className="form-control rounded-4"
+                  name={name}
+                  id={name}
+                  {...(required && { required: required })}
+                  defaultValue={''}
+                >
                   {options.map(option => (
                     <option key={option.code} value={option.code}>
                       {option.label}
