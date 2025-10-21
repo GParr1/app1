@@ -20,7 +20,6 @@ const ResetPassword = () => {
   useEffect(() => {
     const code = searchParams.get('oobCode');
     if (!code) {
-      setError('Link non valido.');
       return;
     }
     setOobCode(code);

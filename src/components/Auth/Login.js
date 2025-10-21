@@ -66,7 +66,7 @@ const Login = () => {
             CREA ACCOUNT
           </button>
           <div className="text-center mb-3">
-            <a href={'#password'} className="text-primary-color text-decoration-none">
+            <a href={'/reset-password'} className="text-primary-color text-decoration-none">
               Hai dimenticato la password o devi crearne una nuova?
             </a>
           </div>
