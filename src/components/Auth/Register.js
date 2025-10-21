@@ -44,33 +44,35 @@ const RegisterTwoSteps = () => {
   };
 
   return (
-    <div className="card shadow-sm border-primary">
-      <div className="card-body">
-        <h2 className="card-title text-center mb-3">Registrazione</h2>
-        {step === 1 && <p className="text-center mb-3">Step 1</p>}
-        {step === 2 && <p className="text-center mb-3">Step 2</p>}
+    <div className="w-100  bg-secondary-bg p-4">
+      <div className="card shadow-sm border-primary">
+        <div className="card-body">
+          <h2 className="card-title text-center mb-3">Registrazione</h2>
+          {step === 1 && <p className="text-center mb-3">Step 1</p>}
+          {step === 2 && <p className="text-center mb-3">Step 2</p>}
 
-        {step === 1 && (
-          <FirstStepOfRegister
-            handleFirstStep={handleFirstStep}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-          />
-        )}
+          {step === 1 && (
+            <FirstStepOfRegister
+              handleFirstStep={handleFirstStep}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+            />
+          )}
 
-        {step === 2 && (
-          <GeneralForm
-            id="step2Register"
-            formId={'formUser'}
-            handleSubmit={handleRegister}
-            obj={{}}
-          />
-        )}
+          {step === 2 && (
+            <GeneralForm
+              id="step2Register"
+              formId={'formUser'}
+              handleSubmit={handleRegister}
+              obj={{}}
+            />
+          )}
 
-        {error && <p className="mt-3 text-danger text-center">{error}</p>}
-        {success && <p className="mt-3 text-success text-center">{success}</p>}
+          {error && <p className="mt-3 text-danger text-center">{error}</p>}
+          {success && <p className="mt-3 text-success text-center">{success}</p>}
+        </div>
       </div>
     </div>
   );

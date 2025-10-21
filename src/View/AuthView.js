@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from 'components/Login';
-import RegisterTwoSteps from 'components/Register';
+import Login from 'components/Auth/Login';
+import RegisterTwoSteps from 'components/Auth/Register';
 
 export const AuthView = ({ register }) => {
   return (

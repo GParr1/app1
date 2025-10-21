@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, prettyDOM } from '@testing-library/react';
 import { createStore } from 'redux';
-import Login from 'components/Login';
+import Login from 'components/Auth/Login';
 import * as authUtils from 'utils/authUtils';
 import { Wrapper } from '../../setupTests';
 import { MemoryRouter } from 'react-router-dom';

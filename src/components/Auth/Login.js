@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { doFirebaseLogin } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 import { emailRegex, phoneRegex } from 'utils/regex';
+import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -137,21 +138,6 @@ const LoginStepPassword = ({ email, cta, setPassword }) => {
     </>
   );
 };
-const HeaderAuthView = ({ message }) => (
-  <>
-    <img
-      className="header zoom05"
-      aria-hidden="true"
-      src="/app1/assets/logo.png"
-      fetchPriority={'high'}
-      alt={'logo'}
-      decoding="async"
-    />
-    <h1 className="text-center mb-4" id="welcome-heading">
-      {message}
-    </h1>
-  </>
-);
 const SocialLogin = ({ handleLogin }) => (
   <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
     <button
