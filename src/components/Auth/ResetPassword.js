@@ -34,15 +34,11 @@ const ResetPassword = () => {
 
   const handleResetPassword = async evt => {
     const credential = getObjFormFromEvt(evt);
-    setError('');
-    setSuccess('');
     const { errorMessage } = await doResetPassword({ email: credential.email });
     errorMessage && setError(errorMessage);
   };
   const handleConfirmPasswordReset = async evt => {
     evt.preventDefault();
-    setError('');
-    setSuccess('');
     try {
       const credential = getObjFormFromEvt(evt);
       await confirmPasswordReset(auth, oobCode, credential.password);
