@@ -3,6 +3,8 @@ import { BRONZE_CARD_BG, GOLD_CARD_BG, SILVER_CARD_BG } from 'utils/Constant';
 import {
   FORM_ADD_GUEST,
   FORM_CREATE_MATCH,
+  FORM_REGISTER_STEP_1,
+  FORM_REGISTER_STEP_2,
   FORM_REMOVE_GUEST,
   FORMUSER,
 } from '../structure/formUser';
@@ -22,6 +24,14 @@ export const getFormStructure = formId => {
   switch (formId) {
     case 'formUser': {
       formStructure = FORMUSER;
+      break;
+    }
+    case 'register-step-2': {
+      formStructure = FORM_REGISTER_STEP_2;
+      break;
+    }
+    case 'register-step-1': {
+      formStructure = FORM_REGISTER_STEP_1;
       break;
     }
     case 'createMatch': {
@@ -219,7 +229,10 @@ export function calculateAttributes({ height, birthDate, position }) {
 
   return attributes;
 }
-
+export const getObjFormFromEvt = evt => {
+  const formData = new FormData(evt.target);
+  return getObjFromForm({ formData });
+};
 export const getObjFromForm = ({ formData }) => {
   const formObject = {};
   // Usa entries() per iterare sui dati di FormData

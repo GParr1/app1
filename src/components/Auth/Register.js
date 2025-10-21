@@ -5,39 +5,41 @@ import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import { useNavigate } from 'react-router-dom';
+import { getObjFormFromEvt } from 'utils/utils';
 
 const RegisterTwoSteps = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [formObjectStep1, setFormObjectStep1] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleFirstStep = e => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError('Compila email e password.');
-      return;
-    }
+  const handleFirstStep = evt => {
+    evt.preventDefault();
+    const formObject = getObjFormFromEvt(evt);
+    setFormObjectStep1(formObject);
     setError('');
     setStep(2);
   };
 
-  const handleRegister = async e => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newAccount = Object.fromEntries(formData.entries());
-    newAccount.email = email;
-    newAccount.password = password;
+  const handleRegister = async (evt, obj) => {
+    evt.preventDefault();
+    const credential = getObjFormFromEvt(evt);
+    credential.email = email;
+    credential.password = password;
 
-    if (!newAccount.firstName || !newAccount.lastName) {
+    if (!obj.firstName || !obj.lastName) {
       setError('Nome e cognome obbligatori.');
       return;
     }
 
     setError('');
-    const response = await doCreateUserWithEmailAndPassword({ account: newAccount });
+    const response = await doCreateUserWithEmailAndPassword({
+      account: { ...credential },
+      customerInfo: { ...obj },
+    });
     if (response.result) {
       setSuccess('Registrazione completata con successo!');
       setStep(1);
@@ -54,8 +56,19 @@ const RegisterTwoSteps = () => {
     errorMessage && setError(errorMessage);
     !errorMessage && navigate('/profile', { replace: true });
   };
+  const handleBack = async () => {
+    setStep(1);
+  };
   return (
     <>
+      {step === 2 && (
+        <div className="w-100 d-flex justify-content-start mb-3">
+          <button onClick={handleBack} className="btn btm-tag p-0 me-3">
+            {/* Con icona bootstrap, oppure metti solo "←" */}
+            <i className="bi-chevron-left">Indietro</i>
+          </button>
+        </div>
+      )}
       <HeaderAuthView message={'Crea un account'} />
       {step === 1 && (
         <>
@@ -65,25 +78,18 @@ const RegisterTwoSteps = () => {
           <DividerLogin />
         </>
       )}
-      <div className="w-100  bg-secondary-bg p-4">
+      <div className="w-100 rounded-4 bg-secondary-bg p-4">
         <div className="card shadow-sm border-primary">
           <div className="card-body">
             {step === 1 && (
-              <FirstStepOfRegister
-                handleFirstStep={handleFirstStep}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-              />
+              <GeneralForm formId={'register-step-1'} handleSubmit={handleFirstStep} obj={{}} />
             )}
 
             {step === 2 && (
               <GeneralForm
-                id="step2Register"
-                formId={'formUser'}
+                formId={'register-step-2'}
                 handleSubmit={handleRegister}
-                obj={{}}
+                obj={formObjectStep1}
               />
             )}
 
@@ -92,36 +98,14 @@ const RegisterTwoSteps = () => {
           </div>
         </div>
       </div>
+      <div id="signin-section">
+        Hai già un account?
+        <a href="/welcome" className="signin">
+          Accedi
+        </a>
+      </div>
     </>
   );
 };
-
-const FirstStepOfRegister = ({ handleFirstStep, email, setEmail, password, setPassword }) => (
-  <form onSubmit={handleFirstStep}>
-    <div className="mb-3">
-      <input
-        type="email"
-        className="form-control"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-    </div>
-    <div className="mb-3">
-      <input
-        type="password"
-        className="form-control"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-    </div>
-    <button type="submit" className="btn btn-primary w-100">
-      Continua
-    </button>
-  </form>
-);
 
 export default RegisterTwoSteps;

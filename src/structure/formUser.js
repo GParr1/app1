@@ -62,6 +62,83 @@ export const FORMUSER = {
     },
   ],
 };
+export const FORM_REGISTER_STEP_1 = {
+  id: 'register-step-1',
+  fields: [
+    {
+      type: 'text',
+      name: 'firstName',
+      label: 'Nome',
+      placeholder: 'Nome',
+      defaultValue: 'Giovanni',
+      section: 'customerInfo',
+    },
+    {
+      type: 'text',
+      name: 'lastName',
+      label: 'Cognome',
+      placeholder: 'Cognome',
+      defaultValue: 'Parrone',
+      section: 'customerInfo',
+    },
+    {
+      type: 'date-split',
+      name: 'birthDate',
+      label: 'Data di nascita',
+      placeholder: '',
+      defaultValue: '',
+      section: 'customerInfo',
+    },
+    {
+      type: 'submit',
+      className: 'btn btn-success w-100',
+      label: 'Avanti',
+    },
+  ],
+};
+
+export const FORM_REGISTER_STEP_2 = {
+  id: 'register-step-2',
+  fields: [
+    {
+      type: 'text',
+      name: 'email',
+      label: 'Email',
+      placeholder: 'Inserisci la tua Email',
+      defaultValue: '',
+      section: '',
+    },
+    {
+      type: 'password',
+      name: 'password',
+      label: 'Password',
+      placeholder: 'Inserisci la tua Password',
+      defaultValue: '',
+      section: '',
+    },
+
+    {
+      type: 'consent',
+      name: 'privacy',
+      label: 'Accetto i consensi',
+      options: [
+        { code: 'privacy', label: 'Acconsento al trattamento dei dati personali' },
+        { code: 'marketing', label: 'Acconsento al marketing e comunicazioni promozionali' },
+      ],
+      defaultValue: ['privacy'], // Se l'utente ha già dato il consenso per la privacy di default
+    },
+    {
+      type: 'hidden',
+      name: 'isNewUser',
+      value: true,
+    },
+    {
+      type: 'submit',
+      className: 'btn btn-success w-100',
+      label: 'Registrati',
+    },
+  ],
+};
 
 export const FORM_ADD_GUEST = {
   id: 'addGuest',
