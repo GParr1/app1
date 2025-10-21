@@ -3,6 +3,8 @@ import { doFirebaseLogin } from 'utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 import { emailRegex, phoneRegex } from 'utils/regex';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
+import SocialLogin from 'components/Auth/Common/SocialLogin';
+import DividerLogin from 'components/Auth/Common/DividerLogin';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -138,32 +140,5 @@ const LoginStepPassword = ({ email, cta, setPassword }) => {
     </>
   );
 };
-const SocialLogin = ({ handleLogin }) => (
-  <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
-    <button
-      className="btn btn-secondary btn-social"
-      onClick={async () => await handleLogin({ action: 'google' })}
-    >
-      <i className="bi bi-google">
-        <span> Google</span>
-      </i>
-    </button>
-    <button
-      className="btn btn-secondary btn-social"
-      onClick={async () => await handleLogin({ action: 'facebook' })}
-    >
-      <i className="bi bi-facebook">
-        <span> Facebook</span>
-      </i>
-    </button>
-  </div>
-);
-const DividerLogin = () => (
-  <div className="d-flex align-items-center gap-2 w-100 mb-4">
-    <hr className="flex-grow-1" />
-    <span>o</span>
-    <hr className="flex-grow-1" />
-  </div>
-);
 
 export default Login;
