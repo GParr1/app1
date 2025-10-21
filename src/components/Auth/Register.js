@@ -36,18 +36,19 @@ const RegisterTwoSteps = () => {
     }
 
     setError('');
-    const response = await doCreateUserWithEmailAndPassword({
+    const { errorMessage } = await doCreateUserWithEmailAndPassword({
       account: { ...credential },
       customerInfo: { ...obj },
     });
-    if (response.result) {
+
+    if (!errorMessage) {
       setSuccess('Registrazione completata con successo!');
       setStep(1);
       setEmail('');
       setPassword('');
-    } else {
-      setError(response.error.message);
+      navigate('/confirm-profile', { replace: true });
     }
+    errorMessage && setError(errorMessage);
   };
   const handleLogin = async ({ action }) => {
     setError('');

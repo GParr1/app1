@@ -64,6 +64,19 @@ body {
     border: 0!important;
     transform: scale(0.95);
 }
+.btn-eye-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    z-index: 5;
+    background-color: var(--secondary-bg-btn) !important;
+    color: var(--primary-text) !important;
+    border: none !important;
+    padding: 4px 6px;
+    line-height: 1;
+    cursor: pointer;
+}
 
 .btn-nav {
     background-color: transparent;

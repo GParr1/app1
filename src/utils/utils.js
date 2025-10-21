@@ -233,6 +233,16 @@ export const getObjFormFromEvt = evt => {
   const formData = new FormData(evt.target);
   return getObjFromForm({ formData });
 };
+const manageBirthDateDay = ({ formObject = {} }) => {
+  if (formObject.birthDate_day && formObject.birthDate_month && formObject.birthDate_year) {
+    // Crea la stringa della data nel formato 'dd/mm/yyyy'
+    formObject.birthDate = `${formObject.birthDate_day.padStart(2, '0')}/${formObject.birthDate_month.padStart(2, '0')}/${formObject.birthDate_year}`;
+    // Rimuovi i singoli campi relativi alla data per non averli nell'oggetto finale
+    delete formObject.birthDate_day;
+    delete formObject.birthDate_month;
+    delete formObject.birthDate_year;
+  }
+};
 export const getObjFromForm = ({ formData }) => {
   const formObject = {};
   // Usa entries() per iterare sui dati di FormData
@@ -250,5 +260,6 @@ export const getObjFromForm = ({ formData }) => {
       formObject[key] = value;
     }
   }
+  manageBirthDateDay({ formObject });
   return formObject;
 };

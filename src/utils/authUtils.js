@@ -247,13 +247,10 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
       currentUser,
       result: true,
     };
-  } catch (err) {
-    console.error('doCreateUserWithEmailAndPassword:', err);
-
-    return {
-      error: err,
-      result: false,
-    };
+  } catch (error) {
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
   } finally {
     window.calcetto.toggleSpinner(false);
   }

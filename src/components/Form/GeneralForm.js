@@ -6,8 +6,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
   return (
     <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
-        const { type, name, label, placeholder, defaultValue, options } = field;
-
+        const { type, name, label, placeholder, defaultValue, options, className } = field;
         // Render dinamico dei campi
         switch (type) {
           case 'text':
@@ -60,50 +59,49 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
 
             return (
               <div key={name} className="mb-3 d-flex gap-2 align-items-center">
-                <label htmlFor={name} className="form-label me-2" style={{ minWidth: '100px' }}>
+                <label htmlFor={name} className="form-label me-2">
                   {label}
                 </label>
-                <select
-                  name={`${name}_day`}
-                  defaultValue={defaultDay || ''}
-                  className="form-select rounded-4"
-                  style={{ width: '70px' }}
-                >
-                  <option value="">Giorno</option>
-                  {days.map(day => (
-                    <option key={day} value={String(day).padStart(2, '0')}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
+                <div className="d-flex gap-2">
+                  <select
+                    name={`${name}_day`}
+                    defaultValue={defaultDay || ''}
+                    className="form-select rounded-4"
+                  >
+                    <option value="">Giorno</option>
+                    {days.map(day => (
+                      <option key={day} value={String(day).padStart(2, '0')}>
+                        {day}
+                      </option>
+                    ))}
+                  </select>
 
-                <select
-                  name={`${name}_month`}
-                  defaultValue={defaultMonth || ''}
-                  className="form-select rounded-4"
-                  style={{ width: '90px' }}
-                >
-                  <option value="">Mese</option>
-                  {months.map(month => (
-                    <option key={month.code} value={month.code}>
-                      {month.label}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    name={`${name}_month`}
+                    defaultValue={defaultMonth || ''}
+                    className="form-select rounded-4"
+                  >
+                    <option value="">Mese</option>
+                    {months.map(month => (
+                      <option key={month.code} value={month.code}>
+                        {month.label}
+                      </option>
+                    ))}
+                  </select>
 
-                <select
-                  name={`${name}_year`}
-                  defaultValue={defaultYear || ''}
-                  className="form-select rounded-4"
-                  style={{ width: '100px' }}
-                >
-                  <option value="">Anno</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    name={`${name}_year`}
+                    defaultValue={defaultYear || ''}
+                    className="form-select rounded-4"
+                  >
+                    <option value="">Anno</option>
+                    {years.map(year => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             );
           }
@@ -136,7 +134,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
                   />
                   <button
                     type="button"
-                    className="btn btn-outline-secondary"
+                    className="btn btn-eye-toggle"
                     onClick={e => togglePasswordVisibility(e)}
                   >
                     <i className={`bi bi-eye`} />
@@ -145,7 +143,6 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
               </div>
             );
           }
-
           case 'consent': {
             return (
               <div key={name} className="mb-3">
@@ -170,7 +167,6 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
               </div>
             );
           }
-
           case 'select':
             return (
               <div key={name} className="mb-3">
@@ -188,7 +184,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
             );
           case 'submit': {
             return (
-              <button type={type} className="btn btn-primary">
+              <button type={type} className={className}>
                 {label}
               </button>
             );
