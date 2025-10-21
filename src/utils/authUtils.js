@@ -160,10 +160,7 @@ export const doGoogleLogin = async () => {
 export const doResetPassword = async ({ email }) => {
   window.calcetto.toggleSpinner(true);
   try {
-    await sendPasswordResetEmail(auth, email, {
-      url: 'https://gparr1.github.io/app1/reset-password', // 👈 tua pagina personalizzata
-      handleCodeInApp: true, // 👈 necessario per usare il tuo frontend
-    });
+    await sendPasswordResetEmail(auth, email);
     alert('Ti abbiamo inviato una mail per reimpostare la password.');
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);
