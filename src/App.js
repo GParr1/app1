@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ConfirmProfileView } from './View/ConfirmProfileView';
 import { MyAccountView } from './View/MyAccountView';
 import { getUser } from 'state/auth/selectors';
+import { ResetPasswordView } from './View/ResetPasswordView';
 import Dashboard from './View/Dashboard';
 import PrivateRoute from 'components/PrivateRoute';
 import Header from 'components/Header';
@@ -25,6 +26,7 @@ function App() {
             }
           />
           <Route path="/welcome" element={<AuthView />} />
+          <Route path="/reset-password" element={<ResetPasswordView />} />
           <Route path="/create-account" element={<AuthView register={true} />} />
           <Route
             path="*"

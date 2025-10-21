@@ -158,6 +158,22 @@ export const doGoogleLogin = async () => {
     window.calcetto.toggleSpinner(false);
   }
 };
+export const doResetPassword = async ({ email }) => {
+  window.calcetto.toggleSpinner(true);
+  try {
+    await sendPasswordResetEmail(auth, email, {
+      url: 'https://gparr1.github.io/app1/reset-password', // 👈 tua pagina personalizzata
+      handleCodeInApp: true, // 👈 necessario per usare il tuo frontend
+    });
+    alert('Ti abbiamo inviato una mail per reimpostare la password.');
+  } catch (error) {
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
 export const doFirebaseLogin = async ({ action, options }) => {
   try {
     let result;
@@ -236,18 +252,7 @@ const getFirebaseErrorMessage = error => {
       return 'Errore di autenticazione. Riprova più tardi.';
   }
 };
-export const sendResetPasswordEmail = async email => {
-  const auth = getAuth();
 
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert('Ti abbiamo inviato una mail per reimpostare la password.');
-  } catch (error) {
-    let errorMessage = getFirebaseErrorMessage(error);
-    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
-    return { errorMessage };
-  }
-};
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
   window.calcetto.toggleSpinner(true);
   try {

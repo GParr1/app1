@@ -9,7 +9,7 @@ export const FORMUSER = {
       name: 'firstName',
       label: 'Nome',
       placeholder: 'Nome',
-      defaultValue: 'Giovanni',
+      defaultValue: '',
       section: 'customerInfo',
     },
     {
@@ -17,7 +17,7 @@ export const FORMUSER = {
       name: 'lastName',
       label: 'Cognome',
       placeholder: 'Cognome',
-      defaultValue: 'Parrone',
+      defaultValue: '',
       section: 'customerInfo',
     },
     {
@@ -25,7 +25,7 @@ export const FORMUSER = {
       name: 'birthDate',
       label: 'Data di nascita',
       placeholder: 'Data di nascita',
-      defaultValue: '1989-11-25',
+      defaultValue: '',
       section: 'customerInfo',
     },
     {
@@ -33,7 +33,7 @@ export const FORMUSER = {
       name: 'height',
       label: 'Altezza (cm)',
       placeholder: 'Altezza (cm)',
-      defaultValue: '177',
+      defaultValue: '',
       section: 'customerInfo',
     },
     {
@@ -141,6 +141,44 @@ export const FORM_REGISTER_STEP_2 = {
       type: 'submit',
       className: 'btn btn-success w-100',
       label: 'Registrati',
+    },
+  ],
+};
+export const FORM_RESET_PASSWORD = {
+  id: 'reset-password',
+  fields: [
+    {
+      type: 'text',
+      name: 'email',
+      label: 'Email',
+      required: true,
+      placeholder: 'Inserisci la tua Email',
+      defaultValue: '',
+      section: '',
+    },
+    {
+      type: 'submit',
+      className: 'btn btn-success w-100',
+      label: 'Reset Password',
+    },
+  ],
+};
+export const FORM_RESET_PASSWORD_STEP_PASSWORD = {
+  id: 'reset-password-step-password',
+  fields: [
+    {
+      type: 'password',
+      name: 'password',
+      label: 'Password',
+      required: true,
+      placeholder: 'Inserisci la tua Password',
+      defaultValue: '',
+      section: '',
+    },
+    {
+      type: 'submit',
+      className: 'btn btn-success w-100',
+      label: 'Reset Password',
     },
   ],
 };

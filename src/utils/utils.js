@@ -6,6 +6,7 @@ import {
   FORM_REGISTER_STEP_1,
   FORM_REGISTER_STEP_2,
   FORM_REMOVE_GUEST,
+  FORM_RESET_PASSWORD,
   FORMUSER,
 } from '../structure/formUser';
 
@@ -24,6 +25,14 @@ export const getFormStructure = formId => {
   switch (formId) {
     case 'formUser': {
       formStructure = FORMUSER;
+      break;
+    }
+    case 'resetPassword': {
+      formStructure = FORM_RESET_PASSWORD;
+      break;
+    }
+    case 'resetPassword-step-password': {
+      formStructure = FORM_RESET_PASSWORD;
       break;
     }
     case 'register-step-2': {

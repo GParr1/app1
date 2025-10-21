@@ -5,7 +5,6 @@ import { emailRegex, phoneRegex } from 'utils/regex';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
-import PasswordReset from 'components/Auth/PasswordReset';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -71,7 +70,6 @@ const Login = () => {
               Hai dimenticato la password o devi crearne una nuova?
             </a>
           </div>
-          <PasswordReset />
         </>
       )}
     </>
