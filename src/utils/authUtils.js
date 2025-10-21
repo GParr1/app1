@@ -4,6 +4,8 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
+  getAuth,
 } from 'firebase/auth';
 import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
@@ -232,6 +234,18 @@ const getFirebaseErrorMessage = error => {
       return 'Questo provider è già collegato al tuo account.';
     default:
       return 'Errore di autenticazione. Riprova più tardi.';
+  }
+};
+export const sendResetPasswordEmail = async email => {
+  const auth = getAuth();
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert('Ti abbiamo inviato una mail per reimpostare la password.');
+  } catch (error) {
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
   }
 };
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
