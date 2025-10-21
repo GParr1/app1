@@ -5,7 +5,6 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
-  getAuth,
 } from 'firebase/auth';
 import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
