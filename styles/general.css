@@ -53,6 +53,17 @@ body {
     border: 1px solid var(--primary-color)!important;
     transform: scale(0.95);
 }
+.btm-tag {
+    background-color: var(--secondary-bg-btn);
+    color: var(--primary-text);
+    border: 0;
+}
+.btm-tag:hover {
+    background-color: var(--secondary-bg-btn)!important;
+    color: var(--primary-text)!important;
+    border: 0!important;
+    transform: scale(0.95);
+}
 
 .btn-nav {
     background-color: transparent;
