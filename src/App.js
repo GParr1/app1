@@ -14,7 +14,13 @@ import MatchesView from './View/MatchesView';
 function App() {
   const user = useSelector(getUser) || null;
   return (
-    <Router basename="/app1">
+    <Router
+      basename="/app1"
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}
+    >
       <div className="container mt-5">
         {/* 👈 header sempre visibile */}
         <Routes>

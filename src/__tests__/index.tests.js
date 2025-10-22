@@ -12,7 +12,6 @@ jest.mock('state/store', () => ({
   persistor: { persist: jest.fn() },
 }));
 
-
 describe('index.js', () => {
   beforeAll(() => {
     const root = document.createElement('div');
@@ -30,6 +29,5 @@ describe('index.js', () => {
     window.calcetto.toggleSpinner();
     //expect(document.getElementById).toHaveBeenCalledWith('global-spinner');
     expect(window.calcetto.store).toBeDefined();
-
   });
 });

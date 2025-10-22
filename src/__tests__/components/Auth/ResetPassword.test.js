@@ -3,7 +3,7 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ResetPassword from 'components/Auth/ResetPassword';
 import * as authUtils from 'utils/authUtils';
-import { fillGeneralForm, renderWithRouter } from '../../utils';
+import { fillGeneralForm, renderWithRouter } from '../../../__mocks__/utils';
 
 // Mock delle funzioni usate
 jest.mock('utils/authUtils', () => ({

@@ -5,6 +5,7 @@ const HeaderAuthView = ({ message }) => (
     <img
       className="header zoom05"
       aria-hidden="true"
+      data-testid={'logo-img'}
       src="/app1/assets/logo.png"
       fetchPriority={'high'}
       alt={'logo'}

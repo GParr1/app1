@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import RegisterTwoSteps from 'components/Auth/Register';
 import * as authUtils from 'utils/authUtils';
 import { doFirebaseLogin } from 'utils/authUtils';
-import { renderWithRouter } from '../../utils';
+import { renderWithRouter } from '../../../__mocks__/utils';
 
 // mock
 jest.mock('utils/authUtils', () => ({
@@ -216,6 +216,6 @@ describe('RegisterTwoSteps component', () => {
     });
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-facebook-btn'));
-    expect(window.location.pathname).toBe('/profile');
+    await waitFor(() => expect(window.location.pathname).toBe('/profile'));
   });
 });
