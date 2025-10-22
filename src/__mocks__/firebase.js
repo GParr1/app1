@@ -9,6 +9,7 @@ export const getAuth = jest.fn(() => ({
 }));
 
 export const GoogleAuthProvider = jest.fn();
+export const FacebookAuthProvider = jest.fn();
 
 export const getFirestore = jest.fn(() => ({}));
 

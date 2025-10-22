@@ -25,6 +25,7 @@ jest.mock('firebase/auth', () => ({
     signOut: jest.fn(),
   })),
   GoogleAuthProvider: jest.fn(),
+  FacebookAuthProvider: jest.fn(),
 }));
 
 jest.mock('firebase/firestore', () => ({

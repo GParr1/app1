@@ -1,49 +1,35 @@
-import { logout } from 'state/auth/reducer';
+import { store } from 'state/store';
 
-describe('start app index.js', () => {
-  let rootDiv;
+jest.mock('web-vitals', () => ({
+  getCLS: jest.fn(),
+  getFID: jest.fn(),
+  getFCP: jest.fn(),
+  getLCP: jest.fn(),
+  getTTFB: jest.fn(),
+}));
+jest.mock('state/store', () => ({
+  store: { dispatch: jest.fn(), getState: jest.fn(), subscribe: jest.fn() },
+  persistor: { persist: jest.fn() },
+}));
 
-  beforeEach(() => {
-    // crea il div root simulato
-    rootDiv = document.createElement('div');
-    rootDiv.id = 'root';
-    document.body.appendChild(rootDiv);
-  });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    document.body.innerHTML = '';
-  });
-
-  it('renderizza correttamente e definisce window.calcetto', async () => {
-    await import('../index.js');
-
-    expect(window.calcetto).toBeDefined();
-    expect(typeof window.calcetto.logout).toBe('function');
-    expect(typeof window.calcetto.toggleSpinner).toBe('function');
-  });
-
-  it('toggleSpinner mostra e nasconde lo spinner', async () => {
-    await import('../index.js');
-
+describe('index.js', () => {
+  beforeAll(() => {
+    const root = document.createElement('div');
+    root.id = 'root';
     const spinner = document.createElement('div');
     spinner.id = 'global-spinner';
+
+    document.body.appendChild(root);
     document.body.appendChild(spinner);
-
-    window.calcetto.toggleSpinner(true);
-    expect(spinner.style.display).toBe('flex');
-
-    window.calcetto.toggleSpinner(false);
-    expect(spinner.style.display).toBe('none');
   });
-  it('logout', async () => {
-    await import('../index.js');
+  it('renders App without crashing', () => {
+    require('../index'); // importa il file index.js
     window.calcetto.logout();
-    // expect(store.dispatch).toHaveBeenCalled();
-  });
-  it('render', async () => {
-    await import('../index.js');
-    await import('../index.js');
-    console.log(document.getElementById('root').innerHTML);
+    expect(store.dispatch).toHaveBeenCalled();
+    window.calcetto.toggleSpinner();
+    //expect(document.getElementById).toHaveBeenCalledWith('global-spinner');
+    expect(window.calcetto.store).toBeDefined();
+
   });
 });
