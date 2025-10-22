@@ -144,8 +144,8 @@ export const FORM_REGISTER_STEP_2 = {
     },
   ],
 };
-export const FORM_RESET_PASSWORD = {
-  id: 'reset-password',
+export const FORM_EMAIL_STEP = {
+  id: 'email-step',
   fields: [
     {
       type: 'text',
@@ -163,8 +163,8 @@ export const FORM_RESET_PASSWORD = {
     },
   ],
 };
-export const FORM_RESET_PASSWORD_STEP_PASSWORD = {
-  id: 'reset-password-step-password',
+export const FORM_PASSWORD_STEP = {
+  id: 'password-step',
   fields: [
     {
       type: 'password',

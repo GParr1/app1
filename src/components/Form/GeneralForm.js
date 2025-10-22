@@ -1,7 +1,7 @@
 import React from 'react';
 import { getFormStructure } from 'utils/utils';
 
-const GeneralForm = ({ handleSubmit, formId, obj }) => {
+const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
   const formData = getFormStructure(formId);
   return (
     <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
@@ -198,7 +198,7 @@ const GeneralForm = ({ handleSubmit, formId, obj }) => {
           case 'submit': {
             return (
               <button type={type} className={className}>
-                {label}
+                {labels?.submitLabel ? labels.submitLabel : label}
               </button>
             );
           }

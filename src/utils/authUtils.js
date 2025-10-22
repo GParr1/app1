@@ -6,6 +6,7 @@ import {
   updateProfile,
   sendPasswordResetEmail,
   verifyPasswordResetCode,
+  confirmPasswordReset,
 } from 'firebase/auth';
 import { auth, db, facebookProvider, googleProvider } from '../firebaseConfig';
 import { login, logout } from 'state/auth/reducer';
@@ -21,7 +22,12 @@ import {
   setDoc,
 } from 'firebase/firestore';
 import { starterCard } from '../structure/starterCard';
-import { calculateAttributes, calculatePlayerOverall, getObjFromForm } from 'utils/utils';
+import {
+  calculateAttributes,
+  calculatePlayerOverall,
+  getObjFormFromEvt,
+  getObjFromForm,
+} from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
 export const fetchUserProfile = async () => {
@@ -158,11 +164,24 @@ export const doGoogleLogin = async () => {
     window.calcetto.toggleSpinner(false);
   }
 };
+export const doConfirmPasswordReset = async ({ oobCode, newPassword }) => {
+  window.calcetto.toggleSpinner(true);
+  try {
+    await confirmPasswordReset(auth, oobCode, newPassword);
+    return { successMessage: 'La password è stata aggiornata con successo.' };
+  } catch (error) {
+    let errorMessage = getFirebaseErrorMessage(error);
+    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
+    return { errorMessage };
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
 export const doResetPassword = async ({ email }) => {
   window.calcetto.toggleSpinner(true);
   try {
     await sendPasswordResetEmail(auth, email);
-    alert('Ti abbiamo inviato una mail per reimpostare la password.');
+    return { successMessage: 'Ti abbiamo inviato una mail per reimpostare la password.' };
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);
     console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
@@ -175,7 +194,7 @@ export const doVerifyPasswordResetCode = async ({ code }) => {
   window.calcetto.toggleSpinner(true);
   try {
     const result = await verifyPasswordResetCode(auth, code);
-    console.log(result);
+    return { successMessage: result };
   } catch (error) {
     let errorMessage = 'Il link di reset è scaduto o non valido.'; //getFirebaseErrorMessage(error);
     console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
@@ -199,7 +218,7 @@ export const doFirebaseLogin = async ({ action, options }) => {
     await store.dispatch(login({ userLogin }));
     await fetchDocProfile(userLogin.uid);
     console.log('✅ Accesso riuscito:', result.user);
-    return { errorMessage: false };
+    return { successMessage: result.user };
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error);
     console.error('❌ Errore login:', error.code, errorMessage);
@@ -272,10 +291,7 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
     delete dataAccount.password;
     await authUpdateProfile(account);
     const currentUser = await fetchUserProfile();
-    return {
-      currentUser,
-      result: true,
-    };
+    return { successMessage: currentUser };
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);
     console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);

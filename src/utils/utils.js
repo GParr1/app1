@@ -3,11 +3,11 @@ import { BRONZE_CARD_BG, GOLD_CARD_BG, SILVER_CARD_BG } from 'utils/Constant';
 import {
   FORM_ADD_GUEST,
   FORM_CREATE_MATCH,
+  FORM_EMAIL_STEP,
+  FORM_PASSWORD_STEP,
   FORM_REGISTER_STEP_1,
   FORM_REGISTER_STEP_2,
   FORM_REMOVE_GUEST,
-  FORM_RESET_PASSWORD,
-  FORM_RESET_PASSWORD_STEP_PASSWORD,
   FORMUSER,
 } from '../structure/formUser';
 
@@ -20,7 +20,17 @@ export const calculateGoalkeeperOverall = attrs => {
   const { PAR, RIF, POS, VEL, TEC, RES } = attrs;
   return Math.round(PAR * 0.3 + RIF * 0.25 + POS * 0.2 + VEL * 0.1 + TEC * 0.1 + RES * 0.05);
 };
+export const cleanUrlParamitee = () => {
+  const url = new URL(window.location);
+  window.history.replaceState({}, '', url.pathname);
+};
+export const maskEmail = email => {
+  const [name, domain] = email.split('@');
+  if (!name || !domain) return email;
 
+  const visible = name.slice(0, 2); // prime 2 lettere
+  return `${visible}${'*'.repeat(5)}@${domain}`;
+};
 export const getFormStructure = formId => {
   let formStructure = {};
   switch (formId) {
@@ -28,12 +38,14 @@ export const getFormStructure = formId => {
       formStructure = FORMUSER;
       break;
     }
+    case 'email-step':
     case 'resetPassword': {
-      formStructure = FORM_RESET_PASSWORD;
+      formStructure = FORM_EMAIL_STEP;
       break;
     }
+    case 'password-step':
     case 'resetPassword-step-password': {
-      formStructure = FORM_RESET_PASSWORD_STEP_PASSWORD;
+      formStructure = FORM_PASSWORD_STEP;
       break;
     }
     case 'register-step-2': {

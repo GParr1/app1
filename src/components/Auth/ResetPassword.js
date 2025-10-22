@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { doResetPassword, doVerifyPasswordResetCode } from 'utils/authUtils';
+import {
+  doConfirmPasswordReset,
+  doResetPassword,
+  doVerifyPasswordResetCode,
+} from 'utils/authUtils';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { confirmPasswordReset } from 'firebase/auth';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 
 import GeneralForm from 'components/Form/GeneralForm';
-import { getObjFormFromEvt } from 'utils/utils';
-import { auth } from '../../firebaseConfig';
+import { cleanUrlParamitee, getObjFormFromEvt } from 'utils/utils';
+import ModalError from 'components/Modal/ModalError';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -23,24 +26,30 @@ const ResetPassword = () => {
       return;
     }
     doVerifyPasswordResetCode({ code }).then(result => {
-      const { errorMessage } = result;
+      const { errorMessage, successMessage } = result;
+      cleanUrlParamitee();
       errorMessage && setError(errorMessage);
-      !errorMessage && setOobCode(code);
+      successMessage && setOobCode(code);
     });
   }, [searchParams]);
 
   const handleResetPassword = async evt => {
     evt.preventDefault();
     const credential = getObjFormFromEvt(evt);
-    const { errorMessage } = await doResetPassword({ email: credential.email });
+    const { errorMessage, successMessage } = await doResetPassword({ email: credential.email });
     errorMessage && setError(errorMessage);
+    successMessage && setSuccess(successMessage);
   };
   const handleConfirmPasswordReset = async evt => {
     evt.preventDefault();
     try {
       const credential = getObjFormFromEvt(evt);
-      await confirmPasswordReset(auth, oobCode, credential.password);
-      setSuccess('La password è stata aggiornata con successo.');
+      const { errorMessage, successMessage } = await doConfirmPasswordReset({
+        oobCode,
+        newPassword: credential.password,
+      });
+      errorMessage && setError(errorMessage);
+      successMessage && setSuccess(successMessage);
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError('Errore durante l’aggiornamento della password.');
@@ -62,8 +71,8 @@ const ResetPassword = () => {
             obj={{}}
           />
         )}
-        {error && <p className="mt-2 text-danger text-center">{error}</p>}
-        {success && <p className="mt-2 text-success text-center">{success}</p>}
+        {error && <ModalError title={'Errore'} message={error} closeModal={() => setError('')} />}
+        {success && <ModalError title={''} message={success} closeModal={() => setSuccess('')} />}
       </div>
     </>
   );

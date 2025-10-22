@@ -6,13 +6,12 @@ import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import { useNavigate } from 'react-router-dom';
 import { getObjFormFromEvt } from 'utils/utils';
+import ModalError from 'components/Modal/ModalError';
 
 const RegisterTwoSteps = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formObjectStep1, setFormObjectStep1] = useState({});
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -20,7 +19,6 @@ const RegisterTwoSteps = () => {
     evt.preventDefault();
     const formObject = getObjFormFromEvt(evt);
     setFormObjectStep1(formObject);
-    setError('');
     setStep(2);
   };
 
@@ -31,32 +29,23 @@ const RegisterTwoSteps = () => {
       setError('Nome e cognome obbligatori.');
       return;
     }
-    setError('');
-    const { errorMessage } = await doCreateUserWithEmailAndPassword({
+    const { errorMessage, successMessage } = await doCreateUserWithEmailAndPassword({
       account: { ...credential },
       customerInfo: { ...obj },
     });
-
-    if (!errorMessage) {
-      setSuccess('Registrazione completata con successo!');
-      setStep(1);
-      setEmail('');
-      setPassword('');
-      navigate('/confirm-profile', { replace: true });
-    }
     errorMessage && setError(errorMessage);
+    if (successMessage) {
+      setSuccess('Registrazione completata con successo!');
+      setTimeout(() => navigate('/confirm-profile', { replace: true }), 2000);
+    }
   };
   const handleLogin = async ({ action }) => {
-    setError('');
-    setSuccess('');
-    const { errorMessage } = await doFirebaseLogin({ action, options: { email, password } });
+    const { errorMessage, successMessage } = await doFirebaseLogin({ action });
     errorMessage && setError(errorMessage);
-    !errorMessage && navigate('/profile', { replace: true });
+    successMessage && navigate('/profile', { replace: true });
   };
   const handleBack = async () => {
     setStep(1);
-    setError('');
-    setSuccess('');
   };
   return (
     <>
@@ -91,9 +80,12 @@ const RegisterTwoSteps = () => {
                 obj={formObjectStep1}
               />
             )}
-
-            {error && <p className="mt-3 text-danger text-center">{error}</p>}
-            {success && <p className="mt-3 text-success text-center">{success}</p>}
+            {error && (
+              <ModalError title={'Errore'} message={error} closeModal={() => setError('')} />
+            )}
+            {success && (
+              <ModalError title={''} message={success} closeModal={() => setSuccess('')} />
+            )}
           </div>
         </div>
       </div>
