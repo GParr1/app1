@@ -91,18 +91,4 @@ const Login = () => {
   );
 };
 
-const LoginStepPassword = ({ email, cta }) => {
-  return (
-    <>
-      <h4 className="text-center">Inserisci la password di {maskEmail(email)}</h4>
-      <GeneralForm
-        formId={'password-step'}
-        handleSubmit={cta}
-        labels={{ submitLabel: 'ACCEDI' }}
-        obj={{ action: 'email', email }}
-      />
-    </>
-  );
-};
-
 export default Login;
