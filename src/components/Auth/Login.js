@@ -5,7 +5,7 @@ import { emailRegex, phoneRegex } from 'utils/regex';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
-import ModalError from 'components/Modal/ModalError';
+import ModalInfo from 'components/Modal/ModalInfo';
 import GeneralForm from 'components/Form/GeneralForm';
 import { getObjFormFromEvt, maskEmail } from 'utils/utils';
 
@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState(null);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  /*const [success, setSuccess] = useState('');*/
 
   const handleSetEmail = evt => {
     const credential = getObjFormFromEvt(evt);
@@ -27,7 +27,7 @@ const Login = () => {
       setEmail(emailOrPhone);
     }
   };
-  const handleLogin = async ({ evt, obj }) => {
+  const handleLogin = async (evt, obj) => {
     const credential = getObjFormFromEvt(evt);
     const { errorMessage, successMessage } = await doFirebaseLogin({
       action: obj.action,
@@ -68,20 +68,25 @@ const Login = () => {
             />
           </>
         )}
-        {error && <ModalError title={'Errore'} message={error} closeModal={() => setError('')} />}
-        {success && <ModalError title={''} message={success} closeModal={() => setSuccess('')} />}
+        {error && <ModalInfo title={'Errore'} message={error} closeModal={() => setError('')} />}
+        {/*success && <ModalInfo title={''} message={success} closeModal={() => setSuccess('')} />*/}
       </div>
       {!email && (
         <>
           <button
             type="button"
+            data-testid={`create-account-btn`}
             className="btn btn-secondary w-100"
             onClick={() => navigate('/create-account', { replace: true })}
           >
             CREA ACCOUNT
           </button>
           <div className="text-center mb-3">
-            <a href={'/app1/reset-password'} className="text-primary-color text-decoration-none">
+            <a
+              href={'/app1/reset-password'}
+              data-testid={`reset-password-link`}
+              className="text-primary-color text-decoration-none"
+            >
               Hai dimenticato la password o devi crearne una nuova?
             </a>
           </div>

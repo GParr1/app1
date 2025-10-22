@@ -20,7 +20,7 @@ export const calculateGoalkeeperOverall = attrs => {
   const { PAR, RIF, POS, VEL, TEC, RES } = attrs;
   return Math.round(PAR * 0.3 + RIF * 0.25 + POS * 0.2 + VEL * 0.1 + TEC * 0.1 + RES * 0.05);
 };
-export const cleanUrlParamitee = () => {
+export const cleanUrlParamiter = () => {
   const url = new URL(window.location);
   window.history.replaceState({}, '', url.pathname);
 };

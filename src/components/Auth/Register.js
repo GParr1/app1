@@ -6,7 +6,7 @@ import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import { useNavigate } from 'react-router-dom';
 import { getObjFormFromEvt } from 'utils/utils';
-import ModalError from 'components/Modal/ModalError';
+import ModalError from 'components/Modal/ModalInfo';
 
 const RegisterTwoSteps = () => {
   const navigate = useNavigate();
@@ -18,6 +18,10 @@ const RegisterTwoSteps = () => {
   const handleFirstStep = evt => {
     evt.preventDefault();
     const formObject = getObjFormFromEvt(evt);
+    if (!formObject.firstName || !formObject.lastName) {
+      setError('Nome e cognome obbligatori.');
+      return;
+    }
     setFormObjectStep1(formObject);
     setStep(2);
   };
@@ -25,10 +29,7 @@ const RegisterTwoSteps = () => {
   const handleRegister = async (evt, obj) => {
     evt.preventDefault();
     const credential = getObjFormFromEvt(evt);
-    if (!obj.firstName || !obj.lastName) {
-      setError('Nome e cognome obbligatori.');
-      return;
-    }
+
     const { errorMessage, successMessage } = await doCreateUserWithEmailAndPassword({
       account: { ...credential },
       customerInfo: { ...obj },
@@ -51,7 +52,7 @@ const RegisterTwoSteps = () => {
     <>
       {step === 2 && (
         <div className="w-100 d-flex justify-content-start mb-3">
-          <button onClick={handleBack} className="btn btm-tag p-0 me-3">
+          <button onClick={handleBack} className="btn btm-tag p-0 me-3" data-testid={`back-btn`}>
             {/* Con icona bootstrap, oppure metti solo "←" */}
             <i className="bi-chevron-left">Indietro</i>
           </button>
@@ -91,7 +92,7 @@ const RegisterTwoSteps = () => {
       </div>
       <div id="signin-section">
         Hai già un account?
-        <a href="/welcome" className="signin">
+        <a href="/app1/welcome" data-testid={`login-link`} className="signin">
           Accedi
         </a>
       </div>

@@ -2,13 +2,14 @@ import React from 'react';
 
 const ModalInfo = ({ title, message, closeModal }) => {
   return (
-    <div className="modal show d-block" tabIndex="-1" role="dialog">
+    <div className="modal show d-block" tabIndex="-1" role="dialog" data-testid="modal-open">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{title}</h5>
             <button
               type="button"
+              data-testid="modal-btn-close"
               className="btn-close btn-close-white"
               onClick={closeModal}
               aria-label="Close"

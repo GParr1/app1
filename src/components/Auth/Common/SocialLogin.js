@@ -4,6 +4,7 @@ const SocialLogin = ({ handleLogin }) => (
   <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
     <button
       className="btn btn-secondary btn-social"
+      data-testid={`login-google-btn`}
       onClick={async () => await handleLogin({ action: 'google' })}
     >
       <i className="bi bi-google">
@@ -12,6 +13,7 @@ const SocialLogin = ({ handleLogin }) => (
     </button>
     <button
       className="btn btn-secondary btn-social"
+      data-testid={`login-facebook-btn`}
       onClick={async () => await handleLogin({ action: 'facebook' })}
     >
       <i className="bi bi-facebook">

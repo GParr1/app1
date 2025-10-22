@@ -8,8 +8,8 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 
 import GeneralForm from 'components/Form/GeneralForm';
-import { cleanUrlParamitee, getObjFormFromEvt } from 'utils/utils';
-import ModalError from 'components/Modal/ModalError';
+import { cleanUrlParamiter, getObjFormFromEvt } from 'utils/utils';
+import ModalError from 'components/Modal/ModalInfo';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -27,7 +27,7 @@ const ResetPassword = () => {
     }
     doVerifyPasswordResetCode({ code }).then(result => {
       const { errorMessage, successMessage } = result;
-      cleanUrlParamitee();
+      cleanUrlParamiter();
       errorMessage && setError(errorMessage);
       successMessage && setOobCode(code);
     });
@@ -36,24 +36,24 @@ const ResetPassword = () => {
   const handleResetPassword = async evt => {
     evt.preventDefault();
     const credential = getObjFormFromEvt(evt);
+    if (!credential.email) {
+      setError("Email vuota! Inserisci l'email");
+      return;
+    }
     const { errorMessage, successMessage } = await doResetPassword({ email: credential.email });
     errorMessage && setError(errorMessage);
     successMessage && setSuccess(successMessage);
   };
   const handleConfirmPasswordReset = async evt => {
     evt.preventDefault();
-    try {
-      const credential = getObjFormFromEvt(evt);
-      const { errorMessage, successMessage } = await doConfirmPasswordReset({
-        oobCode,
-        newPassword: credential.password,
-      });
-      errorMessage && setError(errorMessage);
-      successMessage && setSuccess(successMessage);
-      setTimeout(() => navigate('/login'), 2000);
-    } catch (err) {
-      setError('Errore durante l’aggiornamento della password.');
-    }
+    const credential = getObjFormFromEvt(evt);
+    const { errorMessage, successMessage } = await doConfirmPasswordReset({
+      oobCode,
+      newPassword: credential.password,
+    });
+    errorMessage && setError(errorMessage);
+    successMessage && setSuccess(successMessage);
+    setTimeout(() => navigate('/login'), 2000);
   };
 
   return (

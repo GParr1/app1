@@ -104,7 +104,7 @@ export const FORM_REGISTER_STEP_2 = {
   id: 'register-step-2',
   fields: [
     {
-      type: 'text',
+      type: 'email',
       name: 'email',
       label: 'Email',
       required: true,
@@ -148,7 +148,7 @@ export const FORM_EMAIL_STEP = {
   id: 'email-step',
   fields: [
     {
-      type: 'text',
+      type: 'email',
       name: 'email',
       label: 'Email',
       required: true,

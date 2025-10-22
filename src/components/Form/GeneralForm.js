@@ -4,13 +4,14 @@ import { getFormStructure } from 'utils/utils';
 const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
   const formData = getFormStructure(formId);
   return (
-    <form id={formId} onSubmit={e => handleSubmit(e, obj)}>
+    <form id={formId} data-testid={`${formId}-from`} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
         const { type, name, label, placeholder, defaultValue, options, className, required } =
           field;
         // Render dinamico dei campi
         switch (type) {
           case 'text':
+          case 'email':
           case 'number':
           case 'datetime-local':
           case 'date':
@@ -26,6 +27,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                   name={name}
                   id={name}
                   placeholder={placeholder}
+                  data-testid={`${name}-input`}
                   defaultValue={defaultValue}
                 />
               </div>
@@ -67,6 +69,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                 <div className="d-flex gap-2">
                   <select
                     name={`${name}_day`}
+                    data-testid={`${name}_day-select`}
                     defaultValue={defaultDay || ''}
                     {...(required && { required: required })}
                     className="form-select rounded-4"
@@ -81,6 +84,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
 
                   <select
                     name={`${name}_month`}
+                    data-testid={`${name}_month-select`}
                     defaultValue={defaultMonth || ''}
                     {...(required && { required: required })}
                     className="form-select rounded-4"
@@ -95,6 +99,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
 
                   <select
                     name={`${name}_year`}
+                    data-testid={`${name}_year-select`}
                     defaultValue={defaultYear || ''}
                     {...(required && { required: required })}
                     className="form-select rounded-4"
@@ -135,12 +140,14 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                     {...(required && { required: required })}
                     name={name}
                     id={name}
+                    data-testid={`${name}-input`}
                     placeholder={placeholder}
                     defaultValue={defaultValue}
                   />
                   <button
                     type="button"
                     className="btn btn-eye-toggle"
+                    data-testid={`${name}-input-btn`}
                     onClick={e => togglePasswordVisibility(e)}
                   >
                     <i className={`bi bi-eye`} />
@@ -162,6 +169,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                         {...(required && { required: required })}
                         id={option.code}
                         name={name}
+                        data-testid={`${name}-checkbox`}
                         value={option.code}
                         defaultChecked={defaultValue && defaultValue.includes(option.code)}
                       />
@@ -184,6 +192,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                   className="form-control rounded-4"
                   name={name}
                   id={name}
+                  data-testid={`${name}-select`}
                   {...(required && { required: required })}
                   defaultValue={''}
                 >
@@ -197,13 +206,13 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
             );
           case 'submit': {
             return (
-              <button type={type} className={className}>
+              <button key={type} type={type} className={className} data-testid={`${type}-btn`}>
                 {labels?.submitLabel ? labels.submitLabel : label}
               </button>
             );
           }
           default:
-            return <></>;
+            return null;
         }
       })}
     </form>
