@@ -252,8 +252,12 @@ export function calculateAttributes({ height, birthDate, position }) {
   return attributes;
 }
 export const getObjFormFromEvt = evt => {
-  const formData = new FormData(evt.target);
-  return getObjFromForm({ formData });
+  if (evt.target instanceof HTMLFormElement) {
+    const formData = new FormData(evt.target);
+    return getObjFromForm({ formData });
+  } else {
+    return {};
+  }
 };
 const manageBirthDateDay = ({ formObject = {} }) => {
   if (formObject.birthDate_day && formObject.birthDate_month && formObject.birthDate_year) {
