@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import * as authUtils from 'utils/authUtils';
 import '@testing-library/jest-dom';
 import Login from 'components/Auth/Login';
@@ -70,6 +69,19 @@ describe('Login component', () => {
     const form = submit.closest('form');
     fireEvent.submit(form);
     await waitFor(() => expect(screen.getByTestId('password-input')).toBeInTheDocument());
+  });
+  test('back btn', async () => {
+    renderWithRouter(<Login />);
+    fireEvent.change(screen.getByTestId('email-input'), {
+      target: { value: 'test@example.com' },
+    });
+    const submit = screen.getByTestId('submit-btn');
+    const form = submit.closest('form');
+    fireEvent.submit(form);
+    await waitFor(() => expect(screen.getByTestId('back-btn')).toBeInTheDocument());
+
+    fireEvent.submit(screen.getByTestId('back-btn'));
+
   });
   test('calls doFirebaseLogin on password submit', async () => {
     authUtils.doFirebaseLogin.mockResolvedValue({ successMessage: 'Success' });

@@ -46,9 +46,9 @@ const Login = () => {
     <>
       {step === 2 && (
         <button onClick={handleBack} className="btn btn-tag" data-testid={`back-btn`}>
-        {/* Con icona bootstrap, oppure metti solo "←" */}
-        <i className="bi-chevron-left">Indietro</i>
-      </button>)}
+          <i className="bi-chevron-left">Indietro</i>
+        </button>
+      )}
       <HeaderAuthView message={step === 1 ? 'Inserisci la password' : 'Accedi al tuo account'} />
       {step === 1 && (
         <>
@@ -87,7 +87,7 @@ const Login = () => {
           />
         )}
       </div>
-      {!email && (
+      {step === 1 && (
         <>
           <button
             type="button"
