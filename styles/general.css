@@ -166,8 +166,10 @@ body {
    CARD
 --------------------------- */
 .modal.show.d-block {
-    display: flex !important;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+}
+.modal.show .modal-dialog {
+    min-width: 50vw !important;
 }
