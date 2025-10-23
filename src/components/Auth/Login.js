@@ -26,7 +26,7 @@ const Login = () => {
     } else {
       setError('');
       setStep(2);
-      setStep(emailOrPhone);
+      setEmail(emailOrPhone);
     }
   };
   const handleLogin = async (evt, obj) => {
