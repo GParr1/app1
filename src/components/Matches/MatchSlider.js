@@ -1,9 +1,8 @@
-import Slider from 'react-slick';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { findInArrByUid } from 'utils/utils';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import 'swiper/css';
 import MatchActions from 'components/Matches/MatchActions';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { CAMPO_CALCIO_BG } from 'utils/Constant';
 
 const MatchSlider = ({
@@ -20,53 +19,6 @@ const MatchSlider = ({
   closeDetailOverlay,
   handleDeleteMatch,
 }) => {
-  const sliderRef = useRef(null);
-
-  useEffect(() => {
-    // Timeout per permettere al layout di stabilizzarsi
-    const timeout = setTimeout(() => {
-      if (sliderRef.current) {
-        sliderRef.current.slickGoTo(0); // forza il refresh
-      }
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, []);
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
   return (
     <div className="match-slider-container">
       {/* Card fissa */}
@@ -102,46 +54,56 @@ const MatchSlider = ({
       <h5 className="text-center mb-3">{title}</h5>
       {/* Slider partite */}
       <div className="slider-container">
-        <Slider ref={sliderRef} {...settings}>
+        <Swiper
+          spaceBetween={16}
+          slidesPerView={1} // default mobile
+          breakpoints={{
+            576: { slidesPerView: 1 },
+            992: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 },
+          }}
+        >
           {matches.map(m => {
             const playerExists = findInArrByUid(m.players, user.userLogin.uid);
             return (
-              <div key={m.id} className="p-2">
-                <div className="card rounded-4 match-card h-100">
-                  <img
-                    src={CAMPO_CALCIO_BG}
-                    alt="Campo da calcio"
-                    className="rounded-4"
-                    style={{ objectFit: 'cover', height: '180px' }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h6 className="card-title">{m.campo}</h6>
-                    <p className="card-text small">
-                      {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
-                    </p>
-                    <p className="card-text">
-                      <strong>{m.players.length} iscritti </strong>
-                      {playerExists && <strong>– Sei già iscritto</strong>}
-                    </p>
-                    <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
-                    <MatchActions
-                      match={m}
-                      user={user}
-                      handleJoin={handleJoin}
-                      handleRemove={handleRemove}
-                      handleModalAddGuest={handleModalAddGuest}
-                      handleModalRemoveGuest={handleModalRemoveGuest}
-                      handleDeleteMatch={handleDeleteMatch}
-                      openDetailOverlay={openDetailOverlay}
-                      closeDetailOverlay={closeDetailOverlay}
-                      openModal={openModal}
+              <SwiperSlide key={m.id}>
+                <div key={m.id} className="p-2">
+                  <div className="card rounded-4 match-card h-100">
+                    <img
+                      src={CAMPO_CALCIO_BG}
+                      alt="Campo da calcio"
+                      className="rounded-4"
+                      style={{ objectFit: 'cover', height: '180px' }}
                     />
+                    <div className="card-body d-flex flex-column">
+                      <h6 className="card-title">{m.campo}</h6>
+                      <p className="card-text small">
+                        {new Date(m.data).toLocaleString()} – Calcio a {m.tipo}
+                      </p>
+                      <p className="card-text">
+                        <strong>{m.players.length} iscritti </strong>
+                        {playerExists && <strong>– Sei già iscritto</strong>}
+                      </p>
+                      <h6 className="mt-3">Aggiungi giocatori / ospiti</h6>
+                      <MatchActions
+                        match={m}
+                        user={user}
+                        handleJoin={handleJoin}
+                        handleRemove={handleRemove}
+                        handleModalAddGuest={handleModalAddGuest}
+                        handleModalRemoveGuest={handleModalRemoveGuest}
+                        handleDeleteMatch={handleDeleteMatch}
+                        openDetailOverlay={openDetailOverlay}
+                        closeDetailOverlay={closeDetailOverlay}
+                        openModal={openModal}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </SwiperSlide>
             );
           })}
-        </Slider>
+        </Swiper>
       </div>
     </div>
   );
