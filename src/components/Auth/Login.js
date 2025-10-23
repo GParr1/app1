@@ -68,8 +68,14 @@ const Login = () => {
             />
           </>
         )}
-        {error && <ModalInfo title={'Errore'} message={error} closeModal={() => setError('')} />}
-        {/*success && <ModalInfo title={''} message={success} closeModal={() => setSuccess('')} />*/}
+        {error && (
+          <ModalInfo
+            title={'Errore'}
+            type={'error'}
+            message={error}
+            closeModal={() => setError('')}
+          />
+        )}
       </div>
       {!email && (
         <>

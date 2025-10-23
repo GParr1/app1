@@ -71,8 +71,22 @@ const ResetPassword = () => {
             obj={{}}
           />
         )}
-        {error && <ModalError title={'Errore'} message={error} closeModal={() => setError('')} />}
-        {success && <ModalError title={''} message={success} closeModal={() => setSuccess('')} />}
+        {error && (
+          <ModalError
+            title={'Errore'}
+            type={'error'}
+            message={error}
+            closeModal={() => setError('')}
+          />
+        )}
+        {success && (
+          <ModalError
+            title={'Password Reset'}
+            type={'success'}
+            message={success}
+            closeModal={() => setSuccess('')}
+          />
+        )}
       </div>
     </>
   );

@@ -51,14 +51,14 @@ const RegisterTwoSteps = () => {
   return (
     <>
       {step === 2 && (
-        <div className="w-100 d-flex justify-content-start mb-3">
-          <button onClick={handleBack} className="btn btm-tag p-0 me-3" data-testid={`back-btn`}>
-            {/* Con icona bootstrap, oppure metti solo "←" */}
-            <i className="bi-chevron-left">Indietro</i>
-          </button>
-        </div>
+        <button onClick={handleBack} className="btn btm-tag p-0 me-3" data-testid={`back-btn`}>
+          {/* Con icona bootstrap, oppure metti solo "←" */}
+          <i className="bi-chevron-left">Indietro</i>
+        </button>
       )}
-      <HeaderAuthView message={'Crea un account'} />
+      <div className="w-100 d-flex justify-content-center mb-3">
+        <HeaderAuthView message={'Crea un account'} />
+      </div>
       {step === 1 && (
         <>
           {/* Pulsanti Social */}
@@ -82,15 +82,25 @@ const RegisterTwoSteps = () => {
               />
             )}
             {error && (
-              <ModalError title={'Errore'} message={error} closeModal={() => setError('')} />
+              <ModalError
+                title={'Errore'}
+                type={'error'}
+                message={error}
+                closeModal={() => setError('')}
+              />
             )}
             {success && (
-              <ModalError title={''} message={success} closeModal={() => setSuccess('')} />
+              <ModalError
+                title={''}
+                type={'success'}
+                message={success}
+                closeModal={() => setSuccess('')}
+              />
             )}
           </div>
         </div>
       </div>
-      <div id="signin-section">
+      <div id="signin-section" className="text-center">
         Hai già un account?
         <a href="/app1/welcome" data-testid={`login-link`} className="signin">
           Accedi
