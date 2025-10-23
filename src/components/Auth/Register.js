@@ -40,8 +40,8 @@ const RegisterTwoSteps = () => {
       setTimeout(() => navigate('/confirm-profile', { replace: true }), 2000);
     }
   };
-  const handleLogin = async ({ action }) => {
-    const { errorMessage, successMessage } = await doFirebaseLogin({ action });
+  const handleLogin = async (evt, obj) => {
+    const { errorMessage, successMessage } = await doFirebaseLogin({ action: obj.action });
     errorMessage && setError(errorMessage);
     successMessage && navigate('/profile', { replace: true });
   };

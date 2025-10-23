@@ -6,8 +6,17 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
   return (
     <form id={formId} data-testid={`${formId}-from`} onSubmit={e => handleSubmit(e, obj)}>
       {formData.fields.map(field => {
-        const { type, name, label, placeholder, defaultValue, options, className, required } =
-          field;
+        const {
+          type,
+          name,
+          label,
+          placeholder,
+          defaultValue,
+          options,
+          className,
+          required,
+          pattern,
+        } = field;
         // Render dinamico dei campi
         switch (type) {
           case 'text':
@@ -26,6 +35,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                   className="form-control rounded-4"
                   name={name}
                   id={name}
+                  {...(pattern && { pattern })}
                   placeholder={placeholder}
                   data-testid={`${name}-input`}
                   defaultValue={defaultValue}
@@ -141,6 +151,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                     name={name}
                     id={name}
                     data-testid={`${name}-input`}
+                    {...(pattern && { pattern })}
                     placeholder={placeholder}
                     defaultValue={defaultValue}
                   />

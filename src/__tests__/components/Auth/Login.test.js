@@ -80,8 +80,7 @@ describe('Login component', () => {
     fireEvent.submit(form);
     await waitFor(() => expect(screen.getByTestId('back-btn')).toBeInTheDocument());
 
-    fireEvent.submit(screen.getByTestId('back-btn'));
-
+    fireEvent.click(screen.getByTestId('back-btn'));
   });
   test('calls doFirebaseLogin on password submit', async () => {
     authUtils.doFirebaseLogin.mockResolvedValue({ successMessage: 'Success' });

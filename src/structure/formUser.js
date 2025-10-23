@@ -1,32 +1,62 @@
 import { teamLogo } from './teamLogo';
 import { teamPosition } from './teamPosition';
 
+const submitBtn = {
+  type: 'submit',
+  className: 'btn btn-primary w-100 text-uppercase fw-bold',
+  label: '',
+};
+const emailInput = {
+  type: 'email',
+  name: 'email',
+  label: 'Email',
+  required: true,
+  placeholder: 'Inserisci la tua Email',
+  pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$',
+  defaultValue: '',
+  title: 'Inserisci una email valida',
+};
+
+/*Almeno 8 caratteri - Almeno una lettera maiuscola - Almeno una lettera minuscola - Almeno un numero - Almeno un simbolo speciale*/
+const passwordInput = {
+  type: 'password',
+  name: 'password',
+  label: 'Password',
+  required: true,
+  placeholder: 'Inserisci la tua Password',
+  defaultValue: '',
+  pattern: '^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$',
+  title:
+    'La password deve avere almeno 8 caratteri, includere maiuscole, minuscole, numeri e un simbolo speciale',
+};
+
+const firstNameInput = {
+  type: 'text',
+  name: 'firstName',
+  label: 'Nome',
+  placeholder: 'Nome',
+  defaultValue: '',
+  required: true,
+};
+const lastNameInput = {
+  type: 'text',
+  name: 'lastName',
+  label: 'Cognome',
+  placeholder: 'Cognome',
+  defaultValue: '',
+};
+
 export const FORMUSER = {
   id: 'userForm',
   fields: [
-    {
-      type: 'text',
-      name: 'firstName',
-      label: 'Nome',
-      placeholder: 'Nome',
-      defaultValue: '',
-      section: 'customerInfo',
-    },
-    {
-      type: 'text',
-      name: 'lastName',
-      label: 'Cognome',
-      placeholder: 'Cognome',
-      defaultValue: '',
-      section: 'customerInfo',
-    },
+    { ...firstNameInput },
+    { ...lastNameInput },
     {
       type: 'date',
       name: 'birthDate',
       label: 'Data di nascita',
       placeholder: 'Data di nascita',
       defaultValue: '',
-      section: 'customerInfo',
     },
     {
       type: 'number',
@@ -34,55 +64,32 @@ export const FORMUSER = {
       label: 'Altezza (cm)',
       placeholder: 'Altezza (cm)',
       defaultValue: '',
-      section: 'customerInfo',
     },
     {
       type: 'select',
       name: 'favoriteTeam',
       label: 'Team Preferito',
       options: teamLogo,
-      section: 'customerInfo',
     },
     {
       type: 'select',
       name: 'position',
       label: 'Posizione',
       options: teamPosition,
-      section: 'customerInfo',
     },
     {
       type: 'hidden',
       name: 'isNewUser',
       value: true,
     },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Registrati',
-    },
+    { ...submitBtn, label: 'Registrati' },
   ],
 };
 export const FORM_REGISTER_STEP_1 = {
   id: 'register-step-1',
   fields: [
-    {
-      type: 'text',
-      name: 'firstName',
-      label: 'Nome',
-      placeholder: 'Nome',
-      defaultValue: '',
-      required: true,
-      section: 'customerInfo',
-    },
-    {
-      type: 'text',
-      name: 'lastName',
-      label: 'Cognome',
-      placeholder: 'Cognome',
-      required: true,
-      defaultValue: '',
-      section: 'customerInfo',
-    },
+    { ...firstNameInput },
+    { ...lastNameInput },
     {
       type: 'date-split',
       name: 'birthDate',
@@ -90,38 +97,16 @@ export const FORM_REGISTER_STEP_1 = {
       required: true,
       placeholder: '',
       defaultValue: '',
-      section: 'customerInfo',
     },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Avanti',
-    },
+    { ...submitBtn, label: 'Avanti' },
   ],
 };
 
 export const FORM_REGISTER_STEP_2 = {
   id: 'register-step-2',
   fields: [
-    {
-      type: 'email',
-      name: 'email',
-      label: 'Email',
-      required: true,
-      placeholder: 'Inserisci la tua Email',
-      defaultValue: '',
-      section: '',
-    },
-    {
-      type: 'password',
-      name: 'password',
-      label: 'Password',
-      required: true,
-      placeholder: 'Inserisci la tua Password',
-      defaultValue: '',
-      section: '',
-    },
-
+    { ...emailInput },
+    { ...passwordInput },
     {
       type: 'consent',
       name: 'privacy',
@@ -137,50 +122,16 @@ export const FORM_REGISTER_STEP_2 = {
       name: 'isNewUser',
       value: true,
     },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Registrati',
-    },
+    { ...submitBtn, label: 'Registrati' },
   ],
 };
 export const FORM_EMAIL_STEP = {
   id: 'email-step',
-  fields: [
-    {
-      type: 'email',
-      name: 'email',
-      label: 'Email',
-      required: true,
-      placeholder: 'Inserisci la tua Email',
-      defaultValue: '',
-      section: '',
-    },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Reset Password',
-    },
-  ],
+  fields: [{ ...emailInput }, { ...submitBtn, label: 'Reset Password' }],
 };
 export const FORM_PASSWORD_STEP = {
   id: 'password-step',
-  fields: [
-    {
-      type: 'password',
-      name: 'password',
-      label: 'Password',
-      required: true,
-      placeholder: 'Inserisci la tua Password',
-      defaultValue: '',
-      section: '',
-    },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Reset Password',
-    },
-  ],
+  fields: [{ ...passwordInput }, { ...submitBtn, label: 'Reset Password' }],
 };
 
 export const FORM_ADD_GUEST = {
@@ -200,11 +151,7 @@ export const FORM_ADD_GUEST = {
       placeholder: 'Overall',
       defaultValue: '',
     },
-    {
-      type: 'submit',
-      className: 'btn btn-primary',
-      label: 'Aggiungi',
-    },
+    { ...submitBtn, className: 'btn btn-primary', label: 'Aggiungi' },
   ],
 };
 export const FORM_CREATE_MATCH = {
@@ -240,11 +187,7 @@ export const FORM_CREATE_MATCH = {
       className: 'form-select',
       required: true,
     },
-    {
-      type: 'submit',
-      className: 'btn btn-success w-100',
-      label: 'Crea partita',
-    },
+    { ...submitBtn, label: 'Crea partita' },
   ],
 };
 

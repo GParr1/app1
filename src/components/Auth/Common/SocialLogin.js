@@ -1,11 +1,11 @@
 import React from 'react';
 
 const SocialLogin = ({ handleLogin }) => (
-  <div className="d-flex gap-2 mb-4 flex-wrap justify-content-center">
+  <div className="d-flex gap-2 mb-4 mt-4 flex-wrap justify-content-center">
     <button
       className="btn btn-secondary btn-social"
       data-testid={`login-google-btn`}
-      onClick={async () => await handleLogin({ action: 'google' })}
+      onClick={async evt => await handleLogin(evt, { action: 'google' })}
     >
       <i className="bi bi-google">
         <span> Google</span>
@@ -14,7 +14,7 @@ const SocialLogin = ({ handleLogin }) => (
     <button
       className="btn btn-secondary btn-social"
       data-testid={`login-facebook-btn`}
-      onClick={async () => await handleLogin({ action: 'facebook' })}
+      onClick={async evt => await handleLogin(evt, { action: 'facebook' })}
     >
       <i className="bi bi-facebook">
         <span> Facebook</span>

@@ -92,12 +92,12 @@ const Login = () => {
           <button
             type="button"
             data-testid={`create-account-btn`}
-            className="btn btn-secondary w-100"
+            className="btn btn-secondary w-100 mt-3 mb-3"
             onClick={() => navigate('/create-account', { replace: true })}
           >
             CREA ACCOUNT
           </button>
-          <div className="text-center mb-3">
+          <div className="text-center mt-3 mb-3">
             <a
               href={'/app1/reset-password'}
               data-testid={`reset-password-link`}
