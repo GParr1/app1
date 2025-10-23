@@ -11,7 +11,8 @@ import { getObjFormFromEvt, maskEmail } from 'utils/utils';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(null);
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState(1);
   const [error, setError] = useState('');
   /*const [success, setSuccess] = useState('');*/
 
@@ -24,7 +25,8 @@ const Login = () => {
       setError("Formato non valido. Inserisci un'email o un numero corretto.");
     } else {
       setError('');
-      setEmail(emailOrPhone);
+      setStep(2);
+      setStep(emailOrPhone);
     }
   };
   const handleLogin = async (evt, obj) => {
@@ -36,11 +38,19 @@ const Login = () => {
     errorMessage && setError(errorMessage);
     successMessage && navigate('/profile', { replace: true });
   };
+  const handleBack = async () => {
+    setStep(1);
+  };
 
   return (
     <>
-      <HeaderAuthView message={email ? 'Inserisci la password' : 'Accedi al tuo account'} />
-      {!email && (
+      {step === 2 && (
+        <button onClick={handleBack} className="btn btn-tag" data-testid={`back-btn`}>
+        {/* Con icona bootstrap, oppure metti solo "←" */}
+        <i className="bi-chevron-left">Indietro</i>
+      </button>)}
+      <HeaderAuthView message={step === 1 ? 'Inserisci la password' : 'Accedi al tuo account'} />
+      {step === 1 && (
         <>
           {/* Pulsanti Social */}
           <SocialLogin handleLogin={handleLogin} />
@@ -49,7 +59,7 @@ const Login = () => {
         </>
       )}
       <div className="w-100  bg-secondary-bg p-4">
-        {!email && (
+        {step === 1 && (
           <GeneralForm
             formId={'email-step'}
             handleSubmit={handleSetEmail}
@@ -57,7 +67,7 @@ const Login = () => {
             obj={{}}
           />
         )}
-        {email && (
+        {step === 2 && (
           <>
             <h4 className="text-center">Inserisci la password di {maskEmail(email)}</h4>
             <GeneralForm

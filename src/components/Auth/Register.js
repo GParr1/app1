@@ -51,14 +51,14 @@ const RegisterTwoSteps = () => {
   return (
     <>
       {step === 2 && (
-        <button onClick={handleBack} className="btn btm-tag p-0 me-3" data-testid={`back-btn`}>
+        <button onClick={handleBack} className="btn btn-tag p-0 me-3" data-testid={`back-btn`}>
           {/* Con icona bootstrap, oppure metti solo "←" */}
           <i className="bi-chevron-left">Indietro</i>
         </button>
       )}
-      <div className="w-100 d-flex justify-content-center mb-3">
-        <HeaderAuthView message={'Crea un account'} />
-      </div>
+
+      <HeaderAuthView message={'Crea un account'} />
+
       {step === 1 && (
         <>
           {/* Pulsanti Social */}
