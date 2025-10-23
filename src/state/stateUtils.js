@@ -14,6 +14,9 @@ export const deleteErrorAndMergeState = name => (state, action) => {
   } else {
     if (state.error !== undefined) delete state.error;
     // merge: sovrascrive/aggiunge le proprietà del payload nello state
-    Object.assign(state[name] ?? {}, action.payload);
+    state[name] = {
+      ...(state[name] || {}),
+      ...action.payload,
+    };
   }
 };
