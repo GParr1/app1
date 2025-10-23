@@ -3,7 +3,7 @@ import { findInArrByUid } from 'utils/utils';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import MatchActions from 'components/Matches/MatchActions';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CAMPO_CALCIO_BG } from 'utils/Constant';
 
 const MatchSlider = ({
@@ -20,6 +20,18 @@ const MatchSlider = ({
   closeDetailOverlay,
   handleDeleteMatch,
 }) => {
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    // Timeout per permettere al layout di stabilizzarsi
+    const timeout = setTimeout(() => {
+      if (sliderRef.current) {
+        sliderRef.current.slickGoTo(0); // forza il refresh
+      }
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, []);
   const settings = {
     dots: true,
     infinite: false,
@@ -90,7 +102,7 @@ const MatchSlider = ({
       <h5 className="text-center mb-3">{title}</h5>
       {/* Slider partite */}
       <div className="slider-container">
-        <Slider {...settings}>
+        <Slider ref={sliderRef} {...settings}>
           {matches.map(m => {
             const playerExists = findInArrByUid(m.players, user.userLogin.uid);
             return (
