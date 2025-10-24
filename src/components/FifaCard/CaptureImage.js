@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ModalError from 'components/Modal/ModalInfo';
+import { removeBackground } from 'utils/utils';
+import { DEFAULT_PHOTO } from 'utils/Constant';
 
 const CaptureImage = ({ playerImage }) => {
-  //const [previewImg, setPreviewImg] = useState(DEFAULT_PHOTO);
-  //const [file, setFile] = useState(null);
+  const [/*previewImg, */ setPreviewImg] = useState(DEFAULT_PHOTO);
+  const [/*file, */ setFile] = useState(null);
   //const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [cameraActive, setCameraActive] = useState(false);
@@ -55,29 +57,29 @@ const CaptureImage = ({ playerImage }) => {
   // }, []);
   //
   // // 📸 Scatta foto dalla webcam
-  // const capturePhoto = useCallback(() => {
-  //   const video = videoRef.current;
-  //   const canvas = canvasRef.current;
-  //   if (!video || !canvas) return;
-  //
-  //   const ctx = canvas.getContext('2d');
-  //   canvas.width = video.videoWidth;
-  //   canvas.height = video.videoHeight;
-  //   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  //
-  //   canvas.toBlob(async blob => {
-  //     if (!blob) return;
-  //     const photo = new File([blob], `camera-photo-${Date.now()}.png`, { type: 'image/png' });
-  //
-  //     const cleaned = await removeBackground(photo);
-  //     const finalFile = cleaned || photo;
-  //
-  //     setFile(finalFile);
-  //     setPreviewImg(URL.createObjectURL(finalFile));
-  //     setCameraActive(false);
-  //     setMessage('');
-  //   }, 'image/png');
-  // }, []);
+  const capturePhoto = useCallback(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob(async blob => {
+      if (!blob) return;
+      const photo = new File([blob], `camera-photo-${Date.now()}.png`, { type: 'image/png' });
+
+      const cleaned = await removeBackground(photo);
+      const finalFile = cleaned || photo;
+
+      setFile(finalFile);
+      setPreviewImg(URL.createObjectURL(finalFile));
+      setCameraActive(false);
+      setMessage('');
+    }, 'image/png');
+  }, []);
 
   // ☁️ Upload su Cloudinary
   // const handleUpload = useCallback(async () => {
