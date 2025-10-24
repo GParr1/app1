@@ -84,8 +84,8 @@ const CaptureImage = ({ user, playerImage }) => {
   };
 
   const handleUpdateForto = () => {
-    !previewImg && setCameraActive(true);
-    previewImg && handleUpload();
+    !file && setCameraActive(true);
+    file && handleUpload();
   };
   // ☁️ Upload su Cloudinary
   const handleUpload = async () => {
