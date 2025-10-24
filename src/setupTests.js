@@ -3,14 +3,20 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
 import React from 'react';
-import { createStore } from 'redux';
+import {store} from "state/store";
 
-const reducer = (state = { auth: { user: null } }, action) => state;
-const store = createStore(reducer);
-export const Wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
+jest.mock('swiper/react', () => {
+  return {
+    __esModule: true,
+    Swiper: ({ children }) => <div>{children}</div>,
+    SwiperSlide: ({ children }) => <div>{children}</div>,
+  };
+});
+
+// per i CSS puoi lasciare vuoto
+jest.mock('swiper/css', () => {});
 // Mock globale per Firebase
 jest.mock('firebase/app', () => ({
   initializeApp: jest.fn(() => ({
@@ -18,26 +24,29 @@ jest.mock('firebase/app', () => ({
   })),
 }));
 
+const mockAuth = {
+  currentUser: { uid: 'mockUserId', email: 'test@example.com' },
+  signInWithEmailAndPassword: jest.fn(),
+  signInWithPopup: jest.fn(),
+  createUserWithEmailAndPassword: jest.fn(),
+  signOut: jest.fn(),
+};
 jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({
-    // eventuali metodi fittizi
-    signInWithPopup: jest.fn(),
-    signOut: jest.fn(),
-  })),
+  getAuth: jest.fn(() => mockAuth),
+  createUserWithEmailAndPassword: jest.fn(),
+  signInWithEmailAndPassword: jest.fn(),
+  signInWithPopup: jest.fn(),
   GoogleAuthProvider: jest.fn(),
   FacebookAuthProvider: jest.fn(),
 }));
 
 jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(() => ({
-    // metodi fittizi di Firestore
+  getFirestore: jest.fn(),
     collection: jest.fn(),
     doc: jest.fn(),
     getDoc: jest.fn(),
     setDoc: jest.fn(),
-  })),
 }));
-
 jest.mock('firebase/storage', () => ({
   getStorage: jest.fn(() => ({
     // metodi fittizi di Storage
@@ -46,3 +55,9 @@ jest.mock('firebase/storage', () => ({
     getDownloadURL: jest.fn(),
   })),
 }));
+
+window.calcetto = {
+  toggleSpinner:jest.fn(),
+  logout:jest.fn(),
+  store,
+}

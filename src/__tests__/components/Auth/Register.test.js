@@ -1,25 +1,19 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import {  screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RegisterTwoSteps from 'components/Auth/Register';
-import * as authUtils from 'utils/authUtils';
-import { doFirebaseLogin } from 'utils/authUtils';
-import { renderWithRouter } from '../../../__mocks__/utils';
+import {mockUser, mockUserData, renderWithRouter} from '../../../__mocks__/utils';
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup} from 'firebase/auth';
+import {auth} from "../../../firebaseConfig";
+import {doc, getDoc} from "firebase/firestore";
 
 // mock
-jest.mock('utils/authUtils', () => ({
-  doCreateUserWithEmailAndPassword: jest.fn(),
-  doFirebaseLogin: jest.fn(),
-}));
 
 describe('RegisterTwoSteps component', () => {
   test('submit empty form step 1 ', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doCreateUserWithEmailAndPassword.mockResolvedValue({
-      errorMessage: 'Errore durante la registrazione',
-    });
-
+    const mockError = { code: 'auth/user-disabled' };
+    createUserWithEmailAndPassword.mockRejectedValueOnce(mockError);
     renderWithRouter(<RegisterTwoSteps />);
 
     // 2️⃣ Simula il completamento del primo step (per andare allo step 2)
@@ -39,10 +33,8 @@ describe('RegisterTwoSteps component', () => {
 
   test('Submit register with error from doCreateUserWithEmailAndPassword', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doCreateUserWithEmailAndPassword.mockResolvedValue({
-      errorMessage: 'Errore durante la registrazione',
-    });
-
+    const mockError = { code: 'auth/invalid-email' };
+    createUserWithEmailAndPassword.mockRejectedValueOnce(mockError);
     renderWithRouter(<RegisterTwoSteps />);
 
     const firstName = screen.getByTestId('firstName-input');
@@ -86,7 +78,7 @@ describe('RegisterTwoSteps component', () => {
 
     // 4️⃣ Attendi che la modale appaia
     const modal = await screen.findByTestId('modal-open');
-    expect(modal).toHaveTextContent('Errore durante la registrazione');
+    expect(modal).toHaveTextContent('L\'indirizzo email inserito non è valido o risulta già registrato.');
 
     // 5️⃣ Clicca il bottone di chiusura
     fireEvent.click(screen.getByTestId('modal-btn-close'));
@@ -97,10 +89,15 @@ describe('RegisterTwoSteps component', () => {
 
   test('Submit register with success from doCreateUserWithEmailAndPassword', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doCreateUserWithEmailAndPassword.mockResolvedValue({
-      successMessage: { currentUser: 'Current User' },
+    createUserWithEmailAndPassword.mockResolvedValueOnce({ user: mockUser });
+    doc.mockImplementation((db, collectionName, uid) => ({
+      id: uid,
+      path: `${collectionName}/${uid}`,
+    }));
+    getDoc.mockResolvedValue({
+      exists: () => false,
+      data: () => mockUserData,
     });
-
     renderWithRouter(<RegisterTwoSteps />);
 
     const firstName = screen.getByTestId('firstName-input');
@@ -178,44 +175,41 @@ describe('RegisterTwoSteps component', () => {
     const link = screen.getByTestId('login-link');
     expect(link).toHaveAttribute('href', '/app1/welcome');
   });
+  {/* Test Login Social*/}
   test('renders Social Login google error', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doFirebaseLogin.mockResolvedValue({
-      errorMessage: 'Errore durante la registrazione con Google',
-    });
+    const mockError = { code: 'auth/popup-closed-by-user', message: 'Popup closed by user' };
+    signInWithPopup.mockRejectedValueOnce(mockError);
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-google-btn'));
     // 4️⃣ Attendi che la modale appaia
     const modal = await screen.findByTestId('modal-open');
-    expect(modal).toHaveTextContent('Errore durante la registrazione con Google');
+    expect(modal).toHaveTextContent('Hai chiuso la finestra di accesso.');
   });
   test('renders Social Login google success', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doFirebaseLogin.mockResolvedValue({
-      successMessage: { user: 'User' },
-    });
+    const mockUser = { uid: '123', email: 'test@example.com' };
+    signInWithPopup.mockResolvedValueOnce({ user: mockUser });
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-google-btn'));
-    await waitFor(() => expect(window.location.pathname).toBe('/confirm-profile'));
+    await waitFor(() => expect(window.location.pathname).toBe('/profile'));
   });
   test('renders Social Login facebook error', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doFirebaseLogin.mockResolvedValue({
-      errorMessage: 'Errore durante la registrazione con Facebook',
-    });
+    const mockError = { code: 'auth/popup-blocked', message: 'Popup blocked by user' };
+    signInWithPopup.mockRejectedValueOnce(mockError);
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-facebook-btn'));
     // 4️⃣ Attendi che la modale appaia
     const modal = await screen.findByTestId('modal-open');
-    expect(modal).toHaveTextContent('Errore durante la registrazione con Facebook');
+    expect(modal).toHaveTextContent('Il browser ha bloccato la finestra di accesso.');
   });
   test('renders Social Login facebook success', async () => {
     // 1️⃣ Mock della risposta con errore
-    authUtils.doFirebaseLogin.mockResolvedValue({
-      successMessage: { user: 'User' },
-    });
+    const mockUser = { uid: '123', email: 'test@example.com' };
+    signInWithPopup.mockResolvedValueOnce({ user: mockUser });
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-facebook-btn'));
-    await waitFor(() => expect(window.location.pathname).toBe('/confirm-profile'));
+    await waitFor(() => expect(window.location.pathname).toBe('/profile'));
   });
 });

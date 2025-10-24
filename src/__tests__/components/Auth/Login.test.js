@@ -1,14 +1,10 @@
 import React from 'react';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import * as authUtils from 'utils/authUtils';
 import '@testing-library/jest-dom';
 import Login from 'components/Auth/Login';
 import { renderWithRouter } from '../../../__mocks__/utils';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-// Mock dei moduli usati
-jest.mock('utils/authUtils', () => ({
-  doFirebaseLogin: jest.fn(),
-}));
 
 describe('Login component', () => {
   test('renders email input initially', () => {
@@ -83,7 +79,7 @@ describe('Login component', () => {
     fireEvent.click(screen.getByTestId('back-btn'));
   });
   test('calls doFirebaseLogin on password submit', async () => {
-    authUtils.doFirebaseLogin.mockResolvedValue({ successMessage: 'Success' });
+    signInWithEmailAndPassword.mockResolvedValue({  user: { uid: '123', email: 'test@example.com' }, });
     renderWithRouter(<Login />);
     fireEvent.change(screen.getByTestId('email-input'), {
       target: { value: 'test@example.com' },
@@ -99,10 +95,7 @@ describe('Login component', () => {
     const form2 = submit2.closest('form');
     fireEvent.submit(form2);
     await waitFor(() =>
-      expect(authUtils.doFirebaseLogin).toHaveBeenCalledWith({
-        action: 'email',
-        options: { email: 'test@example.com', password: 'password123' },
-      }),
+        expect(signInWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), 'test@example.com', 'password123')
     );
   });
 });

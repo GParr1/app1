@@ -28,3 +28,10 @@ export const fillGeneralForm = ({ screen, fireEvent }) => {
       target: { value: 'password123' },
     });
 };
+
+export const mockUser = { uid: '123', email: 'test@example.com' };
+export const mockUserData = {
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test@example.com',
+};

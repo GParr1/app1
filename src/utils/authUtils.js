@@ -199,6 +199,7 @@ export const doVerifyPasswordResetCode = async ({ code }) => {
   }
 };
 export const doFirebaseLogin = async ({ action, options }) => {
+  window.calcetto.toggleSpinner(true);
   try {
     let result;
     // Esempi di login possibili
@@ -218,6 +219,8 @@ export const doFirebaseLogin = async ({ action, options }) => {
     const errorMessage = getFirebaseErrorMessage(error);
     console.error('❌ Errore login:', error.code, errorMessage);
     return { errorMessage }; // se sei in React
+  } finally {
+    window.calcetto.toggleSpinner(false);
   }
 };
 export const doSignInWithEmailAndPassword = async ({ credentials }) => {
@@ -280,13 +283,13 @@ const getFirebaseErrorMessage = error => {
 export const doCreateUserWithEmailAndPassword = async ({ account }) => {
   window.calcetto.toggleSpinner(true);
   try {
-    await createUserWithEmailAndPassword(auth, account.email, account.password);
+    const result = await createUserWithEmailAndPassword(auth, account.email, account.password);
     const dataAccount = account;
     delete dataAccount.email;
     delete dataAccount.password;
     await authUpdateProfile(account);
-    const currentUser = await fetchUserProfile();
-    return { successMessage: currentUser };
+    await fetchUserProfile();
+    return { successMessage: result.user };
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);
     console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);

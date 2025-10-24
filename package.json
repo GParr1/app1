@@ -21,6 +21,16 @@
     "deploy:manually": "npm run predeploy && gh-pages -d build",
     "deploy": "gh-pages -d build"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^swiper/react$": "<rootDir>/src/__mocks__/swiperReactMock.js",
+      "^swiper/css$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!swiper/)"
+    ]
+  },
+
   "dependencies": {
     "@cloudinary/react": "^1.14.3",
     "@cloudinary/url-gen": "^1.21.0",
