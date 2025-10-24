@@ -22,11 +22,7 @@ import {
   setDoc,
 } from 'firebase/firestore';
 import { starterCard } from '../structure/starterCard';
-import {
-  calculateAttributes,
-  calculatePlayerOverall,
-  getObjFormFromEvt,
-} from 'utils/utils';
+import { calculateAttributes, calculatePlayerOverall, getObjFormFromEvt } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
 export const fetchDocProfile = async userUid => {

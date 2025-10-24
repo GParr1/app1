@@ -4,6 +4,7 @@ import { SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
 import { SVGCloseCircleFilled } from 'components/SVG/SVGClose';
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
+import { SVGRefreshCircleFilled } from 'components/SVG';
 
 const CaptureImage = ({ enableEdit, playerImage }) => {
   const user = useSelector(getUser) || null;
@@ -165,7 +166,7 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
               className="bg-transparent me-2"
               onClick={() => setCameraActive(true)}
             >
-              <SVGPlusCircleFilled />
+              <SVGRefreshCircleFilled />
             </button>
             <button
               type="button"
