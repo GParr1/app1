@@ -52,7 +52,7 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
   }, [enableEdit, cameraActive]);
   // // 📸 Scatta foto dalla webcam
   const capturePhoto = () => {
-    window.calcetto.toggleSpinner(true);
+    setLoading(true);
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
@@ -65,16 +65,14 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
     canvas.toBlob(async blob => {
       if (!blob) return;
       const photo = new File([blob], `camera-photo-${Date.now()}.png`, { type: 'image/png' });
-
       const cleaned = await removeBackground(photo);
       const finalFile = cleaned || photo;
 
       setFile(finalFile);
       setPreviewImg(URL.createObjectURL(finalFile));
       setCameraActive(false);
-
-      window.calcetto.toggleSpinner(false);
     }, 'image/png');
+    setLoading(false);
   };
 
   const handleUpdateForto = () => {
@@ -103,12 +101,16 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
           </div>
         </div>
       )}
-      {!loading && cameraActive && (
+      {cameraActive && (
         <>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <video className="div-face_image" ref={videoRef} style={{ objectFit: 'cover' }} />
+          <video
+            className={`div-face_image ${loading ? 'd-none' : ''}`}
+            ref={videoRef}
+            style={{ objectFit: 'cover' }}
+          />
           <div
-            className="div-face_image  d-flex justify-content-between"
+            className={`div-face_image d-flex justify-content-between ${loading ? 'd-none' : ''}`}
             style={{ height: 'auto' }}
           >
             <button type="button" className="bg-transparent me-2" onClick={capturePhoto}>
