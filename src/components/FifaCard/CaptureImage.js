@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ModalError from 'components/Modal/ModalInfo';
 import { removeBackground, uploadImage } from 'utils/utils';
 import { SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
 import { SVGCloseCircleFilled } from 'components/SVG/SVGClose';
