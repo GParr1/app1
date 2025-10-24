@@ -57,7 +57,7 @@ window.removeBgPipeline = null;
 // Funzione per inizializzare il modello
 const initRemoveBgModel = async () => {
   if (!window.removeBgPipeline) {
-    window.removeBgPipeline = await pipeline('image-segmentation', 'Xenova/modnet');
+    window.removeBgPipeline = await pipeline('image-segmentation', 'briaai/RMBG-1.4');
     console.log('Modello di rimozione sfondo inizializzato');
   }
 };
