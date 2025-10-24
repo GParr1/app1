@@ -138,7 +138,7 @@ const CaptureImage = ({ user, playerImage }) => {
       )}
 
       {!cameraActive && (
-        <button className="p-0 border-0 bg-transparent" onClick={handleUpdateForto}>
+        <button className="p-0 border-0 bg-transparent" onClick={() => handleUpdateForto()}>
           <span
             className={`div-face_image ${!previewImg ? 'empty' : ''}`}
             role="button"
