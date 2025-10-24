@@ -7,7 +7,7 @@ import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import ModalInfo from 'components/Modal/ModalInfo';
 import GeneralForm from 'components/Form/GeneralForm';
-import { getObjFormFromEvt, maskEmail } from 'utils/utils';
+import { getObjFormFromEvt, manageFirstLogin, maskEmail } from 'utils/utils';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Login = () => {
       options: { email: obj.email, password: credential.password },
     });
     errorMessage && setError(errorMessage);
-    successMessage && navigate('/profile', { replace: true });
+    successMessage && navigate(manageFirstLogin(), { replace: true });
   };
   const handleBack = async () => {
     setStep(1);

@@ -5,7 +5,7 @@ import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import { useNavigate } from 'react-router-dom';
-import { getObjFormFromEvt } from 'utils/utils';
+import { getObjFormFromEvt, manageFirstLogin } from 'utils/utils';
 import ModalError from 'components/Modal/ModalInfo';
 
 const RegisterTwoSteps = () => {
@@ -29,7 +29,6 @@ const RegisterTwoSteps = () => {
   const handleRegister = async (evt, obj) => {
     evt.preventDefault();
     const credential = getObjFormFromEvt(evt);
-
     const { errorMessage, successMessage } = await doCreateUserWithEmailAndPassword({
       account: { ...credential },
       customerInfo: { ...obj },
@@ -43,7 +42,7 @@ const RegisterTwoSteps = () => {
   const handleLogin = async (evt, obj) => {
     const { errorMessage, successMessage } = await doFirebaseLogin({ action: obj.action });
     errorMessage && setError(errorMessage);
-    successMessage && navigate('/profile', { replace: true });
+    successMessage && navigate(manageFirstLogin(), { replace: true });
   };
   const handleBack = async () => {
     setStep(1);

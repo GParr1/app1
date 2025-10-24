@@ -10,6 +10,8 @@ import {
   FORM_REMOVE_GUEST,
   FORMUSER,
 } from '../structure/formUser';
+import { getUser } from 'gh-pages/lib/util';
+import { store } from 'state/store';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -30,6 +32,11 @@ export const maskEmail = email => {
 
   const visible = name.slice(0, 2); // prime 2 lettere
   return `${visible}${'*'.repeat(5)}@${domain}`;
+};
+export const manageFirstLogin = () => {
+  const state = store.getState();
+  const user = getUser(state);
+  return user.customerInfo ? '/profile' : '/confirm-profile';
 };
 export const getFormStructure = formId => {
   let formStructure = {};
