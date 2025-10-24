@@ -26,7 +26,6 @@ import {
   calculateAttributes,
   calculatePlayerOverall,
   getObjFormFromEvt,
-  getObjFromForm,
 } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
