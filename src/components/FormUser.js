@@ -5,7 +5,7 @@ import { FORMUSER } from '../structure/formUser';
 
 const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
   const user = useSelector(getUser) || {};
-  const customerInfo = user.customerInfo || customerInfo;
+  const customerInfo = user.customerInfo || {};
   const isNewUser = !!(customerInfo && customerInfo.overall);
   return (
     <form id={formData.id} onSubmit={onSubmit || null}>
