@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ModalError from 'components/Modal/ModalInfo';
-import { removeBackground } from 'utils/utils';
-import { DEFAULT_PHOTO } from 'utils/Constant';
+import { removeBackground, uploadImage } from 'utils/utils';
 import { SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
 import { SVGCloseCircleFilled } from 'components/SVG/SVGClose';
+import { authUpdateProfile } from 'utils/authUtils';
 
-const CaptureImage = ({ playerImage }) => {
-  const [/*previewImg, */ setPreviewImg] = useState(DEFAULT_PHOTO);
-  const [/*file, */ setFile] = useState(null);
+const CaptureImage = ({ user, playerImage }) => {
+  const [previewImg, setPreviewImg] = useState(playerImage);
+  const [file, setFile] = useState(null);
   //const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [cameraActive, setCameraActive] = useState(false);
@@ -38,9 +38,7 @@ const CaptureImage = ({ playerImage }) => {
         window.calcetto.toggleSpinner(false);
       }
     };
-
     startCamera();
-
     // cleanup
     return () => {
       if (stream) stream.getTracks().forEach(track => track.stop());
@@ -60,6 +58,7 @@ const CaptureImage = ({ playerImage }) => {
   //
   // // 📸 Scatta foto dalla webcam
   const capturePhoto = () => {
+    window.calcetto.toggleSpinner(true);
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
@@ -80,36 +79,38 @@ const CaptureImage = ({ playerImage }) => {
       setPreviewImg(URL.createObjectURL(finalFile));
       setCameraActive(false);
       setMessage('');
+      window.calcetto.toggleSpinner(true);
     }, 'image/png');
   };
 
+  const handleUpdateForto = () => {
+    !previewImg && setCameraActive(true);
+    previewImg && handleUpload();
+  };
   // ☁️ Upload su Cloudinary
-  // const handleUpload = useCallback(async () => {
-  //   if (!file) return;
-  //   setLoading(true);
-  //   setMessage('');
-  //
-  //   window.calcetto.toggleSpinner(true);
-  //
-  //   try {
-  //     const uploadedUrl = await uploadImage({ user, file });
-  //     if (!uploadedUrl) throw new Error('Upload fallito');
-  //
-  //     const updatedUser = {
-  //       ...user,
-  //       userLogin: { ...user.userLogin, photoURL: uploadedUrl },
-  //     };
-  //
-  //     await authUpdateProfile(updatedUser);
-  //     setMessage('✅ Profilo aggiornato con successo!');
-  //   } catch (err) {
-  //     console.error('Errore upload:', err);
-  //     setMessage('❌ Errore durante il caricamento.');
-  //   } finally {
-  //     setLoading(false);
-  //     window.calcetto.toggleSpinner(false);
-  //   }
-  // }, [file, user]);
+  const handleUpload = async () => {
+    if (!file) return;
+
+    window.calcetto.toggleSpinner(true);
+
+    try {
+      const uploadedUrl = await uploadImage({ user, file });
+      if (!uploadedUrl) throw new Error('Upload fallito');
+
+      const updatedUser = {
+        ...user,
+        userLogin: { ...user.userLogin, photoURL: uploadedUrl },
+      };
+
+      await authUpdateProfile(updatedUser);
+      setMessage('✅ Profilo aggiornato con successo!');
+    } catch (err) {
+      console.error('Errore upload:', err);
+      setMessage('❌ Errore durante il caricamento.');
+    } finally {
+      window.calcetto.toggleSpinner(false);
+    }
+  };
 
   return (
     <>
@@ -137,11 +138,11 @@ const CaptureImage = ({ playerImage }) => {
       )}
 
       {!cameraActive && (
-        <button className="p-0 border-0 bg-transparent" onClick={() => setCameraActive(true)}>
+        <button className="p-0 border-0 bg-transparent" onClick={handleUpdateForto}>
           <span
-            className={`div-face_image ${!playerImage ? 'empty' : ''}`}
+            className={`div-face_image ${!previewImg ? 'empty' : ''}`}
             role="button"
-            style={{ backgroundImage: `url(${playerImage})` }}
+            style={{ backgroundImage: `url(${previewImg})` }}
           ></span>
         </button>
       )}
