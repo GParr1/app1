@@ -8,7 +8,7 @@ import { getUser } from 'state/auth/selectors';
 import { ResetPasswordView } from './View/ResetPasswordView';
 import Dashboard from './View/Dashboard';
 import PrivateRoute from 'components/PrivateRoute';
-import Header from 'components/Header';
+import Header from 'components/Header/Header';
 import MatchesView from './View/MatchesView';
 
 function App() {

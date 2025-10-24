@@ -1,11 +1,16 @@
 import React from 'react';
-import {  screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RegisterTwoSteps from 'components/Auth/Register';
-import {mockUser, mockUserData, renderWithRouter} from '../../../__mocks__/utils';
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup} from 'firebase/auth';
-import {auth} from "../../../firebaseConfig";
-import {doc, getDoc} from "firebase/firestore";
+import { mockUser, mockUserData, renderWithRouter } from '../../../__mocks__/utils';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
+import { auth } from '../../../firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 
 // mock
 
@@ -78,7 +83,9 @@ describe('RegisterTwoSteps component', () => {
 
     // 4️⃣ Attendi che la modale appaia
     const modal = await screen.findByTestId('modal-open');
-    expect(modal).toHaveTextContent('L\'indirizzo email inserito non è valido o risulta già registrato.');
+    expect(modal).toHaveTextContent(
+      "L'indirizzo email inserito non è valido o risulta già registrato.",
+    );
 
     // 5️⃣ Clicca il bottone di chiusura
     fireEvent.click(screen.getByTestId('modal-btn-close'));
@@ -175,7 +182,9 @@ describe('RegisterTwoSteps component', () => {
     const link = screen.getByTestId('login-link');
     expect(link).toHaveAttribute('href', '/app1/welcome');
   });
-  {/* Test Login Social*/}
+  {
+    /* Test Login Social*/
+  }
   test('renders Social Login google error', async () => {
     // 1️⃣ Mock della risposta con errore
     const mockError = { code: 'auth/popup-closed-by-user', message: 'Popup closed by user' };

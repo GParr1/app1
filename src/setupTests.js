@@ -4,8 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import React from 'react';
-import {store} from "state/store";
-
+import { store } from 'state/store';
 
 jest.mock('swiper/react', () => {
   return {
@@ -42,10 +41,10 @@ jest.mock('firebase/auth', () => ({
 
 jest.mock('firebase/firestore', () => ({
   getFirestore: jest.fn(),
-    collection: jest.fn(),
-    doc: jest.fn(),
-    getDoc: jest.fn(),
-    setDoc: jest.fn(),
+  collection: jest.fn(),
+  doc: jest.fn(),
+  getDoc: jest.fn(),
+  setDoc: jest.fn(),
 }));
 jest.mock('firebase/storage', () => ({
   getStorage: jest.fn(() => ({
@@ -57,7 +56,7 @@ jest.mock('firebase/storage', () => ({
 }));
 
 window.calcetto = {
-  toggleSpinner:jest.fn(),
-  logout:jest.fn(),
+  toggleSpinner: jest.fn(),
+  logout: jest.fn(),
   store,
-}
+};

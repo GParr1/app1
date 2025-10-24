@@ -5,7 +5,6 @@ import Login from 'components/Auth/Login';
 import { renderWithRouter } from '../../../__mocks__/utils';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-
 describe('Login component', () => {
   test('renders email input initially', () => {
     renderWithRouter(<Login />);
@@ -79,7 +78,9 @@ describe('Login component', () => {
     fireEvent.click(screen.getByTestId('back-btn'));
   });
   test('calls doFirebaseLogin on password submit', async () => {
-    signInWithEmailAndPassword.mockResolvedValue({  user: { uid: '123', email: 'test@example.com' }, });
+    signInWithEmailAndPassword.mockResolvedValue({
+      user: { uid: '123', email: 'test@example.com' },
+    });
     renderWithRouter(<Login />);
     fireEvent.change(screen.getByTestId('email-input'), {
       target: { value: 'test@example.com' },
@@ -95,7 +96,11 @@ describe('Login component', () => {
     const form2 = submit2.closest('form');
     fireEvent.submit(form2);
     await waitFor(() =>
-        expect(signInWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), 'test@example.com', 'password123')
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        expect.anything(),
+        'test@example.com',
+        'password123',
+      ),
     );
   });
 });
