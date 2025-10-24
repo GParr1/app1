@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { starterCard } from '../../structure/starterCard';
 import { ATTRIBUTES, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
+import CaptureImage from 'components/FifaCard/CaptureImage';
 
-const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
+const CardBronze = ({ dynamicValue, previewImg, className = 'zoom07' }) => {
   const stateUser = useSelector(getUser) || {};
   const user = dynamicValue || stateUser;
   const userLogin = user.userLogin || {};
@@ -32,8 +33,13 @@ const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
       })),
     [customerInfo],
   );
+  const fullName =
+    customerInfo.firstName || customerInfo.lastName
+      ? `${customerInfo.firstName || ''} ${customerInfo.lastName || ''}`.trim()
+      : user.displayName || '';
   // Sfondo carta in base all'overall
   const cardBackground = getCardTier(customerInfo.overall || 60);
+
   return (
     <figure className={className}>
       <div
@@ -49,10 +55,12 @@ const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
           }}
         >
           {/* Foto giocatore */}
-          <span
-            className={`div-face_image ${!playerImage ? 'empty' : ''}`}
-            style={{ backgroundImage: `url(${playerImage})` }}
-          ></span>
+          {/*<span
+              className={`div-face_image ${!playerImage ? 'empty' : ''}`}
+              style={{backgroundImage: `url(${playerImage})`}}
+              onClick={handleImageClick}
+          ></span>*/}
+          <CaptureImage playerImage={playerImage} />
           {/* Nazione */}
           <span
             className="div-nation_image"
@@ -69,9 +77,7 @@ const CardBronze = ({ dynamicValue, previewImg, className = '' }) => {
           ></span>
           {/* Nome */}
           <div className="div-name">
-            <span className="input-name">
-              {`${customerInfo.firstName || ''} ${customerInfo.lastName || ''}`}
-            </span>
+            <span className="input-name text-uppercase">{fullName}</span>
           </div>
 
           {/* Overall + Posizione */}
