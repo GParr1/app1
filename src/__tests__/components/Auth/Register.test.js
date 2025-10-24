@@ -196,7 +196,7 @@ describe('RegisterTwoSteps component', () => {
     });
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-google-btn'));
-    await waitFor(() => expect(window.location.pathname).toBe('/profile'));
+    await waitFor(() => expect(window.location.pathname).toBe('/confirm-profile'));
   });
   test('renders Social Login facebook error', async () => {
     // 1️⃣ Mock della risposta con errore
@@ -216,6 +216,6 @@ describe('RegisterTwoSteps component', () => {
     });
     renderWithRouter(<RegisterTwoSteps />);
     fireEvent.click(screen.getByTestId('login-facebook-btn'));
-    await waitFor(() => expect(window.location.pathname).toBe('/profile'));
+    await waitFor(() => expect(window.location.pathname).toBe('/confirm-profile'));
   });
 });

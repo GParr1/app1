@@ -11,7 +11,7 @@ import {
   FORMUSER,
 } from '../structure/formUser';
 import { store } from 'state/store';
-import {getUser} from "state/auth/selectors";
+import { getUser } from 'state/auth/selectors';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
