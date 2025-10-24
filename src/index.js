@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { persistor, store } from 'state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { logout } from 'state/auth/reducer';
+import { pipeline } from '@xenova/transformers';
 import ModalInfo from 'components/Modal/ModalInfo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -49,6 +50,20 @@ window.calcetto = {
     );
   },
 };
+
+// Variabile globale per il modello
+window.removeBgPipeline = null;
+
+// Funzione per inizializzare il modello
+const initRemoveBgModel = async () => {
+  if (!window.removeBgPipeline) {
+    window.removeBgPipeline = await pipeline('image-segmentation', 'Xenova/rmbg');
+    console.log('Modello di rimozione sfondo inizializzato');
+  }
+};
+
+// Inizializza il modello subito
+initRemoveBgModel();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

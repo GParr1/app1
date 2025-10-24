@@ -13,6 +13,7 @@ import {
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
+import { pipeline } from '@xenova/transformers';
 // import * as bodyPix from '@tensorflow-models/body-pix';
 // import '@tensorflow/tfjs'; // backend WebGL
 
@@ -138,6 +139,33 @@ export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
   return { teamA, teamB };
 };
 
+export const removeBackground = async imgFile => {
+  if (!window.removeBgPipeline) {
+    console.error('Il modello non è stato inizializzato');
+    return null;
+  }
+
+  // Converti File in un URL
+  const imgUrl = URL.createObjectURL(imgFile);
+
+  try {
+    // Esegui la rimozione dello sfondo
+    const result = await window.removeBgPipeline(imgUrl);
+
+    // `result` contiene il canvas o immagine processata
+    // Converti in Blob/File
+    const canvas = result[0].maskCanvas; // dipende dal modello
+    return new Promise(resolve => {
+      canvas.toBlob(blob => {
+        resolve(new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' }));
+      });
+    });
+  } catch (error) {
+    console.error('Errore nella rimozione dello sfondo:', error);
+    return null;
+  }
+};
+
 // export const removeBackground = async imgFile => {
 //   try {
 //     // Converte il file in elemento <img>
@@ -196,29 +224,29 @@ export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
 //     return null;
 //   }
 // };
-export const removeBackground = async imgFile => {
-  try {
-    const formData = new FormData();
-    formData.append('image_file', imgFile);
-
-    const response = await fetch('https://api.bgremover.com/v1.0/remove', {
-      method: 'POST',
-      body: formData,
-      // L’API gratuita non richiede chiave
-    });
-
-    if (!response.ok) {
-      console.error('Errore nella chiamata a bgremover', response.statusText);
-      return null;
-    }
-
-    const blob = await response.blob();
-    return new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' });
-  } catch (error) {
-    console.error('Errore nella rimozione dello sfondo:', error);
-    return null;
-  }
-};
+// export const removeBackground = async imgFile => {
+//   try {
+//     const formData = new FormData();
+//     formData.append('image_file', imgFile);
+//
+//     const response = await fetch('https://api.bgremover.com/v1.0/remove', {
+//       method: 'POST',
+//       body: formData,
+//       // L’API gratuita non richiede chiave
+//     });
+//
+//     if (!response.ok) {
+//       console.error('Errore nella chiamata a bgremover', response.statusText);
+//       return null;
+//     }
+//
+//     const blob = await response.blob();
+//     return new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' });
+//   } catch (error) {
+//     console.error('Errore nella rimozione dello sfondo:', error);
+//     return null;
+//   }
+// };
 
 // export const removeBackground = async (imgFile) => {
 //   try {
