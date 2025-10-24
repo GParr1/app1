@@ -13,7 +13,7 @@ import {
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
-import { pipeline } from '@xenova/transformers';
+//import { pipeline } from '@xenova/transformers';
 // import * as bodyPix from '@tensorflow-models/body-pix';
 // import '@tensorflow/tfjs'; // backend WebGL
 
