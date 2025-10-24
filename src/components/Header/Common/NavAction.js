@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doSignOut, handleSaveFormUser } from 'utils/authUtils';
+import { handleSaveFormUser } from 'utils/authUtils';
 import UploadProfilePicture from 'components/UploadProfilePicture';
 import FormUser from 'components/FormUser';
 import LogoutBtn from 'components/Header/Common/LogoutBtn';

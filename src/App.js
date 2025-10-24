@@ -10,6 +10,7 @@ import Dashboard from './View/Dashboard';
 import PrivateRoute from 'components/PrivateRoute';
 import Header from 'components/Header/Header';
 import MatchesView from './View/MatchesView';
+import HeaderOnlyLogout from 'components/Header/HeaderOnlylogout';
 
 function App() {
   const user = useSelector(getUser) || null;
@@ -72,7 +73,7 @@ function App() {
             path="/confirm-profile"
             element={
               <PrivateRoute>
-                <Header user={user} />
+                <HeaderOnlyLogout />
                 <ConfirmProfileView user={user} />
               </PrivateRoute>
             }
