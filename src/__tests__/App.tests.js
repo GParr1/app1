@@ -6,7 +6,10 @@ import { renderWithProvider } from '../__mocks__/utils';
 
 describe('App component senza mock dei figli', () => {
   window.history.pushState({}, 'Test page', '/app1');
-  jest.mock('swiper/react');
+  jest.mock('swiper/react', () => ({
+    Swiper: ({ children }) => <div>{children}</div>,
+    SwiperSlide: ({ children }) => <div>{children}</div>,
+  }));
   jest.mock('swiper/css', () => {});
 
   it('renderizza App route /app1', () => {
