@@ -49,7 +49,7 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
       if (stream) stream.getTracks().forEach(track => track.stop());
       if (videoEl) videoEl.srcObject = null;
     };
-  }, [cameraActive]);
+  }, [enableEdit, cameraActive]);
   // // 📸 Scatta foto dalla webcam
   const capturePhoto = () => {
     window.calcetto.toggleSpinner(true);
