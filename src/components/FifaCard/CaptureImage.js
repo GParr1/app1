@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ModalError from 'components/Modal/ModalInfo';
 import { removeBackground } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
@@ -57,7 +57,7 @@ const CaptureImage = ({ playerImage }) => {
   // }, []);
   //
   // // 📸 Scatta foto dalla webcam
-  const capturePhoto = useCallback(() => {
+  const capturePhoto = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
@@ -79,7 +79,7 @@ const CaptureImage = ({ playerImage }) => {
       setCameraActive(false);
       setMessage('');
     }, 'image/png');
-  }, []);
+  };
 
   // ☁️ Upload su Cloudinary
   // const handleUpload = useCallback(async () => {
