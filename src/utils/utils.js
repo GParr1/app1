@@ -10,8 +10,8 @@ import {
   FORM_REMOVE_GUEST,
   FORMUSER,
 } from '../structure/formUser';
-import { getUser } from 'gh-pages/lib/util';
 import { store } from 'state/store';
+import {getUser} from "state/auth/selectors";
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
