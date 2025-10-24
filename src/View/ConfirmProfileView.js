@@ -8,7 +8,7 @@ import GeneralForm from 'components/Form/GeneralForm';
 export const ConfirmProfileView = ({ user }) => {
   const [dynamicValue, setDynamicValue] = useState(user);
   const navigate = useNavigate();
-  const handleChange = (evt, section, key) => {
+  const handleChange = (evt, key, section = 'customerInfo') => {
     const value = evt.target.value;
     console.log(evt.target.value);
     setDynamicValue(prevValue => ({
