@@ -24,7 +24,7 @@ export const MyAccountView = ({ user }) => {
       <div className="row justify-content-between">
         {/* Figurina FIFA */}
         <div className="col-md-3 mb-3 d-flex flex-column align-items-center">
-          <CardBronze />
+          <CardBronze enableEdit={true} />
         </div>
         {/* Statistiche e Coppe */}
         <div className="col-md-8">

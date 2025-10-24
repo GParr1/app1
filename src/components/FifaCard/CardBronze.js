@@ -7,7 +7,7 @@ import { starterCard } from '../../structure/starterCard';
 import { ATTRIBUTES, DEFAULT_COLOR, DEFAULT_PHOTO } from 'utils/Constant';
 import CaptureImage from 'components/FifaCard/CaptureImage';
 
-const CardBronze = ({ dynamicValue, previewImg, className = 'zoom07' }) => {
+const CardBronze = ({ enableEdit, dynamicValue, previewImg, className = 'zoom07' }) => {
   const stateUser = useSelector(getUser) || {};
   const user = dynamicValue || stateUser;
   const userLogin = user.userLogin || {};
@@ -55,12 +55,7 @@ const CardBronze = ({ dynamicValue, previewImg, className = 'zoom07' }) => {
           }}
         >
           {/* Foto giocatore */}
-          {/*<span
-              className={`div-face_image ${!playerImage ? 'empty' : ''}`}
-              style={{backgroundImage: `url(${playerImage})`}}
-              onClick={handleImageClick}
-          ></span>*/}
-          <CaptureImage playerImage={playerImage} />
+          <CaptureImage enableEdit={enableEdit} playerImage={playerImage} />
           {/* Nazione */}
           <span
             className="div-nation_image"
@@ -106,6 +101,7 @@ const CardBronze = ({ dynamicValue, previewImg, className = 'zoom07' }) => {
   );
 };
 CardBronze.propTypes = {
+  enableEdit: PropTypes.bool,
   dynamicValue: PropTypes.oneOfType([
     PropTypes.shape({
       customerInfo: PropTypes.shape({

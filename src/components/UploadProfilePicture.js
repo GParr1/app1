@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import CardBronze from 'components/FifaCard/CardBronze';
 import { removeBackground, uploadImage } from 'utils/utils';
-import { authUpdateProfile } from 'utils/authUtils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
 const UploadProfilePicture = ({ user = {} }) => {
@@ -94,12 +93,6 @@ const UploadProfilePicture = ({ user = {} }) => {
       const uploadedUrl = await uploadImage({ user, file });
       if (!uploadedUrl) throw new Error('Upload fallito');
 
-      const updatedUser = {
-        ...user,
-        userLogin: { ...user.userLogin, photoURL: uploadedUrl },
-      };
-
-      await authUpdateProfile(updatedUser);
       setMessage('✅ Profilo aggiornato con successo!');
     } catch (err) {
       console.error('Errore upload:', err);
@@ -112,7 +105,7 @@ const UploadProfilePicture = ({ user = {} }) => {
 
   return (
     <div className="d-flex justify-content-center col-12 flex-wrap text-center">
-      {!cameraActive && <CardBronze previewImg={previewImg} />}
+      {!cameraActive && <CardBronze enableEdit={true} previewImg={previewImg} />}
 
       {cameraActive && (
         <div className="camera-container mt-3">

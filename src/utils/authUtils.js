@@ -22,30 +22,14 @@ import {
   setDoc,
 } from 'firebase/firestore';
 import { starterCard } from '../structure/starterCard';
-import { calculateAttributes, calculatePlayerOverall, getObjFromForm } from 'utils/utils';
+import {
+  calculateAttributes,
+  calculatePlayerOverall,
+  getObjFormFromEvt,
+  getObjFromForm,
+} from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
 
-export const fetchUserProfile = async () => {
-  const user = auth.currentUser;
-  if (!user) return null;
-  try {
-    const userDocRef = doc(db, 'users', user.uid);
-    const userDocSnap = await getDoc(userDocRef);
-    if (userDocSnap.exists()) {
-      const userObj = { userLogin: user, customerInfo: userDocSnap.data() };
-      await store.dispatch(login(userObj)); //Save on Redux
-      return userObj; // ✅ Dati utente Firestore
-    } else {
-      console.warn('Profilo utente non trovato in Firestore DataBase.');
-      const userObj = { userLogin: user, customerInfo: {} };
-      await store.dispatch(login(userObj)); //Save on Redux
-      return userObj;
-    }
-  } catch (error) {
-    console.error('Errore nel recupero del profilo:', error);
-    return null;
-  }
-};
 export const fetchDocProfile = async userUid => {
   try {
     const userDocRef = doc(db, 'users', userUid);
@@ -64,30 +48,25 @@ export const fetchDocProfile = async userUid => {
   }
 };
 export const authUpdateProfile = async userObj => {
-  window.calcetto.toggleSpinner(true);
   try {
-    const userLogin = userObj.userLogin;
-    const customerInfo = userObj.customerInfo;
+    const { userLogin, customerInfo } = userObj;
     const user = auth.currentUser;
-    await updateProfile(user, {
-      displayName: `${customerInfo.firstName} ${customerInfo.lastName}`,
-    });
+    !userLogin.displayName &&
+      (await updateProfile(user, {
+        displayName: `${customerInfo.firstName} ${customerInfo.lastName}`,
+      }));
     await setDoc(
       doc(db, 'users', userLogin.uid),
       {
         ...customerInfo,
-        photoURL: userLogin.photoURL || '/app1/assets/anonimous.png',
       },
       { merge: true },
     ); // merge evita di sovrascrivere completamente il documento
-    const fetchUser = await fetchUserData({ currentUser: userLogin });
-    await store.dispatch(login(fetchUser));
-    return true;
+    await fetchUserData({ currentUser: userLogin });
+    return { successMessage: true };
   } catch (err) {
     console.error('authUpdateProfile:', err);
-    return false;
-  } finally {
-    window.calcetto.toggleSpinner(false);
+    return { errorMessage: 'Non sono riuscito a aggiornare il profilo' };
   }
 };
 export const doSignOut = async () => {
@@ -106,31 +85,38 @@ export const doSignOut = async () => {
   }
 };
 export const handleSaveFormUser = async (evt, user) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target); // raccoglie tutti i valori del form
-  const formObject = getObjFromForm({ formData });
-  const isNewUser = formObject.isNewUser === 'true';
-  const position = formObject.position || '';
+  window.calcetto.toggleSpinner(true);
+  try {
+    evt.preventDefault();
+    const formObject = getObjFormFromEvt(evt.target);
+    const isNewUser = formObject.isNewUser === 'true';
+    const position = formObject.position || '';
 
-  const attributes = calculateAttributes({
-    height: formObject.height,
-    birthDate: formObject.birthDate,
-    position,
-  });
-  const overall = calculatePlayerOverall(starterCard[0].attributes);
-  // Stampa l'oggetto JSON
-  console.log(JSON.stringify(formObject, null, 2));
-  const userObj = {
-    userLogin: { ...user.userLogin },
-    customerInfo: {
-      ...user.customerInfo,
-      ...formObject,
-      ...(isNewUser && { attributes }),
-      overall,
-    },
-  };
-  console.log('Dati inseriti:', userObj);
-  return await authUpdateProfile(userObj);
+    const attributes = calculateAttributes({
+      height: formObject.height,
+      birthDate: formObject.birthDate,
+      position,
+    });
+    const overall = calculatePlayerOverall(starterCard[0].attributes);
+    // Stampa l'oggetto JSON
+    console.log(JSON.stringify(formObject, null, 2));
+    const userObj = {
+      userLogin: { ...user.userLogin },
+      customerInfo: {
+        ...user.customerInfo,
+        ...formObject,
+        ...(isNewUser && { attributes }),
+        overall,
+      },
+    };
+    console.log('Dati inseriti:', userObj);
+    const { errorMessage, successMessage } = await authUpdateProfile(userObj);
+    return { errorMessage, successMessage };
+  } catch (e) {
+    return { errorMessage: e };
+  } finally {
+    window.calcetto.toggleSpinner(true);
+  }
 };
 
 const fetchUserData = async ({ currentUser }) => {
@@ -138,27 +124,13 @@ const fetchUserData = async ({ currentUser }) => {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     console.log('Get Data to DB');
-    return { userLogin: currentUser, customerInfo: docSnap.data() };
+    store.dispatch(login({ userLogin: currentUser, customerInfo: docSnap.data() }));
   } else {
     console.log('Get Data to Login');
-    return { userLogin: currentUser, customerInfo: {} };
+    store.dispatch(login({ userLogin: currentUser, customerInfo: {} }));
   }
 };
-export const doGoogleLogin = async () => {
-  window.calcetto.toggleSpinner(true);
-  try {
-    await signInWithPopup(auth, googleProvider);
-    const userData = await fetchUserProfile();
-    await store.dispatch(login(userData));
-    return userData;
-  } catch (error) {
-    let errorMessage = getFirebaseErrorMessage(error);
-    console.error(`'Google sign-in errorCode:: ${error.code}, messagre: ${error.message}`);
-    return { errorMessage };
-  } finally {
-    window.calcetto.toggleSpinner(false);
-  }
-};
+
 export const doConfirmPasswordReset = async ({ oobCode, newPassword }) => {
   window.calcetto.toggleSpinner(true);
   try {
@@ -223,22 +195,7 @@ export const doFirebaseLogin = async ({ action, options }) => {
     window.calcetto.toggleSpinner(false);
   }
 };
-export const doSignInWithEmailAndPassword = async ({ credentials }) => {
-  window.calcetto.toggleSpinner(true);
-  try {
-    await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-    const userData = await fetchUserProfile();
-    store.dispatch(login(userData));
-    console.log('Login effettuato:', userData.userLogin.email);
-    return userData;
-  } catch (error) {
-    let errorMessage = getFirebaseErrorMessage(error);
-    console.error(`'Errore code: ${error.code}, messagre: ${error.message}`);
-    return { errorMessage };
-  } finally {
-    window.calcetto.toggleSpinner(false);
-  }
-};
+
 const getFirebaseErrorMessage = error => {
   if (!error || !error.code) return 'Si è verificato un errore imprevisto.';
 
@@ -287,8 +244,8 @@ export const doCreateUserWithEmailAndPassword = async ({ account }) => {
     const dataAccount = account;
     delete dataAccount.email;
     delete dataAccount.password;
-    await authUpdateProfile(account);
-    await fetchUserProfile();
+    const { errorMessage } = await authUpdateProfile(account);
+    if (errorMessage) return { errorMessage };
     return { successMessage: result.user };
   } catch (error) {
     let errorMessage = getFirebaseErrorMessage(error);

@@ -12,6 +12,7 @@ import {
 } from '../structure/formUser';
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
+import { authUpdateProfile } from 'utils/authUtils';
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -162,16 +163,18 @@ export const removeBackground = async imgFile => {
     return null;
   }
 };
+
 export const uploadImage = async ({ user, file }) => {
-  const cleanedFile = await removeBackground(file);
-  const uploadFile = cleanedFile || file; // Fallback se qualcosa va storto
-  // STEP 2: Prepara FormData per Cloudinary
-  const formData = new FormData();
-  formData.append('file', uploadFile);
-  formData.append('upload_preset', 'app-calcetto');
-  formData.append('folder', 'profilePictures');
-  formData.append('public_id', `${user.userLogin.uid}-${uuidv4()}`);
+  window.calcetto.toggleSpinner(true);
   try {
+    const { userLogin, customerInfo } = user;
+    const cleanedFile = await removeBackground(file);
+    const uploadFile = cleanedFile || file;
+    const formData = new FormData();
+    formData.append('file', uploadFile);
+    formData.append('upload_preset', 'app-calcetto');
+    formData.append('folder', 'profilePictures');
+    formData.append('public_id', `${userLogin.uid}-${uuidv4()}`);
     const UPLOAD_URL = `https://api.cloudinary.com/v1_1/dehfdnxul/image/upload`;
     const response = await fetch(UPLOAD_URL, {
       method: 'POST',
@@ -179,14 +182,21 @@ export const uploadImage = async ({ user, file }) => {
     });
     if (!response.ok) {
       console.error('Errore nella chiamata upload image', response.statusText);
-      return null;
+      return { errorMessage: "'Upload fallito" };
     }
     const data = await response.json();
-
-    return data.secure_url;
+    const updatedUser = {
+      ...user,
+      userLogin,
+      customerInfo: { ...customerInfo, photoURL: data.secure_url },
+    };
+    const { errorMessage } = await authUpdateProfile(updatedUser);
+    if (errorMessage) return { errorMessage };
+    return { successMessage: 'Profilo aggiornato con successo!' };
   } catch (error) {
     console.error('Errore nella rimozione di upload imafe:', error);
-    return null;
+    window.calcetto.toggleSpinner(false);
+    return { errorMessage: "'Upload fallito'" };
   }
 };
 export function calculateAttributes({ height, birthDate, position }) {

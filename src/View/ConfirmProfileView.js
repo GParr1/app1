@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { handleSaveFormUser } from 'utils/authUtils';
-import FormUser from 'components/FormUser';
 import CardBronze from 'components/FifaCard/CardBronze';
 import { useNavigate } from 'react-router-dom';
 import GeneralForm from 'components/Form/GeneralForm';
@@ -20,17 +19,17 @@ export const ConfirmProfileView = ({ user }) => {
     }));
   };
   const handleSubmit = async evt => {
-    const result = await handleSaveFormUser(evt, user);
-    if (result) {
+    const { errorMessage, successMessage } = await handleSaveFormUser(evt, user);
+    if (successMessage) {
       navigate('/dashboard', { replace: true });
     } else {
-      console.error('handle Submit Error');
+      console.error(errorMessage);
     }
   };
   return (
     <div className="row">
       <div className="col-md-6 d-flex flex-column align-items-center ">
-        <CardBronze dynamicValue={dynamicValue} />
+        <CardBronze enableEdit={true} dynamicValue={dynamicValue} />
       </div>
       <div className="col-md-6">
         <div className="card">
@@ -40,13 +39,8 @@ export const ConfirmProfileView = ({ user }) => {
               formId={'formUser'}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
-              labels={{ submitLabel: 'ACCEDI' }}
+              labels={{ submitLabel: 'SALVA' }}
               obj={user}
-            />
-            <FormUser
-              id={'confirmProfile'}
-              handleChange={handleChange}
-              onSubmit={evt => handleSubmit(evt, user)}
             />
           </div>
         </div>
