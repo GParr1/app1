@@ -1,7 +1,7 @@
 import React from 'react';
 import { getFormStructure } from 'utils/utils';
 
-const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
+const GeneralForm = ({ handleSubmit, handleChange, formId, obj, labels }) => {
   const formData = getFormStructure(formId);
   return (
     <form id={formId} data-testid={`${formId}-from`} onSubmit={e => handleSubmit(e, obj)}>
@@ -35,6 +35,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                   className="form-control rounded-4"
                   name={name}
                   id={name}
+                  {...(handleChange ? { onChange: e => handleChange(e, name) } : {})}
                   {...(pattern && { pattern })}
                   placeholder={placeholder}
                   data-testid={`${name}-input`}
@@ -204,6 +205,7 @@ const GeneralForm = ({ handleSubmit, formId, obj, labels }) => {
                   name={name}
                   id={name}
                   data-testid={`${name}-select`}
+                  {...(handleChange ? { onChange: e => handleChange(e, name) } : {})}
                   {...(required && { required: required })}
                   defaultValue={''}
                 >

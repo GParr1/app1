@@ -5,12 +5,12 @@ import { FORMUSER } from '../structure/formUser';
 
 const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
   const user = useSelector(getUser) || {};
-  const { customerInfo } = user;
+  const customerInfo = user.customerInfo || customerInfo;
   const isNewUser = !!(customerInfo && customerInfo.overall);
   return (
     <form id={formData.id} onSubmit={onSubmit || null}>
       {formData.fields.map(field => {
-        const { type, name, label, placeholder, defaultValue, options, section } = field;
+        const { type, name, label, placeholder, options, section } = field;
 
         // Render dinamico dei campi
         switch (type) {
@@ -27,7 +27,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
                   className="form-control"
                   name={name}
                   placeholder={placeholder}
-                  defaultValue={user[section][name] || defaultValue}
+                  defaultValue={customerInfo[name] || ''}
                   onChange={e => handleChange(e, section, name)}
                 />
               </div>
@@ -41,7 +41,7 @@ const FormUser = ({ onSubmit, handleChange, formData = FORMUSER }) => {
                 <select
                   className="form-control"
                   name={name}
-                  defaultValue={user[section][name] || ''}
+                  defaultValue={customerInfo[name] || ''}
                   onChange={e => handleChange(e, section, name)}
                 >
                   {options.map(option => (

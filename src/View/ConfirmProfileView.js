@@ -3,6 +3,7 @@ import { handleSaveFormUser } from 'utils/authUtils';
 import FormUser from 'components/FormUser';
 import CardBronze from 'components/FifaCard/CardBronze';
 import { useNavigate } from 'react-router-dom';
+import GeneralForm from 'components/Form/GeneralForm';
 
 export const ConfirmProfileView = ({ user }) => {
   const [dynamicValue, setDynamicValue] = useState(user);
@@ -35,6 +36,13 @@ export const ConfirmProfileView = ({ user }) => {
         <div className="card">
           <div className="card-body">
             <h4 className="card-title">Completa il tuo profilo</h4>
+            <GeneralForm
+              formId={'formUser'}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              labels={{ submitLabel: 'ACCEDI' }}
+              obj={user}
+            />
             <FormUser
               id={'confirmProfile'}
               handleChange={handleChange}
