@@ -13,8 +13,8 @@ import {
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
-import * as bodyPix from '@tensorflow-models/body-pix';
-import '@tensorflow/tfjs'; // backend WebGL
+// import * as bodyPix from '@tensorflow-models/body-pix';
+// import '@tensorflow/tfjs'; // backend WebGL
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -245,11 +245,11 @@ export const removeBackground = async imgFile => {
 //   }
 // };
 
-export const uploadImage = async ({ user, file }) => {
+export const uploadImage = async ({ user, file, isDragAndDrop }) => {
   window.calcetto.toggleSpinner(true);
   try {
     const { userLogin, customerInfo } = user;
-    const cleanedFile = await removeBackground(file);
+    const cleanedFile = isDragAndDrop ? await removeBackground(file) : file;
     const uploadFile = cleanedFile || file;
     const formData = new FormData();
     formData.append('file', uploadFile);
