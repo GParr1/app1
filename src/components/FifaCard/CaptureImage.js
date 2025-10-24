@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ModalError from 'components/Modal/ModalInfo';
 import { removeBackground } from 'utils/utils';
 import { DEFAULT_PHOTO } from 'utils/Constant';
+import { SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
+import { SVGCloseCircleFilled } from 'components/SVG/SVGClose';
 
 const CaptureImage = ({ playerImage }) => {
   const [/*previewImg, */ setPreviewImg] = useState(DEFAULT_PHOTO);
@@ -114,17 +116,20 @@ const CaptureImage = ({ playerImage }) => {
       {cameraActive && (
         <>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
-          <div className="mt-2">
-            <button type="button" className="btn btn-primary me-2" onClick={capturePhoto}>
-              📸 Cattura foto
+          <video className="div-face_image" ref={videoRef} style={{ objectFit: 'cover' }} />
+          <div
+            className="div-face_image  d-flex justify-content-between"
+            style={{ height: 'auto' }}
+          >
+            <button type="button" className="bg-transparent me-2" onClick={capturePhoto}>
+              <SVGPlusCircleFilled />
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="bg-transparent me-2"
               onClick={() => setCameraActive(false)}
             >
-              Chiudi fotocamera
+              <SVGCloseCircleFilled />
             </button>
           </div>
           <canvas ref={canvasRef} style={{ display: 'none' }} />
@@ -132,7 +137,7 @@ const CaptureImage = ({ playerImage }) => {
       )}
 
       {!cameraActive && (
-        <button onClick={() => setCameraActive(true)}>
+        <button className="p-0 border-0 bg-transparent" onClick={() => setCameraActive(true)}>
           <span
             className={`div-face_image ${!playerImage ? 'empty' : ''}`}
             role="button"
