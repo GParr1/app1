@@ -84,7 +84,7 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
     if (!user) return window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
     setLoading(true);
     const { errorMessage, successMessage } = await uploadImage({ user, file });
-    if (!errorMessage) {
+    if (errorMessage) {
       return window.calcetto.showModalMessage(errorMessage, 'error', 'Errore!');
     }
     setCameraActive(false);

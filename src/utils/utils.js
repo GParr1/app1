@@ -152,13 +152,13 @@ export const removeBackground = async imgFile => {
     const net = await bodyPix.load({
       architecture: 'MobileNetV1',
       outputStride: 16,
-      multiplier: 0.75,
+      multiplier: 1.0,
       quantBytes: 2,
     });
 
     // Segmenta la persona (mask = 1 per persona, 0 per sfondo)
     const segmentation = await net.segmentPerson(imageElement, {
-      internalResolution: 'medium',
+      internalResolution: 'high',
       segmentationThreshold: 0.5,
     });
 
