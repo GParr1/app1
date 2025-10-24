@@ -13,6 +13,8 @@ import {
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
+import * as bodyPix from '@tensorflow-models/body-pix';
+import '@tensorflow/tfjs'; // backend WebGL
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -137,32 +139,80 @@ export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
 };
 
 export const removeBackground = async imgFile => {
-  const formData = new FormData();
-  formData.append('image_file', imgFile);
-  formData.append('size', 'auto');
   try {
-    const response = await fetch('https://api.remove.bg/v1.0/removebg', {
-      method: 'POST',
-      headers: {
-        'X-Api-Key': 'i4L41YsoE4jvHSofw5RcWNZM', // <-- API key
-      },
-      body: formData,
+    // Converte il file in elemento <img>
+    const imageElement = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(imgFile);
+      img.onload = () => resolve(img);
+      img.onerror = reject;
     });
 
-    if (!response.ok) {
-      console.error('Errore nella chiamata a remove.bg', response.statusText);
-      return null;
+    // Carica il modello (cache automatica nel browser)
+    const net = await bodyPix.load({
+      architecture: 'MobileNetV1',
+      outputStride: 16,
+      multiplier: 0.75,
+      quantBytes: 2,
+    });
+
+    // Segmenta la persona
+    const segmentation = await net.segmentPerson(imageElement, {
+      internalResolution: 'medium',
+      segmentationThreshold: 0.7,
+    });
+
+    // Crea canvas con sfondo trasparente
+    const canvas = document.createElement('canvas');
+    canvas.width = imageElement.width;
+    canvas.height = imageElement.height;
+    const ctx = canvas.getContext('2d');
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixel = imageData.data;
+
+    for (let i = 0; i < pixel.length; i += 4) {
+      const bodyPart = segmentation.data[i / 4];
+      if (!bodyPart) {
+        pixel[i + 3] = 0; // trasparente
+      }
     }
 
-    const blob = await response.blob();
-    return new File([blob], `cleaned-${Date.now()}.png`, {
-      type: 'image/png',
-    });
-  } catch (error) {
-    console.error('Errore nella rimozione dello sfondo:', error);
+    ctx.putImageData(imageData, 0, 0);
+
+    // Ritorna file PNG
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    return new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' });
+  } catch (err) {
+    console.error('Errore nella rimozione sfondo locale:', err);
     return null;
   }
 };
+
+// export const removeBackground = async (imgFile) => {
+//   try {
+//     const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+//       method: 'POST',
+//       headers: {
+//         'X-Api-Key': 'i4L41YsoE4jvHSofw5RcWNZM', // <-- API key
+//       },
+//       body: formData,
+//     });
+//
+//     if (!response.ok) {
+//       console.error('Errore nella chiamata a remove.bg', response.statusText);
+//       return null;
+//     }
+//
+//     const blob = await response.blob();
+//     return new File([blob], `cleaned-${Date.now()}.png`, {
+//       type: 'image/png',
+//     });
+//   } catch (error) {
+//     console.error('Errore nella rimozione dello sfondo:', error);
+//     return null;
+//   }
+// };
 
 export const uploadImage = async ({ user, file }) => {
   window.calcetto.toggleSpinner(true);
@@ -195,8 +245,9 @@ export const uploadImage = async ({ user, file }) => {
     return { successMessage: 'Profilo aggiornato con successo!' };
   } catch (error) {
     console.error('Errore nella rimozione di upload imafe:', error);
-    window.calcetto.toggleSpinner(false);
     return { errorMessage: "'Upload fallito'" };
+  } finally {
+    window.calcetto.toggleSpinner(false);
   }
 };
 export function calculateAttributes({ height, birthDate, position }) {

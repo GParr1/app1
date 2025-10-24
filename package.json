@@ -30,11 +30,12 @@
       "/node_modules/(?!swiper/)"
     ]
   },
-
   "dependencies": {
     "@cloudinary/react": "^1.14.3",
     "@cloudinary/url-gen": "^1.21.0",
     "@reduxjs/toolkit": "^2.8.2",
+    "@tensorflow-models/body-pix": "^2.2.1",
+    "@tensorflow/tfjs": "^4.22.0",
     "@testing-library/dom": "^10.4.0",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.6",

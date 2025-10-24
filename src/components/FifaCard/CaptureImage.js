@@ -20,12 +20,11 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
   useEffect(() => {
     if (!enableEdit) return;
     if (!cameraActive) return;
-    setLoading(true);
     const videoEl = videoRef.current;
     let stream;
-
     const startCamera = async () => {
       try {
+        setLoading(true);
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoEl) {
           videoEl.srcObject = stream;
@@ -83,12 +82,14 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
   const handleUpload = async () => {
     if (!file) return window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
     if (!user) return window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
+    setLoading(true);
     const { errorMessage, successMessage } = await uploadImage({ user, file });
     if (!errorMessage) {
       return window.calcetto.showModalMessage(errorMessage, 'error', 'Errore!');
     }
     setCameraActive(false);
     setFile(null);
+    setLoading(false);
     window.calcetto.showModalMessage(successMessage, 'success', 'OK');
   };
 
