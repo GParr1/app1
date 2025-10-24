@@ -14,7 +14,6 @@ const Login = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState(1);
   const [error, setError] = useState('');
-  /*const [success, setSuccess] = useState('');*/
 
   const handleSetEmail = evt => {
     const credential = getObjFormFromEvt(evt);
