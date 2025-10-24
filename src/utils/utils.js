@@ -148,7 +148,7 @@ export const removeBackground = async imgFile => {
       img.onerror = reject;
     });
 
-    // Carica il modello (cache automatica nel browser)
+    // Carica il modello BodyPix
     const net = await bodyPix.load({
       architecture: 'MobileNetV1',
       outputStride: 16,
@@ -156,33 +156,41 @@ export const removeBackground = async imgFile => {
       quantBytes: 2,
     });
 
-    // Segmenta la persona
+    // Segmenta la persona (mask = 1 per persona, 0 per sfondo)
     const segmentation = await net.segmentPerson(imageElement, {
       internalResolution: 'medium',
-      segmentationThreshold: 0.7,
+      segmentationThreshold: 0.5,
     });
 
-    // Crea canvas con sfondo trasparente
+    // Crea un canvas
     const canvas = document.createElement('canvas');
     canvas.width = imageElement.width;
     canvas.height = imageElement.height;
     const ctx = canvas.getContext('2d');
 
+    // Disegna l'immagine originale nel canvas
+    ctx.drawImage(imageElement, 0, 0);
+
+    // Estrai i dati pixel
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixel = imageData.data;
 
-    for (let i = 0; i < pixel.length; i += 4) {
-      const bodyPart = segmentation.data[i / 4];
-      if (!bodyPart) {
-        pixel[i + 3] = 0; // trasparente
+    // Applica la maschera della persona
+    for (let i = 0; i < segmentation.data.length; i++) {
+      if (segmentation.data[i] === 0) {
+        // Sfondo → trasparente
+        pixel[i * 4 + 3] = 0;
       }
     }
 
     ctx.putImageData(imageData, 0, 0);
 
-    // Ritorna file PNG
+    // Crea un Blob da salvare come file PNG
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-    return new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' });
+
+    return new File([blob], `cleaned-${Date.now()}.png`, {
+      type: 'image/png',
+    });
   } catch (err) {
     console.error('Errore nella rimozione sfondo locale:', err);
     return null;
