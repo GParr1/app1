@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getFormStructure } from 'utils/utils';
 
 const GeneralForm = ({ handleSubmit, handleChange, formId, obj, labels }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const formData = getFormStructure(formId);
   return (
     <form id={formId} data-testid={`${formId}-from`} onSubmit={e => handleSubmit(e, obj)}>
@@ -127,18 +128,6 @@ const GeneralForm = ({ handleSubmit, handleChange, formId, obj, labels }) => {
             );
           }
           case 'password': {
-            // Funzione per toggle password
-            const togglePasswordVisibility = e => {
-              const toggleButton = e.currentTarget;
-              const passwordInput = toggleButton.closest('.input-group').querySelector('input');
-              if (passwordInput.type === 'password') {
-                passwordInput.type = 'text'; // Cambia a testo (visibile)
-                toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>'; // Cambia l'icona
-              } else {
-                passwordInput.type = 'password'; // Cambia a password (nascosta)
-                toggleButton.innerHTML = '<i class="bi bi-eye"></i>'; // Cambia l'icona
-              }
-            };
             return (
               <div key={name} className="mb-3">
                 <label htmlFor={name} className="form-label">
@@ -146,7 +135,7 @@ const GeneralForm = ({ handleSubmit, handleChange, formId, obj, labels }) => {
                 </label>
                 <div className="input-group">
                   <input
-                    type={type} // Mostra/nascondi password
+                    type={showPassword ? 'text' : type} // Mostra/nascondi password
                     className="form-control rounded-4"
                     {...(required && { required: required })}
                     name={name}
@@ -160,7 +149,7 @@ const GeneralForm = ({ handleSubmit, handleChange, formId, obj, labels }) => {
                     type="button"
                     className="btn btn-eye-toggle"
                     data-testid={`${name}-input-btn`}
-                    onClick={e => togglePasswordVisibility(e)}
+                    onClick={() => setShowPassword(prev => !prev)}
                   >
                     <i className={`bi bi-eye`} />
                   </button>
