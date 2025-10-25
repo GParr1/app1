@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { persistor, store } from 'state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { logout } from 'state/auth/reducer';
-import { pipeline } from '@xenova/transformers';
+import * as bodyPix from '@tensorflow-models/body-pix';
+import '@tensorflow/tfjs';
 import ModalInfo from 'components/Modal/ModalInfo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -52,15 +53,18 @@ window.calcetto = {
 };
 
 // Variabile globale per il modello
-window.removeBgPipeline = null;
+window.net = null;
 
 // Funzione per inizializzare il modello
 const initRemoveBgModel = async () => {
-  if (!window.removeBgPipeline) {
-    window.removeBgPipeline = await pipeline('image-segmentation', 'Xenova/rmbg', {
-      auth: process.env.XENOVA_RMBG, // il tuo token
+  if (!window.net) {
+    window.net = await bodyPix.load({
+      architecture: 'MobileNetV1',
+      outputStride: 8,
+      multiplier: 1.0,
+      quantBytes: 2,
     });
-    console.log('Modello di rimozione sfondo inizializzato');
+    console.log('Modello caricato');
   }
 };
 

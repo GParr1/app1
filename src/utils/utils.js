@@ -13,9 +13,6 @@ import {
 import { store } from 'state/store';
 import { getUser } from 'state/auth/selectors';
 import { authUpdateProfile } from 'utils/authUtils';
-//import { pipeline } from '@xenova/transformers';
-// import * as bodyPix from '@tensorflow-models/body-pix';
-// import '@tensorflow/tfjs'; // backend WebGL
 
 export const calculatePlayerOverall = attrs => {
   const { VEL, TIR, PAS, DRI, DIF, FIS } = attrs;
@@ -138,115 +135,79 @@ export const generaSquadreBilanciate = (giocatori, tipo = 5) => {
 
   return { teamA, teamB };
 };
-
-export const removeBackground = async imgFile => {
-  if (!window.removeBgPipeline) {
-    console.error('Il modello non è stato inizializzato');
-    return null;
-  }
-
-  // Converti File in un URL
-  const imgUrl = URL.createObjectURL(imgFile);
-
-  try {
-    // Esegui la rimozione dello sfondo
-    const result = await window.removeBgPipeline(imgUrl);
-
-    // `result` contiene il canvas o immagine processata
-    // Converti in Blob/File
-    const canvas = result[0].maskCanvas; // dipende dal modello
-    return new Promise(resolve => {
-      canvas.toBlob(blob => {
-        resolve(new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' }));
-      });
-    });
-  } catch (error) {
-    console.error('Errore nella rimozione dello sfondo:', error);
-    return null;
-  }
-};
-
 // export const removeBackground = async imgFile => {
-//   try {
-//     // Converte il file in elemento <img>
-//     const imageElement = await new Promise((resolve, reject) => {
-//       const img = new Image();
-//       img.src = URL.createObjectURL(imgFile);
-//       img.onload = () => resolve(img);
-//       img.onerror = reject;
-//     });
-//
-//     // Carica il modello BodyPix
-//     const net = await bodyPix.load({
-//       architecture: 'MobileNetV1',
-//       outputStride: 16,
-//       multiplier: 1.0,
-//       quantBytes: 2,
-//     });
-//
-//     // Segmenta la persona (mask = 1 per persona, 0 per sfondo)
-//     const segmentation = await net.segmentPerson(imageElement, {
-//       internalResolution: 'high',
-//       segmentationThreshold: 0.5,
-//     });
-//
-//     // Crea un canvas
-//     const canvas = document.createElement('canvas');
-//     canvas.width = imageElement.width;
-//     canvas.height = imageElement.height;
-//     const ctx = canvas.getContext('2d');
-//
-//     // Disegna l'immagine originale nel canvas
-//     ctx.drawImage(imageElement, 0, 0);
-//
-//     // Estrai i dati pixel
-//     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-//     const pixel = imageData.data;
-//
-//     // Applica la maschera della persona
-//     for (let i = 0; i < segmentation.data.length; i++) {
-//       if (segmentation.data[i] === 0) {
-//         // Sfondo → trasparente
-//         pixel[i * 4 + 3] = 0;
-//       }
-//     }
-//
-//     ctx.putImageData(imageData, 0, 0);
-//
-//     // Crea un Blob da salvare come file PNG
-//     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-//
-//     return new File([blob], `cleaned-${Date.now()}.png`, {
-//       type: 'image/png',
-//     });
-//   } catch (err) {
-//     console.error('Errore nella rimozione sfondo locale:', err);
+//   if (!window.removeBgPipeline) {
+//     console.error('Il modello non è stato inizializzato');
 //     return null;
 //   }
-// };
-// export const removeBackground = async imgFile => {
+//
+//   // Converti File in un URL
+//   const imgUrl = URL.createObjectURL(imgFile);
+//
 //   try {
-//     const formData = new FormData();
-//     formData.append('image_file', imgFile);
+//     // Esegui la rimozione dello sfondo
+//     const result = await window.removeBgPipeline(imgUrl);
 //
-//     const response = await fetch('https://api.bgremover.com/v1.0/remove', {
-//       method: 'POST',
-//       body: formData,
-//       // L’API gratuita non richiede chiave
+//     // `result` contiene il canvas o immagine processata
+//     // Converti in Blob/File
+//     const canvas = result[0].maskCanvas; // dipende dal modello
+//     return new Promise(resolve => {
+//       canvas.toBlob(blob => {
+//         resolve(new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' }));
+//       });
 //     });
-//
-//     if (!response.ok) {
-//       console.error('Errore nella chiamata a bgremover', response.statusText);
-//       return null;
-//     }
-//
-//     const blob = await response.blob();
-//     return new File([blob], `cleaned-${Date.now()}.png`, { type: 'image/png' });
 //   } catch (error) {
 //     console.error('Errore nella rimozione dello sfondo:', error);
 //     return null;
 //   }
 // };
+
+export const removeBackground = async imgFile => {
+  try {
+    const imageElement = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(imgFile);
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+    });
+    // Segmenta la persona (mask = 1 per persona, 0 per sfondo)
+    const segmentation = await window.net.segmentPerson(imageElement, {
+      internalResolution: 'high',
+      segmentationThreshold: 0.7, // più stringente, sfondo più pulito
+      maxDetections: 1,
+    });
+
+    // Crea un canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = imageElement.width;
+    canvas.height = imageElement.height;
+    const ctx = canvas.getContext('2d');
+
+    // Disegna l'immagine originale nel canvas
+    ctx.drawImage(imageElement, 0, 0);
+    // Estrai i dati pixel
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixel = imageData.data;
+
+    // Applica la maschera della persona
+    for (let i = 0; i < segmentation.data.length; i++) {
+      if (segmentation.data[i] === 0) {
+        // Sfondo → trasparente
+        pixel[i * 4 + 3] = 0;
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+    // Crea un Blob da salvare come file PNG
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    return new File([blob], `cleaned-${Date.now()}.png`, {
+      type: 'image/png',
+    });
+  } catch (err) {
+    console.error('Errore nella rimozione sfondo locale:', err);
+    return null;
+  }
+};
 
 // export const removeBackground = async (imgFile) => {
 //   try {
