@@ -25,10 +25,10 @@ const Header = ({ user = {} }) => {
       {menuOpen && (
         <>
           <NavLink
+            isMobile={true}
             classBtn={'btn btn-sm w-100 mb-2'}
             classContainer={'d-md-none mt-2 p-3 shadow-sm w-100'}
           />
-          <NavAction user={user} />
         </>
       )}
 

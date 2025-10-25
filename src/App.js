@@ -22,7 +22,7 @@ function App() {
         v7_startTransition: true,
       }}
     >
-      <div className="container mt-5">
+      <div className="container ">
         {/* 👈 header sempre visibile */}
         <Routes>
           {/* Se l'utente è loggato, fai il redirect alla dashboard */}

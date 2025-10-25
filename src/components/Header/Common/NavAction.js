@@ -6,7 +6,7 @@ const NavAction = () => {
     <>
       <div className="d-none d-md-flex gap-2 align-items-center">
         <button className="btn" onClick={() => console.log('setting')} aria-label="impostazioni">
-          <i className="bi bi-setting"></i>
+          <i className="bi bi-gear"></i>
         </button>
         <LogoutBtn />
       </div>

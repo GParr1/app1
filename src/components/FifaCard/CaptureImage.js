@@ -2,26 +2,27 @@ import React, { useState, useRef, useEffect } from 'react';
 import { removeBackground, uploadImage } from 'utils/utils';
 import { SVGPlusCircleFilled } from 'components/SVG/SVGPlus';
 import { SVGCloseCircleFilled } from 'components/SVG/SVGClose';
+import { SVGRefreshCircleFilled } from 'components/SVG';
 import { useSelector } from 'react-redux';
 import { getUser } from 'state/auth/selectors';
-import { SVGRefreshCircleFilled } from 'components/SVG';
 
 const CaptureImage = ({ enableEdit, playerImage }) => {
-  const user = useSelector(getUser) || null;
-  const [previewImg, setPreviewImg] = useState(playerImage);
+  const user = useSelector(getUser);
+  const [previewImg, setPreviewImg] = useState(playerImage || null);
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false); // ✅ spinner locale
+  const [loading, setLoading] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const videoRef = useRef(null);
 
+  const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   // 🎥 Gestione webcam
   useEffect(() => {
-    if (!enableEdit) return;
-    if (!cameraActive) return;
+    if (!enableEdit || !cameraActive) return;
+
     const videoEl = videoRef.current;
     let stream;
+
     const startCamera = async () => {
       try {
         setLoading(true);
@@ -42,59 +43,87 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
         setLoading(false);
       }
     };
+
     startCamera();
-    // cleanup
+
+    // 🔹 Cleanup: stoppa la webcam
     return () => {
-      if (stream) stream.getTracks().forEach(track => track.stop());
-      if (videoEl) videoEl.srcObject = null;
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+      if (videoEl) {
+        videoEl.srcObject = null;
+      }
     };
   }, [enableEdit, cameraActive]);
-  // // 📸 Scatta foto dalla webcam
-  const capturePhoto = () => {
-    setLoading(true);
+
+  // 📸 Scatta foto dalla webcam
+  const capturePhoto = async () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    canvas.toBlob(async blob => {
-      if (!blob) return;
+    setLoading(true);
+    try {
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) {
+        window.calcetto.showModalMessage('Errore nella cattura foto', 'error', 'Errore!');
+      }
       const photo = new File([blob], `camera-photo-${Date.now()}.png`, { type: 'image/png' });
+      // 🔹 Rimuove lo sfondo (opzionale)
       const cleaned = await removeBackground(photo);
       const finalFile = cleaned || photo;
-
       setFile(finalFile);
       setPreviewImg(URL.createObjectURL(finalFile));
       setCameraActive(false);
-    }, 'image/png');
-    setLoading(false);
+    } catch (error) {
+      console.error('Errore nella cattura foto:', error);
+      window.calcetto.showModalMessage('Errore nella cattura foto', 'error', 'Errore!');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleUpdateForto = () => {
-    !file && setCameraActive(true);
-    file && handleUpload();
-  };
   // ☁️ Upload su Cloudinary
   const handleUpload = async () => {
-    if (!file) return window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
-    if (!user) return window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
-    setLoading(true);
-    const { errorMessage, successMessage } = await uploadImage({ user, file });
-    if (errorMessage) {
-      return window.calcetto.showModalMessage(errorMessage, 'error', 'Errore!');
+    if (!file) {
+      return window.calcetto.showModalMessage('Nessuna immagine da caricare', 'error', 'Errore!');
     }
-    setCameraActive(false);
-    setFile(null);
-    setLoading(false);
-    window.calcetto.showModalMessage(successMessage, 'success', 'OK');
+    if (!user) {
+      return window.calcetto.showModalMessage('Utente non autenticato', 'error', 'Errore!');
+    }
+    setLoading(true);
+    try {
+      const { errorMessage, successMessage } = await uploadImage({ user, file });
+      if (errorMessage) {
+        return window.calcetto.showModalMessage(errorMessage, 'error', 'Errore!');
+      }
+
+      window.calcetto.showModalMessage(successMessage, 'success', 'OK');
+      setFile(null);
+      setCameraActive(false);
+    } catch (err) {
+      console.error('Errore upload:', err);
+      window.calcetto.showModalMessage('Upload fallito', 'error', 'Errore!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateFoto = async () => {
+    if (!file) {
+      setCameraActive(true);
+    } else {
+      await handleUpload();
+    }
   };
 
   return (
     <>
+      {/* 🔹 Spinner caricamento */}
       {loading && (
         <div className="div-face_image d-flex align-items-center justify-content-center">
           <div className="spinner-border text-primary" role="status">
@@ -102,6 +131,8 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
           </div>
         </div>
       )}
+
+      {/* 🎥 Fotocamera attiva */}
       {cameraActive && (
         <>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
@@ -110,78 +141,68 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
             ref={videoRef}
             style={{ objectFit: 'cover' }}
           />
-          <div
-            className={`div-face_image d-flex justify-content-between ${loading ? 'd-none' : ''}`}
-            style={{ height: 'auto' }}
-          >
-            <button type="button" className="bg-transparent me-2" onClick={capturePhoto}>
-              <SVGPlusCircleFilled />
+          <div className="div-face_image add " style="height: auto;">
+            <button className="bg-transparent me-2" onClick={capturePhoto}>
+              <i className="icon-left bi bi-check-circle-fill"></i>
             </button>
             <button
-              type="button"
               className="bg-transparent me-2"
               onClick={() => {
                 setCameraActive(false);
                 setFile(null);
               }}
             >
-              <SVGCloseCircleFilled />
+              <i className="icon-rigth bi bi-x-circle-fill"></i>
             </button>
           </div>
           <canvas ref={canvasRef} style={{ display: 'none' }} />
         </>
       )}
 
-      {!cameraActive && !file && (
-        <button
-          className="p-0 border-0 bg-transparent"
-          {...(!enableEdit && { disabled: true })}
-          {...(!enableEdit && { style: { cursor: 'default' } })}
-          onClick={() => setCameraActive(true)}
-        >
-          <span
-            className={`div-face_image ${!previewImg ? 'empty' : ''}`}
-            role="button"
-            style={{ backgroundImage: `url(${previewImg})` }}
-          ></span>
-        </button>
-      )}
-      {file && !cameraActive && (
+      {/* 🧍 Anteprima immagine */}
+      {!cameraActive && (
         <>
-          <span
-            className={`div-face_image ${!previewImg ? 'empty' : ''}`}
-            role="button"
-            style={{ backgroundImage: `url(${previewImg})` }}
-          ></span>
-          <div
-            className="div-face_image  d-flex justify-content-between"
-            style={{ height: 'auto' }}
+          <button
+            className="p-0 border-0 bg-transparent"
+            disabled={!enableEdit}
+            style={!enableEdit ? { cursor: 'default' } : {}}
+            onClick={() => setCameraActive(true)}
           >
-            <button
-              type="button"
-              className="bg-transparent me-2"
-              onClick={() => handleUpdateForto()}
+            <span
+              className={`div-face_image ${enableEdit ? 'edit' : ''} ${!previewImg ? 'empty' : ''}`}
+              role="button"
+              style={{ backgroundImage: `url(${previewImg})` }}
+            ></span>
+          </button>
+
+          {/* Controlli quando c'è un file */}
+          {file && (
+            <div
+              className="div-face_image d-flex justify-content-between"
+              style={{ height: 'auto' }}
             >
-              <SVGPlusCircleFilled />
-            </button>
-            <button
-              type="button"
-              className="bg-transparent me-2"
-              onClick={() => setCameraActive(true)}
-            >
-              <SVGRefreshCircleFilled />
-            </button>
-            <button
-              type="button"
-              className="bg-transparent me-2"
-              onClick={() => {
-                setCameraActive(false);
-                setFile(null);
-              }}
-            >
-              <SVGCloseCircleFilled />
-            </button>
-          </div>
+              <button type="button" className="bg-transparent me-2" onClick={handleUpdateFoto}>
+                <SVGPlusCircleFilled />
+              </button>
+              <button
+                type="button"
+                className="bg-transparent me-2"
+                onClick={() => setCameraActive(true)}
+              >
+                <SVGRefreshCircleFilled />
+              </button>
+              <button
+                type="button"
+                className="bg-transparent me-2"
+                onClick={() => {
+                  setCameraActive(false);
+                  setFile(null);
+                }}
+              >
+                <SVGCloseCircleFilled />
+              </button>
+            </div>
+          )}
         </>
       )}
     </>
