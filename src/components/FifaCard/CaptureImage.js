@@ -141,7 +141,7 @@ const CaptureImage = ({ enableEdit, playerImage }) => {
             ref={videoRef}
             style={{ objectFit: 'cover' }}
           />
-          <div className="div-face_image add " style="height: auto;">
+          <div className="div-face_image add " style={{ height: 'auto' }}>
             <button className="bg-transparent me-2" onClick={capturePhoto}>
               <i className="icon-left bi bi-check-circle-fill"></i>
             </button>
