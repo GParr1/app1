@@ -3,9 +3,6 @@
   max-width: 350px;
   height: 500px;
   background: linear-gradient(0deg, #388e3c 0%, #4caf50 100%);
-  border: 3px solid white;
-  border-radius: 10px;
-  position: relative;
   overflow: hidden;
 }
 
@@ -22,10 +19,6 @@
   opacity: 0.5;
 }
 
-.card-mini {
-  width: 65px;
-  height: auto;
-}
 
 .field-outline {
   position: absolute;

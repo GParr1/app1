@@ -23,9 +23,8 @@ const MatchDetail = ({ match, mode = '5' }) => {
       { role: 'GK', top: '80%', left: '50%' },
       { role: 'DF', top: '60%', left: '20%' },
       { role: 'DF', top: '60%', left: '80%' },
-      { role: 'MF', top: '40%', left: '35%' },
-      { role: 'MF', top: '40%', left: '65%' },
-      { role: 'FW', top: '20%', left: '50%' },
+      { role: 'MF', top: '20%', left: '35%' },
+      { role: 'MF', top: '20%', left: '65%' },
     ],
     8: [
       { role: 'GK', top: '85%', left: '50%' },
@@ -91,7 +90,7 @@ const MatchDetail = ({ match, mode = '5' }) => {
 
       <div className="row g-3">
         {/* 🟦 Squadra A */}
-        <div className="col-12 col-md-6 text-center">
+        <div className="col-12 col-md-6">
           <div className="card shadow-sm card-mini-wrapper h-100">
             <div className="card-header bg-primary text-white fw-bold">Squadra A</div>
             <div className="p-2">{renderField(teams.teamA, 'blue')}</div>
