@@ -44,7 +44,10 @@ const MatchDetail = ({ match, mode = '5' }) => {
     const players = [...team].sort((a, b) => b.overall - a.overall);
 
     return (
-      <div className="soccer-field position-relative mx-auto mb-3" style={{  backgroundImage: "url('/app1/assets/1137.jpg')"}}>
+      <div
+        className="soccer-field position-relative mx-auto mb-3"
+        style={{ backgroundImage: "url('/app1/assets/1137.jpg')" }}
+      >
         {field.map((pos, index) => {
           const player = players[index];
           if (!player) return null;
