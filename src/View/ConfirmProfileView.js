@@ -27,21 +27,23 @@ export const ConfirmProfileView = ({ user }) => {
     }
   };
   return (
-    <div className="row">
-      <div className="col-md-6 d-flex flex-column align-items-center ">
-        <CardBronze enableEdit={true} dynamicValue={dynamicValue} />
-      </div>
-      <div className="col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <h4 className="card-title">Completa il tuo profilo</h4>
-            <GeneralForm
-              formId={'formUser'}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              labels={{ submitLabel: 'SALVA' }}
-              obj={user}
-            />
+    <div className="d-flex flex-column w-100">
+      <div className="row">
+        <div className="col-md-6 d-flex flex-column align-items-center ">
+          <CardBronze enableEdit={true} dynamicValue={dynamicValue} />
+        </div>
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">Completa il tuo profilo</h4>
+              <GeneralForm
+                formId={'formUser'}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                labels={{ submitLabel: 'SALVA' }}
+                obj={user}
+              />
+            </div>
           </div>
         </div>
       </div>

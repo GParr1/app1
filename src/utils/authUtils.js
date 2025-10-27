@@ -83,7 +83,7 @@ export const handleSaveFormUser = async (evt, user) => {
   window.calcetto.toggleSpinner(true);
   try {
     evt.preventDefault();
-    const formObject = getObjFormFromEvt(evt.target);
+    const formObject = getObjFormFromEvt(evt);
     const isNewUser = formObject.isNewUser === 'true';
     const position = formObject.position || '';
 
