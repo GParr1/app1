@@ -63,7 +63,6 @@ export const handleJoinMatch = async ({ matches, matchId, user }) => {
 
     const updated = {
       ...match,
-      status: 'open' || 'closed',
       players: [
         ...match.players,
         {
