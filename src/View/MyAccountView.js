@@ -20,7 +20,7 @@ export const MyAccountView = ({ user }) => {
     return <RedirectOnLogin />;
   }
   return (
-    <div className="container mt-5">
+    <div className=" mt-5">
       <div className="row justify-content-between">
         {/* Figurina FIFA */}
         <div className="col-md-3 mb-3 d-flex flex-column align-items-center">

@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { balanceTeams, predictMatchResult } from 'utils/utils';
+import React from 'react';
+import { analyzeMatch } from 'utils/utils';
 import CardBronze from 'components/FifaCard/CardBronze';
 
 const MatchDetail = ({ match, mode = '5' }) => {
   // mode = "5" (calcetto) oppure "8" (calcio a 8)
-  const [teams, setTeams] = useState({ teamA: [], teamB: [] });
-  const [prediction, setPrediction] = useState(null);
-
-  useEffect(() => {
-    if (match?.players?.length) {
-      const { teamA, teamB } = balanceTeams(match.players);
-      setTeams({ teamA, teamB });
-
-      const pred = predictMatchResult(teamA, teamB);
-      setPrediction(pred);
-    }
-  }, [match.players]);
-
+  const { teams } = match;
+  const { teamA, teamB } = teams;
+  const prediction = analyzeMatch(teamA, teamB);
   // 🔹 Coordinate di formazione per calcio a 5 e calcio a 8
   const formations = {
     5: [
@@ -37,7 +27,6 @@ const MatchDetail = ({ match, mode = '5' }) => {
       { role: 'FW', top: '25%', left: '60%' },
     ],
   };
-
   // 🔹 Render del campo
   const renderField = team => {
     const field = formations[mode];
@@ -74,16 +63,32 @@ const MatchDetail = ({ match, mode = '5' }) => {
   return (
     <div className="mt-3 container-fluid">
       {prediction && (
-        <div className="text-center mt-4">
+        <div className="text-center mt-4 p-3 border rounded bg-light">
           <h6>🔮 Previsione risultato</h6>
+
           <p className="fs-5 mb-1">
-            <strong>Squadra A {prediction.goalsA}</strong> -{' '}
-            <strong>{prediction.goalsB} Squadra B</strong>
+            <strong>Squadra A {prediction.goals.teamA}</strong> -{' '}
+            <strong>{prediction.goals.teamB} Squadra B</strong>
           </p>
+
           <p className="text-muted mb-1">
-            xG: ({prediction.expectedGoalsA} vs {prediction.expectedGoalsB})
+            Possesso: {prediction.possession.teamA}% - {prediction.possession.teamB}%
           </p>
-          <p className="fw-bold text-success">🏆 Probabile vincitore: {prediction.winner}</p>
+
+          <p className="text-muted mb-1">
+            Passaggi riusciti: {prediction.passAccuracy.teamA}% - {prediction.passAccuracy.teamB}%
+          </p>
+
+          <p className="text-muted mb-1">
+            Tiri: {prediction.shots.teamA} ({prediction.shotsOnTarget.teamA} in porta) -{' '}
+            {prediction.shots.teamB} ({prediction.shotsOnTarget.teamB} in porta)
+          </p>
+
+          <p
+            className={`fw-bold ${prediction.winner === 'Pareggio' ? 'text-secondary' : 'text-success'}`}
+          >
+            🏆 Probabile vincitore: {prediction.winner}
+          </p>
         </div>
       )}
 

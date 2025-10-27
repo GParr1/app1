@@ -10,7 +10,9 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { doSetMatches } from 'state/support/operations'; // la tua istanza Firebase
+import { doSetMatches } from 'state/support/operations';
+import { checkStatusMatch } from 'utils/matchUtils';
+import { balanceTeams } from 'utils/utils'; // la tua istanza Firebase
 
 export const saveMatch = async match => {
   const ref = doc(collection(db, 'matches'));
@@ -64,6 +66,9 @@ export const getPastMatches = async () => {
 };
 
 export const updateMatch = async (matchId, data) => {
+  const status = checkStatusMatch({ match: data });
+  const { teamA, teamB } = balanceTeams(data.players);
+  data = { ...data, status, teams: { teamA, teamB } };
   const ref = doc(db, 'matches', matchId);
   await updateDoc(ref, data);
 };

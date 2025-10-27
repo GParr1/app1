@@ -8,6 +8,43 @@ import { deleteMatch, getAllMatches, saveMatch, updateMatch } from 'utils/firest
 import { DEFAULT_PHOTO } from 'utils/Constant';
 import { Timestamp } from 'firebase/firestore';
 
+export const handleSaveTeam = async ({ match, teams }) => {
+  try {
+    window.calcetto.toggleSpinner(true);
+    const { id } = match;
+    const updated = {
+      ...match,
+      ...teams,
+    };
+    await updateMatch(id, updated);
+    await getAllMatches();
+    window.calcetto.toggleSpinner(false);
+  } catch (err) {
+    console.error('Errore aggiunta:', err);
+    alert('❌ Errore durante l’iscrizione.');
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
+
+export const handleSaveResult = async ({ match, result }) => {
+  try {
+    window.calcetto.toggleSpinner(true);
+    const { id } = match;
+    const updated = {
+      ...match,
+      ...result,
+    };
+    await updateMatch(id, updated);
+    await getAllMatches();
+    window.calcetto.toggleSpinner(false);
+  } catch (err) {
+    console.error('Errore aggiunta:', err);
+    alert('❌ Errore durante l’iscrizione.');
+  } finally {
+    window.calcetto.toggleSpinner(false);
+  }
+};
 export const handleJoinMatch = async ({ matches, matchId, user }) => {
   try {
     window.calcetto.toggleSpinner(true);
@@ -26,6 +63,7 @@ export const handleJoinMatch = async ({ matches, matchId, user }) => {
 
     const updated = {
       ...match,
+      status: 'open' || 'closed',
       players: [
         ...match.players,
         {
@@ -201,4 +239,9 @@ export const handleCreateMatchUtils = async evt => {
 export const checkMaxPlayersMatch = ({ match }) => {
   const maxPlayers = match.tipo === '5' ? 10 : 16;
   return match.players.length < maxPlayers;
+};
+// 🔹 Controlla se il numero massimo è raggiunto
+export const checkStatusMatch = ({ match }) => {
+  const maxPlayers = match.tipo === '5' ? 10 : 16;
+  return match.players.length >= maxPlayers ? 'closed' : 'open';
 };

@@ -16,7 +16,7 @@ const Dashboard = () => {
   }, []);
   return (
     <>
-      <div className="container mt-5">
+      <div className=" mt-5">
         <Leaderboard />
         {/* tutte le partite */}
         <div className="row">

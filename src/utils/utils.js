@@ -112,37 +112,55 @@ export const balanceTeams = (players = []) => {
 
   return { teamA, teamB };
 };
-export const predictMatchResult = (teamA, teamB) => {
-  const totalA = teamA.reduce((s, x) => s + x.overall, 0);
-  const totalB = teamB.reduce((s, x) => s + x.overall, 0);
+export const getTeamIds = (team = []) => {
+  return team.map(player => player.id);
+};
+export const analyzeMatch = (teamA, teamB) => {
+  if (!teamA.length || !teamB.length) return null;
 
-  const avgA = teamA.length ? totalA / teamA.length : 0;
-  const avgB = teamB.length ? totalB / teamB.length : 0;
+  // 🔹 Forza media
+  const avgA = teamA.reduce((s, x) => s + x.overall, 0) / teamA.length;
+  const avgB = teamB.reduce((s, x) => s + x.overall, 0) / teamB.length;
 
-  // Fattore casuale per rendere meno deterministico
-  const randomFactor = () => Math.random() * 0.3 + 0.85;
+  // 🔹 Possesso palla (%) proporzionale alla forza
+  const totalAvg = avgA + avgB;
+  const possessionA = Math.round((avgA / totalAvg) * 100);
+  const possessionB = 100 - possessionA;
 
-  // Calcolo dei "gol attesi" in base alla forza media
-  const ratioA = avgA / (avgA + avgB);
-  const ratioB = avgB / (avgA + avgB);
+  // 🔹 Passaggi riusciti (calcetto amatoriale: 70%-95%)
+  const passAccuracyA = Math.round(Math.random() * 25 + 70 * (avgA / 90));
+  const passAccuracyB = Math.round(Math.random() * 25 + 70 * (avgB / 90));
 
-  // Numero medio di gol per squadra (es. partita con 4 gol medi totali)
-  const baseGoals = 4;
+  // 🔹 Tiri per squadra (3-10 per partita amatoriale)
+  const shotsA = Math.max(1, Math.round(Math.random() * 7 + 3 * (avgA / 90)));
+  const shotsB = Math.max(1, Math.round(Math.random() * 7 + 3 * (avgB / 90)));
 
-  const expectedGoalsA = baseGoals * ratioA * randomFactor();
-  const expectedGoalsB = baseGoals * ratioB * randomFactor();
+  // 🔹 Tiri nello specchio (50%-70% dei tiri)
+  const shotsOnTargetA = Math.round(shotsA * (0.5 + Math.random() * 0.2));
+  const shotsOnTargetB = Math.round(shotsB * (0.5 + Math.random() * 0.2));
 
-  // Approssima ai gol effettivi
-  const goalsA = Math.round(expectedGoalsA);
-  const goalsB = Math.round(expectedGoalsB);
+  // 🔹 Gol attesi proporzionali ai tiri nello specchio
+  const expectedGoalsA = Math.round(
+    shotsOnTargetA * (avgA / (avgA + avgB)) * (0.6 + Math.random() * 0.2),
+  );
+  const expectedGoalsB = Math.round(
+    shotsOnTargetB * (avgB / (avgA + avgB)) * (0.6 + Math.random() * 0.2),
+  );
 
-  const winner = goalsA > goalsB ? 'Squadra A' : goalsB > goalsA ? 'Squadra B' : 'Pareggio';
+  // 🔹 Determina vincitore
+  const winner =
+    expectedGoalsA > expectedGoalsB
+      ? 'Squadra A'
+      : expectedGoalsB > expectedGoalsA
+        ? 'Squadra B'
+        : 'Pareggio';
 
   return {
-    goalsA,
-    goalsB,
-    expectedGoalsA: expectedGoalsA.toFixed(2),
-    expectedGoalsB: expectedGoalsB.toFixed(2),
+    possession: { teamA: possessionA, teamB: possessionB },
+    passAccuracy: { teamA: passAccuracyA, teamB: passAccuracyB },
+    shots: { teamA: shotsA, teamB: shotsB },
+    shotsOnTarget: { teamA: shotsOnTargetA, teamB: shotsOnTargetB },
+    goals: { teamA: expectedGoalsA, teamB: expectedGoalsB },
     winner,
   };
 };

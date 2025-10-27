@@ -15,7 +15,7 @@ const MatchesView = ({ user }) => {
   const uid = user.userLogin.uid;
   const matchesByPlayerId = getMatchesByPlayerId(matches, uid);
   return (
-    <div className="container py-3">
+    <div className=" py-3">
       <MatchList
         user={user}
         matches={matches}
