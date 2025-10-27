@@ -100,7 +100,7 @@ export const handleSaveFormUser = async (evt, user) => {
       customerInfo: {
         ...user.customerInfo,
         ...formObject,
-        ...(isNewUser && { attributes }),
+        ...(!isNewUser && { attributes }),
         overall,
       },
     };
