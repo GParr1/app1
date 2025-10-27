@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { balanceTeams, predictMatchResult } from 'utils/utils';
 import CardBronze from 'components/FifaCard/CardBronze';
 
-const MatchDetail = ({ match }) => {
+const MatchDetail = ({ match, mode = '5' }) => {
+  // mode = "5" (calcetto) oppure "8" (calcio a 8)
   const [teams, setTeams] = useState({ teamA: [], teamB: [] });
   const [prediction, setPrediction] = useState(null);
 
@@ -16,9 +17,60 @@ const MatchDetail = ({ match }) => {
     }
   }, [match.players]);
 
+  // 🔹 Coordinate di formazione per calcio a 5 e calcio a 8
+  const formations = {
+    5: [
+      { role: 'GK', top: '80%', left: '50%' },
+      { role: 'DF', top: '60%', left: '20%' },
+      { role: 'DF', top: '60%', left: '80%' },
+      { role: 'MF', top: '40%', left: '35%' },
+      { role: 'MF', top: '40%', left: '65%' },
+      { role: 'FW', top: '20%', left: '50%' },
+    ],
+    8: [
+      { role: 'GK', top: '85%', left: '50%' },
+      { role: 'DF', top: '70%', left: '20%' },
+      { role: 'DF', top: '70%', left: '50%' },
+      { role: 'DF', top: '70%', left: '80%' },
+      { role: 'MF', top: '50%', left: '30%' },
+      { role: 'MF', top: '50%', left: '70%' },
+      { role: 'FW', top: '25%', left: '40%' },
+      { role: 'FW', top: '25%', left: '60%' },
+    ],
+  };
+
+  // 🔹 Render del campo
+  const renderField = team => {
+    const field = formations[mode];
+    const players = [...team].sort((a, b) => b.overall - a.overall);
+
+    return (
+      <div className="soccer-field position-relative mx-auto mb-3">
+        {field.map((pos, index) => {
+          const player = players[index];
+          if (!player) return null;
+
+          return (
+            <div
+              key={player.id}
+              className="position-absolute"
+              style={{
+                top: pos.top,
+                left: pos.left,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <CardBronze dynamicValue={{ customerInfo: player }} className="card-mini" />
+            </div>
+          );
+        })}
+        <div className="field-outline" />
+      </div>
+    );
+  };
+
   return (
     <div className="mt-3 container-fluid">
-      {/* 📊 Risultato previsto */}
       {prediction && (
         <div className="text-center mt-4">
           <h6>🔮 Previsione risultato</h6>
@@ -33,38 +85,24 @@ const MatchDetail = ({ match }) => {
         </div>
       )}
 
-      <h5 className="text-center my-3">⚽ Formazioni automatiche</h5>
+      <h5 className="text-center my-3">
+        ⚽ Formazioni tattiche ({mode} vs {mode})
+      </h5>
 
       <div className="row g-3">
         {/* 🟦 Squadra A */}
-        <div className="col-12 col-md-6">
-          <div className="card shadow-sm mb-3 card-mini-wrapper h-100">
-            <div className="card-header bg-primary text-white text-center fw-bold">Squadra A</div>
-            <div className="p-3 d-flex flex-wrap justify-content-center gap-2">
-              {teams.teamA.length > 0 ? (
-                teams.teamA.map(p => (
-                  <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} className="card-mini" />
-                ))
-              ) : (
-                <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
-              )}
-            </div>
+        <div className="col-12 col-md-6 text-center">
+          <div className="card shadow-sm card-mini-wrapper h-100">
+            <div className="card-header bg-primary text-white fw-bold">Squadra A</div>
+            <div className="p-2">{renderField(teams.teamA, 'blue')}</div>
           </div>
         </div>
 
         {/* 🟥 Squadra B */}
-        <div className="col-12 col-md-6">
-          <div className="card shadow-sm mb-3 card-mini-wrapper h-100">
-            <div className="card-header bg-danger text-white text-center fw-bold">Squadra B</div>
-            <div className="p-3 d-flex flex-wrap justify-content-center gap-2">
-              {teams.teamB.length > 0 ? (
-                teams.teamB.map(p => (
-                  <CardBronze key={p.id} dynamicValue={{ customerInfo: p }} className="card-mini" />
-                ))
-              ) : (
-                <div className="text-center text-muted">Nessun giocatore ancora assegnato</div>
-              )}
-            </div>
+        <div className="col-12 col-md-6 text-center">
+          <div className="card shadow-sm card-mini-wrapper h-100">
+            <div className="card-header bg-danger text-white fw-bold">Squadra B</div>
+            <div className="p-2">{renderField(teams.teamB, 'red')}</div>
           </div>
         </div>
       </div>
