@@ -1,8 +1,9 @@
 .soccer-field {
+  position: relative;
   width: 100%;
-  max-width: 350px;
   height: 500px;
-  background: linear-gradient(0deg, #388e3c 0%, #4caf50 100%);
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
 
@@ -18,7 +19,6 @@
   transform: translate(-50%, -50%);
   opacity: 0.5;
 }
-
 
 .field-outline {
   position: absolute;
