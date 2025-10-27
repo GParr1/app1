@@ -22,7 +22,7 @@ function App() {
         v7_startTransition: true,
       }}
     >
-      <div className="container ">
+      <div className="container d-flex justify-content-center ">
         {/* 👈 header sempre visibile */}
         <Routes>
           {/* Se l'utente è loggato, fai il redirect alla dashboard */}
