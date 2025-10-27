@@ -112,6 +112,41 @@ export const balanceTeams = (players = []) => {
 
   return { teamA, teamB };
 };
+export const predictMatchResult = (teamA, teamB) => {
+  const totalA = teamA.reduce((s, x) => s + x.overall, 0);
+  const totalB = teamB.reduce((s, x) => s + x.overall, 0);
+
+  const avgA = teamA.length ? totalA / teamA.length : 0;
+  const avgB = teamB.length ? totalB / teamB.length : 0;
+
+  // Fattore casuale per rendere meno deterministico
+  const randomFactor = () => Math.random() * 0.3 + 0.85;
+
+  // Calcolo dei "gol attesi" in base alla forza media
+  const ratioA = avgA / (avgA + avgB);
+  const ratioB = avgB / (avgA + avgB);
+
+  // Numero medio di gol per squadra (es. partita con 4 gol medi totali)
+  const baseGoals = 4;
+
+  const expectedGoalsA = baseGoals * ratioA * randomFactor();
+  const expectedGoalsB = baseGoals * ratioB * randomFactor();
+
+  // Approssima ai gol effettivi
+  const goalsA = Math.round(expectedGoalsA);
+  const goalsB = Math.round(expectedGoalsB);
+
+  const winner = goalsA > goalsB ? 'Squadra A' : goalsB > goalsA ? 'Squadra B' : 'Pareggio';
+
+  return {
+    goalsA,
+    goalsB,
+    expectedGoalsA: expectedGoalsA.toFixed(2),
+    expectedGoalsB: expectedGoalsB.toFixed(2),
+    winner,
+  };
+};
+
 export const findInArrByUid = (arr, uid) => arr.find(p => p.id === uid);
 export const findInArrByCriteria = (arr, criteria) => {
   // criteria è un oggetto tipo { name: 'Mario', isGuest: true }

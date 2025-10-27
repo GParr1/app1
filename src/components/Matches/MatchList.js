@@ -112,19 +112,7 @@ const MatchList = ({ user, matches, title, showAddMatch }) => {
   const closeDetailOverlay = () => {
     setDetailOverlay({ show: false, match: null, closeDetailOverlay: null });
   };
-  /*
-* if (!ready) {
-    return (
-      <div className="match-slider-container">
-        <h5 className="text-center mb-3">{title}</h5>
-        <div className="d-flex gap-3 overflow-hidden">
-          {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} height={250} width={300} className="rounded-4" />
-          ))}
-        </div>
-      </div>
-    );
-  }*/
+
   return (
     <div className="container">
       <MatchSlider
