@@ -32,6 +32,15 @@
     position: relative;
     z-index: 1060;
 }
+/* 📱 Stile per mobile (fino a 768px di larghezza) */
+@media (max-width: 768px) {
+    .overlay-content {
+        max-width: 100%;
+        height: 90%;
+        width: 95%;
+        padding: 0;
+    }
+}
 
 /* Bottone chiusura in overlay */
 .overlay-content .btn-close {
