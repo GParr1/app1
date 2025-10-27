@@ -44,7 +44,7 @@ const MatchDetail = ({ match, mode = '5' }) => {
     const players = [...team].sort((a, b) => b.overall - a.overall);
 
     return (
-      <div className="soccer-field position-relative mx-auto mb-3">
+      <div className="soccer-field position-relative mx-auto mb-3" style={{  backgroundImage: "url('/app1/assets/1137.jpg')"}}>
         {field.map((pos, index) => {
           const player = players[index];
           if (!player) return null;
@@ -93,15 +93,15 @@ const MatchDetail = ({ match, mode = '5' }) => {
         <div className="col-12 col-md-6">
           <div className="card shadow-sm card-mini-wrapper h-100">
             <div className="card-header bg-primary text-white fw-bold">Squadra A</div>
-            <div className="p-2">{renderField(teams.teamA, 'blue')}</div>
+            <div className="">{renderField(teams.teamA, 'blue')}</div>
           </div>
         </div>
 
         {/* 🟥 Squadra B */}
-        <div className="col-12 col-md-6 text-center">
+        <div className="col-12 col-md-6">
           <div className="card shadow-sm card-mini-wrapper h-100">
             <div className="card-header bg-danger text-white fw-bold">Squadra B</div>
-            <div className="p-2">{renderField(teams.teamB, 'red')}</div>
+            <div className="">{renderField(teams.teamB, 'red')}</div>
           </div>
         </div>
       </div>
