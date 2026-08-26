@@ -14,7 +14,7 @@ import { FlexAlignItems, SizesPx, SizesRem, SizeUnits } from 'components/core/Co
 import { ButtonType } from 'components/core/Button/enum'
 import { ButtonProps } from 'components/core/Button/types'
 import { FromType } from 'structure/formUser'
-
+import { YStack, Text as TamaguiText} from 'tamagui'
 interface LoginStepEmailProps {
   handleLogin: (obj: DoFirebaseLoginParms) => Promise<void>
   handleSetEmail: (obj: Record<string, any>) => void
@@ -59,6 +59,8 @@ const LoginStepEmail: React.FC<LoginStepEmailProps> = ({ handleLogin, handleSetE
         <HeaderAuthView {...headerAuthViewProps} />
         <SocialLogin handleLogin={handleLogin} />
       </Container>
+
+      <TamaguiText >Test Tamgui</TamaguiText>
       <DividerLogin />
       <Container role={'region'} {...responsiveFormContainer}>
         <GeneralForm

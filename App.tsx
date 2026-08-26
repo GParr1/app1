@@ -1,8 +1,12 @@
-import React from 'react';
-import AppWeb from './src/App.web';
-import AppNative from './src/App.native';
-import { Platform } from 'react-native';
+import React from 'react'
+import { Platform } from 'react-native'
+import { TamaguiProvider } from '@gparr1/design-system'
+
+import AppWeb from './src/App.web'
+import AppNative from './src/App.native'
 
 export default function App() {
-  return Platform.OS === 'web' ? <AppWeb /> : <AppNative />;
+  const app = Platform.OS === 'web' ? <AppWeb /> : <AppNative />
+
+  return <TamaguiProvider defaultTheme={'dark'}>{app}</TamaguiProvider>
 }
