@@ -14,8 +14,6 @@ import { ButtonType } from 'components/core/Button/enum'
 import { ButtonProps } from 'components/core/Button/types'
 import { FromType } from 'structure/formUser'
 import {
-  Form as TamaguiForm,
-  InputText as TamaguiInputText,
   Container as TamaguiContainer
 } from '@gparr1/design-system'
 interface LoginStepEmailProps {
