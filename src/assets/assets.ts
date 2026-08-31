@@ -8,7 +8,7 @@
 // }
 
 export const Assets = {
-  logo: 'https://gparr1.github.io/calcetto/assets/logo.png'
+  logo: '/assets/logo.png'
 } as const
 export const Teams = {
   fiorentina: '/assets/teams/fiorentina.png',

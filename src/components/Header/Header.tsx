@@ -1,5 +1,7 @@
 import React from 'react'
-import { Header as TamaguiHeader } from '@gparr1/design-system'
+import {
+  Header as TamaguiHeader,
+} from '@gparr1/design-system'
 import { useNavigate } from 'react-router-dom'
 import { Assets } from 'assets/assets'
 import { doSignOut } from 'utils/authUtils'
@@ -12,6 +14,7 @@ const Header: React.FC = () => {
   const uid = user?.user?.uid || ''
   const tamaguiHeaderConfig = {
     title: 'MINILIGA',
+    onlyLogo: !uid,
     logoProps: {
       src: Assets.logo,
       width: 48,
