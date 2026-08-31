@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
-    "@gparr1/design-system": "^1.0.11",
+    "@gparr1/design-system": "^1.0.12",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-picker/picker": "2.11.1",
     "@react-navigation/native": "^7.1.19",

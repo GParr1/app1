@@ -9,12 +9,15 @@ import GeneralForm from 'components/Form/GeneralForm';
 import Link, { LinkProps } from 'components/core/Link';
 import { LoginLabelsProps } from 'properties/authView'
 import { DoFirebaseLoginParms } from 'utils/authUtils'
-import { Container } from 'components/core/Container/Container'
 import { FlexAlignItems, SizesPx, SizesRem, SizeUnits } from 'components/core/Container/enum'
 import { ButtonType } from 'components/core/Button/enum'
 import { ButtonProps } from 'components/core/Button/types'
 import { FromType } from 'structure/formUser'
-import { YStack, Text as TamaguiText} from 'tamagui'
+import {
+  Form as TamaguiForm,
+  InputText as TamaguiInputText,
+  Container as TamaguiContainer
+} from '@gparr1/design-system'
 interface LoginStepEmailProps {
   handleLogin: (obj: DoFirebaseLoginParms) => Promise<void>
   handleSetEmail: (obj: Record<string, any>) => void
@@ -26,13 +29,12 @@ const LoginStepEmail: React.FC<LoginStepEmailProps> = ({ handleLogin, handleSetE
     message: labels.welcome
   }
   const responsiveFormContainer = {
-    flexAlignItems: FlexAlignItems.CENTER,
+    alignItems: FlexAlignItems.CENTER,
     gap: SizesRem.L,
     width: SizeUnits.FULL
   }
   const responsiveActionContainer = {
-    flexAlignItems: FlexAlignItems.CENTER,
-    width: ['70%'],
+    alignItems: FlexAlignItems.CENTER,
     padding: SizesPx.L
   }
   const btnCreateAccountConfig = {
@@ -48,32 +50,31 @@ const LoginStepEmail: React.FC<LoginStepEmailProps> = ({ handleLogin, handleSetE
   } as ButtonProps
 
   const linkConfig = {
-    to:'/reset-password',
-    toApp:"ResetPassword",
-    label: labels.resetPass,
+    to: '/reset-password',
+    toApp: 'ResetPassword',
+    label: labels.resetPass
   } as LinkProps
   return (
     <>
       {/* 🧭 Header */}
-      <Container role={'region'} {...responsiveFormContainer}>
+      <TamaguiContainer {...responsiveFormContainer}>
         <HeaderAuthView {...headerAuthViewProps} />
         <SocialLogin handleLogin={handleLogin} />
-      </Container>
+      </TamaguiContainer>
 
-      <TamaguiText >Test Tamgui</TamaguiText>
       <DividerLogin />
-      <Container role={'region'} {...responsiveFormContainer}>
+      <TamaguiContainer {...responsiveFormContainer}>
         <GeneralForm
           formData={FromType.emailStep}
           handleSubmit={handleSetEmail}
           labels={{ submitLabel: 'AVANTI' }}
           obj={{}}
         />
-      </Container>
-      <Container role={'region'} {...responsiveActionContainer}>
+      </TamaguiContainer>
+      <TamaguiContainer {...responsiveActionContainer}>
         <Button {...btnCreateAccountConfig} />
         <Link {...linkConfig} />
-      </Container>
+      </TamaguiContainer>
     </>
   )
 }

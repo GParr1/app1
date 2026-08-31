@@ -1,17 +1,15 @@
 import React, { FC, useState } from 'react'
 import { FieldsFormStructure, GeneralFormProps } from './types'
-import { Input } from 'components/core/Inputs/CustomInput'
-import Button from 'components/core/Button/Button'
-import { validateForm } from 'components/Form/utils'
-import { DateField } from 'components/core/Inputs/DateField'
-import { Container } from 'components/core/Container/Container'
 import {
-  FlexAlignItems,
-  FlexJustifyContent,
+  Form as TamaguiForm,
+  InputText as TamaguiInputText,
+  InputSelect as TamaguiInputSelect,
+  InputDate as TamaguiInputDate,
+} from '@gparr1/design-system'
+import { validateForm } from 'components/Form/utils'
+import {
   SizesPx,
 } from 'components/core/Container/enum'
-import { ButtonType } from 'components/core/Button/enum'
-import { SelectInput } from 'components/core/Inputs/SelectInput'
 
 /**
  * 🔹 GeneralForm
@@ -51,23 +49,15 @@ const GeneralForm: FC<GeneralFormProps> = ({
     handleChangeInput?.({ [name]: value })
   }
   const viewFormConfig = {
-    flexGap: SizesPx.S
+    flexGap: SizesPx.S,
+    btnConfig: {
+      label: submitLabel ?? 'Submit',
+      onPress: onFormSubmit
+    }
   }
 
-  const btnConfig = {
-    touchableOpacityConfig: {
-      type: ButtonType.PRIMARY,
-      onPress: onFormSubmit,
-      accessibilityLabel: 'Submit'
-    },
-    label: submitLabel ?? 'Submit'
-  }
-  const containerBtn = {
-    flexJustifyContent: FlexJustifyContent.CENTER,
-    flexAlignItems: FlexAlignItems.CENTER
-  }
   return (
-    <Container role={'form'} id={id} {...viewFormConfig}>
+    <TamaguiForm id={id} {...viewFormConfig}>
       {fields.map((field: any) => {
         const {
           label,
@@ -99,43 +89,34 @@ const GeneralForm: FC<GeneralFormProps> = ({
               errorText: errors[name],
               onChangeText: (value: string) => handleChange(name, value)
             }
-            return (
-              <Container key={name}>
-                <Input {...inputConfig} />
-              </Container>
-            )
+            return <TamaguiInputText key={name} {...inputConfig} />
           case 'select':
             return (
-              <SelectInput
+              <TamaguiInputSelect
                 value={formValues[name]}
-                items={options}
+                options={options}
                 label={label}
-                onValueChange={(v: number) => handleChange(name, v)}
+                onValueChange={(v: any) => handleChange(name, v)}
               />
             )
 
           case 'date':
             return (
-              <DateField
+              <TamaguiInputDate
                 key={name}
+                mode={'boxes'}
                 label={label}
                 required={required}
-                errorText={errors[name]}
+                error={errors[name]}
                 value={formValues[name]}
-                onChange={(date: string) => handleChange(name, date)}
+                onChangeText={(date: string) => handleChange(name, date)}
               />
             )
-
-          case 'button':
-
           default:
             return null
         }
       })}
-      <Container {...containerBtn}>
-        <Button {...btnConfig} />
-      </Container>
-    </Container>
+    </TamaguiForm>
   )
 }
 

@@ -8,5 +8,9 @@ import AppNative from './src/App.native'
 export default function App() {
   const app = Platform.OS === 'web' ? <AppWeb /> : <AppNative />
 
-  return <TamaguiProvider defaultTheme={'dark'}>{app}</TamaguiProvider>
+  return (
+    <TamaguiProvider theme={'dark'} defaultTheme={'dark'}>
+      {app}
+    </TamaguiProvider>
+  )
 }

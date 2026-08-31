@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Login from 'components/Auth/Login/Login'
 import RegisterTwoSteps from 'components/Auth/Register/Register'
-import { useResponsiveStyle } from 'styles/styles.utils';
+import { Container as TamaguiContainer } from '@gparr1/design-system'
 import { ModalInfoComponent } from 'components/Modal/ModalInfo'
-import { Container } from 'components/core/Container/Container'
 import {
   FlexAlignItems,
   FlexDirection,
@@ -21,11 +20,11 @@ interface AuthViewProps {
  * - `register = false | undefined` → mostra il form di login
  */
 export const AuthView: React.FC<AuthViewProps> = ({ register = false }) => {
-  const { getResponsiveStyle } = useResponsiveStyle();
   const [error, setError] = useState<string>('')
   const [success, setSuccess] = useState<string>('')
 
   const responsiveMainContainer = {
+    render: 'section',
     flexDirection: FlexDirection.COLUMN,
     flexGap: SizesPx.XL,
     flexAlignItems: FlexAlignItems.CENTER,
@@ -39,16 +38,16 @@ export const AuthView: React.FC<AuthViewProps> = ({ register = false }) => {
   }
 
   const registerTwoStepsProps = { setSuccess, setError}
-  const loginProps = { setSuccess, setError}
+  const loginProps = { setSuccess, setError }
   return (
-    <Container role={'region'} {...responsiveMainContainer}>
+    <TamaguiContainer {...responsiveMainContainer}>
       {register ? (
         <RegisterTwoSteps {...registerTwoStepsProps} />
       ) : (
         <Login {...loginProps} />
       )}
       {error || (success && <ModalInfoComponent {...modalProps} />)}
-    </Container>
+    </TamaguiContainer>
   )
 }
 

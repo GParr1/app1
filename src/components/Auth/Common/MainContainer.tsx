@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { Role } from 'react-native'
-import { Container } from 'components/core/Container/Container'
+import { Container as TamaguiContainer } from '@gparr1/design-system'
+
 import {
   FlexAlignItems,
   FlexJustifyContent
@@ -12,14 +12,12 @@ interface MainContainerProps {
 
 const MainContainer: React.FC<MainContainerProps> = ({ children }) => {
   const mainContainerConfig = {
-    role: 'main' as Role,
-    flexAlignItems: FlexAlignItems.CENTER,
+    render: 'main' ,
+    alignItems: FlexAlignItems.CENTER,
     justifyContent: FlexJustifyContent.CENTER
   }
   return (
-    <Container {...mainContainerConfig}>
-      {children}
-    </Container>
+    <TamaguiContainer {...mainContainerConfig}>{children}</TamaguiContainer>
   )
 }
 
