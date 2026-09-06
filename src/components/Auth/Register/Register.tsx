@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   doCreateUserWithEmailAndPassword,
   doFirebaseLogin
@@ -9,6 +8,7 @@ import { FormObject } from 'types/form'
 import RegisterStepUserInfo from 'components/Auth/Register/RegisterStepUserInfo';
 import RegisterStepEmailPassword from 'components/Auth/Register/RegisterStepEmailPassword';
 import Loader from 'components/core/Loader';
+import { router } from 'expo-router'
 
 interface RegisterTwoStepsProps {
   setError: (error: string) => void
@@ -16,7 +16,7 @@ interface RegisterTwoStepsProps {
 }
 
 const RegisterTwoSteps: React.FC<RegisterTwoStepsProps> = ({setError, setSuccess}) => {
-  const navigate = useNavigate()
+
   const [step, setStep] = useState<number>(1)
   const [formObjectStep1, setFormObjectStep1] = useState<FormObject>({})
   const [loading, setLoading] = useState<boolean>(false)
@@ -43,7 +43,7 @@ const RegisterTwoSteps: React.FC<RegisterTwoStepsProps> = ({setError, setSuccess
       }
       if (successMessage) {
         setSuccess('Registrazione completata con successo!')
-        setTimeout(() => navigate('/confirm-profile', { replace: true }), 2000)
+        setTimeout(() => router.push('/confirm-profile'), 2000)
       }
     }finally {
       setLoading(false)
@@ -57,7 +57,7 @@ const RegisterTwoSteps: React.FC<RegisterTwoStepsProps> = ({setError, setSuccess
       action: obj.action
     })
     if (errorMessage) setError(errorMessage)
-    if (successMessage) navigate(manageFirstLogin(), { replace: true })
+    if (successMessage) router.push(manageFirstLogin())
   }
 
   const handleBack = () => {

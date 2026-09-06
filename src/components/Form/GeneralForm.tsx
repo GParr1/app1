@@ -50,7 +50,7 @@ const GeneralForm: FC<GeneralFormProps> = ({
   }
   const viewFormConfig = {
     flexGap: SizesPx.S,
-    btnConfig: {
+    buttonProps: {
       label: submitLabel ?? 'Submit',
       onPress: onFormSubmit
     }

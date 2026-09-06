@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { handleSaveFormUser } from 'utils/authUtils'
 import CardBronze from 'components/FifaCard/CardBronze'
-import { useNavigate } from 'react-router-dom'
 import GeneralForm from 'components/Form/GeneralForm'
 import { COLORS } from 'components/constantStyle';
 import { CustomerInfo } from 'types/user';
@@ -18,6 +17,9 @@ import {
 } from 'components/core/Container/enum'
 import NativeText from 'components/core/NativeText'
 import { FORMUSER, FromType } from 'structure/formUser'
+import { router } from 'expo-router'
+import { useSelector } from 'react-redux'
+import { getUser } from 'state/auth/selectors'
 
 /**
  * Tipizzazione parziale per l'oggetto utente.
@@ -33,7 +35,7 @@ interface User {
 }
 
 interface ConfirmProfileViewProps {
-  user: User
+  user?: User
 }
 
 /**
@@ -41,11 +43,14 @@ interface ConfirmProfileViewProps {
  * Permette all'utente di completare o modificare il proprio profilo.
  * Include una card di anteprima (CardBronze) e un form dinamico (GeneralForm).
  */
-export const ConfirmProfileView: React.FC<ConfirmProfileViewProps> = ({ user }) => {
-  const {customerInfo} = user
-  const [dynamicValue, setDynamicValue] = useState<CustomerInfo>(customerInfo ?? {})
-  const navigate = useNavigate()
-  const [visible, setVisible] = useState(false);
+export const ConfirmProfileView: React.FC<ConfirmProfileViewProps> = () => {
+  const user: User = useSelector(getUser)
+
+  const { customerInfo } = user
+  const [dynamicValue, setDynamicValue] = useState<CustomerInfo>(
+    customerInfo ?? {}
+  )
+  const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const responsiveMainContainer = {
@@ -58,7 +63,7 @@ export const ConfirmProfileView: React.FC<ConfirmProfileViewProps> = ({ user }) 
 
   // Gestione input dinamico
   const handleChange = (obj: Record<string, any>) => {
-    setDynamicValue({...customerInfo,...obj})
+    setDynamicValue({ ...customerInfo, ...obj })
   }
 
   // Gestione input dinamico
@@ -78,15 +83,18 @@ export const ConfirmProfileView: React.FC<ConfirmProfileViewProps> = ({ user }) 
         file,
         isDragAndDrop: false
       })
-      const updateDynamicValue = {...dynamicValue, photoURL:result}
+      const updateDynamicValue = { ...dynamicValue, photoURL: result }
 
-      const { errorMessage, successMessage } = await handleSaveFormUser(updateDynamicValue, customerInfo as CustomerInfo)
+      const { errorMessage, successMessage } = await handleSaveFormUser(
+        updateDynamicValue,
+        customerInfo as CustomerInfo
+      )
       if (successMessage) {
-        navigate('/dashboard', { replace: true })
+        router.push('/dashboard')
       } else if (errorMessage) {
         console.error(errorMessage)
       }
-    }finally {
+    } finally {
       setLoading(false)
     }
   }

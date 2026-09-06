@@ -17,12 +17,14 @@ import MatchCreate from 'components/Matches/MatchCreate'
 import { COLORS } from 'components/constantStyle'
 import { TextProps } from 'react-native/Libraries/Text/Text'
 import { useResponsiveValue } from 'components/core/utils'
+import { getUser } from 'state/auth/selectors'
 
 interface MatchesViewProps {
-  user: User
+  user?: User
 }
 
-const MatchesView: React.FC<MatchesViewProps> = ({ user }) => {
+const MatchesView: React.FC<MatchesViewProps> = () => {
+  const user: User = useSelector(getUser)
   const matches = useSelector(getMatches) as Match[] // 👈 forza il tipo
   const uid = user?.user?.uid || ''
 
@@ -82,7 +84,7 @@ const MatchesView: React.FC<MatchesViewProps> = ({ user }) => {
       desktop: FlexDirection.ROW
     }),
     flexGap: SizesPx.XL,
-    flexJustifyContent:FlexJustifyContent.CENTER
+    flexJustifyContent: FlexJustifyContent.CENTER
   }
   return (
     <Container {...responsiveMainContainer}>

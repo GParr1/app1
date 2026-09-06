@@ -2,7 +2,7 @@ import React from 'react';
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView';
 import { Text, View } from 'react-native';
 import GeneralForm from 'components/Form/GeneralForm';
-import Link from 'components/core/Link';
+//import Link from 'components/core/Link';
 import { useResponsiveStyle } from 'styles/styles.utils';
 import { btnDefault, TextAlign, textDefault } from 'styles';
 import Button from 'components/core/Button/Button';
@@ -27,13 +27,13 @@ const RegisterStepEmailPassword: React.FC<RegisterStepEmailPasswordProps> = ({ h
   const testConfigProps = {
     children: [
       'Hai già un account? ',
-      <Link
-        key="login-link"
-        to="/welcome"
-        toApp="Login"
-        label="Accedi"
-        testID="login-link"
-      />
+      // <Link
+      //   key="login-link"
+      //   to="/login"
+      //   toApp="Login"
+      //   label="Accedi"
+      //   testID="login-link"
+      // />
     ],
     style: {
       ...textDefault,

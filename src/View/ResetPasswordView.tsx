@@ -11,14 +11,14 @@ import {
 import HeaderAuthView from 'components/Auth/Common/HeaderAuthView'
 import { COLORS } from 'components/constantStyle'
 import Button from 'components/core/Button/Button'
-import { useNavigate } from 'react-router-dom'
 import { LoginLabelsProps } from 'properties/authView'
 import { ButtonType } from 'components/core/Button/enum'
 import { ButtonProps, IoniconsNames } from 'components/core/Button/types'
+import { router } from 'expo-router'
 
 // ✅ Tipizzazione del componente
 const ResetPasswordView: React.FC = () => {
-  const navigate = useNavigate()
+
   const containerConfig = {
     padding: SizesPx.XL,
     flexDirection: FlexDirection.COLUMN,
@@ -48,7 +48,7 @@ const ResetPasswordView: React.FC = () => {
   const btnBackConfig = {
     touchableOpacityConfig: {
       type: ButtonType.NONE,
-      onPress: () => navigate('/welcome', { replace: true }),
+      onPress: () => router.push('/welcome'),
       style: {
         ...btnDefault,
         left: 0,

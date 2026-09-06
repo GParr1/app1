@@ -2,15 +2,15 @@ import React from 'react'
 import {
   Header as TamaguiHeader,
 } from '@gparr1/design-system'
-import { useNavigate } from 'react-router-dom'
+
 import { Assets } from 'assets/assets'
 import { doSignOut } from 'utils/authUtils'
 import { useSelector } from 'react-redux'
 import { getUser } from 'state/auth/selectors'
+import { router } from 'expo-router'
 
 const Header: React.FC = () => {
   const user = useSelector(getUser)
-  const navigate = useNavigate()
   const uid = user?.user?.uid || ''
   const tamaguiHeaderConfig = {
     title: 'MINILIGA',
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     navItems: [
       {
         label: 'Home',
-        onPress: () => navigate('/dashboard')
+        onPress: () => router.push('/welcome')
       },
       {
         label: 'Teams',
@@ -34,13 +34,13 @@ const Header: React.FC = () => {
       },
       {
         label: 'Partite',
-        onPress: () => navigate('/partite')
+        onPress: () => router.push('/partite')
       }
     ],
     actionItems: [
       {
         name: 'account_circle',
-        onPress: () => navigate('/profile')
+        onPress: () => router.push('/profile')
       },
       {
         name: 'settings',

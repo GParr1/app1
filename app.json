@@ -8,13 +8,13 @@
 
     "web": {
       "bundler": "metro",
-      "output": "single"
+      "output": "static"
     },
 
     "experiments": {
       "baseUrl": "/calcetto"
     },
 
-    "plugins": ["expo-camera"]
+    "plugins": ["expo-router", "expo-camera"]
   }
 }

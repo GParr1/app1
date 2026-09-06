@@ -1,6 +1,11 @@
 import React from 'react'
 import { Image, View } from 'react-native';
-import { Assets } from 'assets/assets';
+import { Assets } from 'assets/assets'
+import {
+  Container as TamaguiContainer,
+  Image as TamaguiImage,
+  Text as TamaguiText
+} from '@gparr1/design-system'
 import { ContainerProps, sizesPx, TextAlign } from 'styles';
 import { useResponsiveStyle } from 'styles/styles.utils';
 import { ImageProps } from 'react-native/Libraries/Image/Image';
@@ -23,24 +28,24 @@ const HeaderAuthView: React.FC<HeaderAuthViewProps> = ({ message }) => {
 
   const viewConfig = {
     width: SizeUnits.FULL,
-    flexJustifyContent: FlexJustifyContent.CENTER,
-    flexAlignItems: FlexAlignItems.CENTER,
-    gap: SizesRem.L
+    alignItems: FlexAlignItems.CENTER,
+    gap: '$3'
   }
   const textConfig = getResponsiveStyle({
     textAlign: [TextAlign.CENTER],
   })
   const imageProps = {
-    source: Assets.logo,
-    style:{ width: 120, height: 120 },
-    resizeMode:"contain",
-    accessibilityIgnoresInvertColors: true
-  } as ImageProps
+    src: Assets.logo,
+    width: 120,
+    height: 120
+  }
   return (
-    <Container {...viewConfig}>
-      <Image {...imageProps}/>
-      <NativeText as={'h1'} {...textConfig} >{message}</NativeText>
-    </Container>
-)}
+    <TamaguiContainer {...viewConfig}>
+      <TamaguiImage {...imageProps} />
+      <TamaguiText render={'h1'} {...textConfig}>
+        {message}
+      </TamaguiText>
+    </TamaguiContainer>
+  )}
 
 export default HeaderAuthView

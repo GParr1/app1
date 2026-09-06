@@ -1,4 +1,4 @@
-name: Deploy Expo App to GitHub Pages
+name: Deploy Expo App Calcetto to GitHub Pages
 
 on:
   push:
@@ -32,12 +32,14 @@ jobs:
       - name: Build Expo Web
         run: npm run build:expo-web
 
-      - name: Configure SPA fallback
-        run: cp dist/index.html dist/404.html
+      - name: Prepare Calcetto site
+        run: |
+          mkdir -p deploy/calcetto
+          cp -R dist/. deploy/calcetto/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./deploy
           publish_branch: gh-pages

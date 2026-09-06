@@ -4,7 +4,7 @@ import SocialLogin from 'components/Auth/Common/SocialLogin';
 import DividerLogin from 'components/Auth/Common/DividerLogin';
 import { Text, View } from 'react-native';
 import GeneralForm from 'components/Form/GeneralForm';
-import Link from 'components/core/Link';
+// import Link from 'components/core/Link';
 import { useResponsiveStyle } from 'styles/styles.utils';
 import { TextAlign, textDefault } from 'styles'
 import { FORM_REGISTER_STEP_1, FromType } from 'structure/formUser'
@@ -33,17 +33,17 @@ const RegisterStepUserInfo: React.FC<RegisterStepUserInfoProps> = ({ handleFirst
   const testConfigProps = {
     children: [
       'Hai già un account? ',
-      <Link
-        key="login-link"
-        to="/welcome"
-        toApp="Login"
-        label="Accedi"
-        testID="login-link"
-      />
+      // <Link
+      //   key="login-link"
+      //   to="/login"
+      //   toApp="Login"
+      //   label="Accedi"
+      //   testID="login-link"
+      // />
     ],
     style: {
       ...textDefault,
-      textAlign: TextAlign.CENTER,
+      textAlign: TextAlign.CENTER
     }
   }
   return (

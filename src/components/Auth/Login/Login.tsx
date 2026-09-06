@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { doFirebaseLogin } from 'utils/authUtils'
 import { emailRegex, phoneRegex } from 'utils/regex'
 import { manageFirstLogin } from 'utils/utils'
 import LoginStepEmail from 'components/Auth/Login/LoginStepEmail';
 import LoginStepPassword from 'components/Auth/Login/LoginStepPassword';
 import { LoginLabelsProps } from 'properties/authView'
+import { router } from 'expo-router'
 
 interface LoginProps {
   setError: (error: string) => void
@@ -15,7 +15,6 @@ interface LoginProps {
  * Component Login 2 Step (email → password)
  */
 const Login: React.FC<LoginProps> = ({setError,setSuccess}) => {
-  const navigate = useNavigate()
   const [step, setStep] = useState<number>(1)
   const [email, setEmail] = useState<string>('')
   const { errors } = LoginLabelsProps
@@ -44,7 +43,7 @@ const Login: React.FC<LoginProps> = ({setError,setSuccess}) => {
       if (errorMessage) {
         setError(errorMessage)
       } else if (successMessage) {
-        navigate(manageFirstLogin(), { replace: true })
+        router.push(manageFirstLogin())
       }
     } catch (err) {
       console.error(err)
@@ -63,6 +62,7 @@ const Login: React.FC<LoginProps> = ({setError,setSuccess}) => {
     handleBack,
     email
   }
+
   return (
     <>
       {step === 1 && (

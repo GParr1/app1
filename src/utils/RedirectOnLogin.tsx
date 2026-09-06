@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getUser } from 'state/auth/selectors'
+import { router } from 'expo-router'
 
 export const RedirectOnLogin = () => {
   const user = useSelector(getUser)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const isLogin = !!user
     if (isLogin) {
-      navigate('/dashboard', { replace: true })
+      router.push('/dashboard')
     } else if (user?.displayName) {
       if (user.displayName) {
-        navigate('/profile', { replace: true })
+        router.push('/profile')
       }
     } else {
-      navigate('/welcome', { replace: true })
+      router.push('/login',)
     }
-  }, [user, navigate])
+  }, [user])
 
   return (
     <div

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { doConfirmPasswordReset, doResetPassword, doVerifyPasswordResetCode } from 'utils/authUtils'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+// import {  useSearchParams } from 'react-router-dom'
+import { useLocalSearchParams } from 'expo-router'
 import GeneralForm from 'components/Form/GeneralForm'
 import { cleanUrlParamiter } from 'utils/utils'
 import { COLORS } from 'components/constantStyle'
@@ -17,29 +18,37 @@ import {
   FORM_PASSWORD_STEP,
   FromType
 } from 'structure/formUser'
+import { router } from 'expo-router'
 
 const ResetPassword: React.FC = () => {
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
+  const { oobCode: oobCodeParam } = useLocalSearchParams<{ oobCode?: string }>()
+
   const [error, setError] = useState<string>('')
   const [success, setSuccess] = useState<string>('')
   const [oobCode, setOobCode] = useState<string>('')
 
   // Step 1: verifica il codice
   useEffect(() => {
-    const code = searchParams.get('oobCode')
-    if (!code) return
+    if (!oobCodeParam) return
 
-    doVerifyPasswordResetCode( code ).then((result) => {
+    doVerifyPasswordResetCode(oobCodeParam).then((result) => {
       const { errorMessage, successMessage } = result
-      cleanUrlParamiter()
-      if (errorMessage) setError(errorMessage)
-      if (successMessage) setOobCode(code)
-    })
-  }, [searchParams])
 
-  const handleResetPassword = async (obj:Record<string, any>) => {
-    const {email} = obj
+      cleanUrlParamiter()
+
+      if (errorMessage) {
+        setError(errorMessage)
+      }
+
+      if (successMessage) {
+        setOobCode(oobCodeParam)
+        setSuccess(successMessage)
+      }
+    })
+  }, [oobCodeParam])
+
+  const handleResetPassword = async (obj: Record<string, any>) => {
+    const { email } = obj
     if (!email) {
       setError("Email vuota! Inserisci l'email")
       return
@@ -57,7 +66,7 @@ const ResetPassword: React.FC = () => {
     )
     if (errorMessage) setError(errorMessage)
     if (successMessage) setSuccess(successMessage)
-    setTimeout(() => navigate('/login'), 2000)
+    setTimeout(() => router.push('/login'), 2000)
   }
 
   const container = {

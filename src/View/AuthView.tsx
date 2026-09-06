@@ -3,11 +3,6 @@ import Login from 'components/Auth/Login/Login'
 import RegisterTwoSteps from 'components/Auth/Register/Register'
 import { Container as TamaguiContainer } from '@gparr1/design-system'
 import { ModalInfoComponent } from 'components/Modal/ModalInfo'
-import {
-  FlexAlignItems,
-  FlexDirection,
-  SizesPx
-} from 'components/core/Container/enum'
 
 interface AuthViewProps {
   register?: boolean
@@ -25,10 +20,7 @@ export const AuthView: React.FC<AuthViewProps> = ({ register = false }) => {
 
   const responsiveMainContainer = {
     render: 'section',
-    flexDirection: FlexDirection.COLUMN,
-    flexGap: SizesPx.XL,
-    flexAlignItems: FlexAlignItems.CENTER,
-    width: '70vw'
+    gap: '$3',
   }
   const modalProps = {
     modalTitle: error ? "Errore" : '',

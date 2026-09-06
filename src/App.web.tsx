@@ -1,124 +1,94 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate
-} from 'react-router-dom';
-
-import PrivateRoute from 'components/PrivateRoute';
+} from 'react-router-dom'
 import ResetPasswordView from 'View/ResetPasswordView';
 import Dashboard from 'View/Dashboard';
 import MatchesView from 'View/MatchesView';
 import MyAccountView from 'View/MyAccountView';
 import ConfirmProfileView from 'View/ConfirmProfileView';
-import Header from 'components/Header/Header';
 import { getUser } from 'state/auth/selectors';
 import AppProviders from 'AppProviders';
-import MainContainer from 'components/Auth/Common/MainContainer';
-import FooterContainer from 'components/Auth/Common/FooterContainer';
 import AuthView from 'View/AuthView';
-import Leaderboard from 'components/Leaderboard/Leaderboard';
 import RankingView from 'View/RankingView';
+import Page from 'structure/Page/Page'
+import PageAuthenticated from 'structure/Page/PageAuthenticated'
+
 
 
 const App: FC = () => {
   const user = useSelector(getUser);
-
   const welcomeConfig = {
-    path: "/welcome",
-    element:(
-      <>
-        <Header/>
-        <MainContainer>
-          <AuthView />
-        </MainContainer>
-        <FooterContainer/>
-      </>
+    path: '/login',
+    element: (
+      <Page><AuthView /></Page>
     )
   }
   const createAccountConfig = {
-    path: "/create-account",
+    path: "/register",
     element:(
-      <>
-        <Header/>
-        <MainContainer>
-          <AuthView register />
-        </MainContainer>
-        <FooterContainer/>
-      </>
+      <Page><AuthView register /></Page>
     )
   }
   const resetPassConfig = {
-    path: "/reset-password", element:(
-      <>
-        <MainContainer>
+    path: '/reset-password',
+    element: (
+      <Page>
           <ResetPasswordView />
-        </MainContainer>
-        <FooterContainer/>
-      </>
+      </Page>
     )
   }
   const dashboardConfig = {
-    path: "/dashboard",
-    element:<PrivateRoute>
-      <Header/>
-      <MainContainer>
+    path: '/dashboard',
+    element: (
+      <PageAuthenticated>
         <Dashboard />
-      </MainContainer>
-      <FooterContainer/>
-    </PrivateRoute>
+      </PageAuthenticated>
+    )
   }
   const classificaConfig = {
-    path: "/classifica",
-    element:<PrivateRoute>
-      <Header/>
-      <MainContainer>
+    path: '/classifica',
+    element: (
+      <PageAuthenticated>
         <RankingView />
-      </MainContainer>
-      <FooterContainer/>
-    </PrivateRoute>
+      </PageAuthenticated>
+    )
   }
   const matchConfig = {
-    path: "/partite",
-    element:<PrivateRoute>
-      <Header/>
-      <MainContainer>
+    path: '/partite',
+    element: (
+      <PageAuthenticated>
         <MatchesView user={user} />
-      </MainContainer>
-      <FooterContainer/>
-
-    </PrivateRoute>
+      </PageAuthenticated>
+    )
   }
   const profileConfig = {
-    path: "/profile",
-    element: <PrivateRoute>
-      <Header />
-      <MainContainer>
+    path: '/profile',
+    element: (
+      <PageAuthenticated>
         <MyAccountView />
-      </MainContainer>
-      <FooterContainer/>
-
-    </PrivateRoute>
+      </PageAuthenticated>
+    )
   }
   const confirmProfileConfig = {
-    path: "/confirm-profile",
-    element:<PrivateRoute>
-      <MainContainer>
-      <ConfirmProfileView user={user} />
-      </MainContainer>
-      <FooterContainer/>
-    </PrivateRoute>
+    path: '/confirm-profile',
+    element: (
+      <PageAuthenticated>
+          <ConfirmProfileView user={user} />
+      </PageAuthenticated>
+    )
   }
   const catchNavigateConfig = {
     path: "*",
-    element:<Navigate to={user ? '/dashboard' : '/welcome'} />
+    element:<Navigate to={user ? '/dashboard' : '/login'} />
   }
   const emptyNavigateConfig = {
     path: "/",
-    element:<Navigate to={user ? '/dashboard' : '/welcome'} />
+    element:<Navigate to={user ? '/dashboard' : '/login'} />
   }
   return (
     <Router basename="/calcetto">

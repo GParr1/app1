@@ -2,7 +2,7 @@
   "name": "calcetto",
   "version": "1.0.0",
   "private": true,
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "expo-router/entry",
   "homepage": "https://GParr1.github.io/calcetto",
   "scripts": {
     "clean:node_modules": "npx rimraf node_modules package-lock.json && npm install",
@@ -36,6 +36,7 @@
     "expo": "^54.0.0",
     "expo-camera": "~17.0.10",
     "expo-image-picker": "~17.0.11",
+    "expo-router": "~6.0.24",
     "firebase": "^11.5.0",
     "prop-types": "^15.8.1",
     "react": "19.1.0",
